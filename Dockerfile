@@ -22,6 +22,7 @@ RUN apt-get update && \
     valgrind \
     clang \
     clang-format \
+    clang-tidy \
     vim \
     ssh \
     lldb \
