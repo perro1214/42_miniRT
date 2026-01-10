@@ -1,0 +1,19 @@
+# オブジェクトファイル
+*.o
+objs/
+
+# 実行ファイル
+miniRT
+debug_vec3
+
+# ライブラリ
+*.a
+
+# エディタ関連
+.vscode/
+*.swp
+*.swo
+*~
+
+# macOS
+.DS_Store
