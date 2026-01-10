@@ -20,3 +20,7 @@ debug_vec3
 
 # docker
 .env
+
+#Static analysis tools (formatter,linter)
+.clang-format
+.clang-tidy
