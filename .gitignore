@@ -17,3 +17,6 @@ debug_vec3
 
 # macOS
 .DS_Store
+
+# docker
+.env
