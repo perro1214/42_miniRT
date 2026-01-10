@@ -20,7 +20,8 @@ services:
       - /tmp/.X11-unix:/tmp/.X11-unix
 
       # ソースコードと設定ファイルのマウント先を一般ユーザーのホームディレクトリに変更
-      - ./srcs:/home/dev/srcs
+      - ./.:/home/dev/42_miniRT
+
       #- .zshrc:/home/dev/.zshrc
       - ~/.ssh:/home/dev/.ssh
 
