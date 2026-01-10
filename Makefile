@@ -2,20 +2,27 @@ NAME		= miniRT
 
 # コンパイラとフラグ
 CC			= cc
-CFLAGS		= -Wall -Wextra -Werror
+CFLAGS		= -Wall -Wextra -Werror -g -O0
+
+# 本番用最適化フラグ全部乗せ
+# -ffast-mathは計算に誤差がでることがあるので試し必要あり。
+#CFLAGS		= -Wall -Wextra -Werror -O3 -march=native -ffast-math -flto
 
 # ディレクトリ
 SRCS_DIR	= srcs
 OBJS_DIR	= objs
 INCS_DIR	= includes
 LIBFT_DIR	= libft
+MLX_DIR 	= minilibx-linux
+MLX_REPO 	= https://github.com/42Paris/minilibx-linux.git
 
 # ライブラリ
 LIBFT		= $(LIBFT_DIR)/libft.a
-LIBS		= -L$(LIBFT_DIR) -lft -lm
+MLX			= $(MLX_DIR)/libmlx.a
+LIBS		= -L$(LIBFT_DIR) -lft -L$(MLX_DIR) -lmlx -lXext -lX11 -lm
 
 # インクルードパス
-INCLUDES	= -I$(INCS_DIR) -I$(LIBFT_DIR)/includes
+INCLUDES	= -I$(INCS_DIR) -I$(LIBFT_DIR)/includes -I$(MLX_DIR)
 
 # ソースファイル
 MAIN_SRCS	= $(SRCS_DIR)/main.c
@@ -23,6 +30,10 @@ MAIN_SRCS	= $(SRCS_DIR)/main.c
 SRCS		= $(SRCS_DIR)/vec3.c
 
 DEBUG_VEC3_SRCS = $(SRCS_DIR)/debug_vec3.c
+
+# ヘッダー
+
+HEADERS = $(INCS_DIR)/miniRT.h $(INCS_DIR)/vec3.h
 
 # オブジェクトファイル
 OBJS		= $(SRCS:$(SRCS_DIR)/%.c=$(OBJS_DIR)/%.o)
@@ -33,10 +44,11 @@ DEBUG_VEC3_OBJS	= $(DEBUG_VEC3_SRCS:$(SRCS_DIR)/%.c=$(OBJS_DIR)/%.o)
 ALL_OBJS	= $(OBJS) $(MAIN_OBJS)
 
 # デフォルトターゲット
-all: $(LIBFT) $(NAME)
+# $(LIBFT) をNAMEの依存関係に移動
+all: $(NAME)
 
 # メインプログラムのビルド
-$(NAME): $(ALL_OBJS)
+$(NAME): $(ALL_OBJS) $(LIBFT) $(MLX)
 	$(CC) $(CFLAGS) $(ALL_OBJS) $(LIBS) -o $(NAME)
 
 # デバッグ用ターゲット
@@ -47,8 +59,17 @@ debug_vec3: $(LIBFT) $(OBJS) $(DEBUG_VEC3_OBJS)
 $(LIBFT):
 	$(MAKE) -C $(LIBFT_DIR)
 
+# mlxのビルド (フォルダがない場合は、git clone)
+$(MLX):
+	@if [ ! -d "$(MLX_DIR)" ]; then \
+		echo "Cloning MinilibX..."; \
+		git clone $(MLX_REPO) $(MLX_DIR); \
+	fi
+	@$(MAKE) -C $(MLX_DIR)
+
 # オブジェクトファイルのコンパイルルール
-$(OBJS_DIR)/%.o: $(SRCS_DIR)/%.c
+# ヘッダーファイルを追加、ヘッダーを変更いたときもコンパイルするため
+$(OBJS_DIR)/%.o: $(SRCS_DIR)/%.c $(HEADERS)
 	@mkdir -p $(OBJS_DIR)
 	$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
 
@@ -56,6 +77,9 @@ $(OBJS_DIR)/%.o: $(SRCS_DIR)/%.c
 clean:
 	rm -rf $(OBJS_DIR)
 	$(MAKE) -C $(LIBFT_DIR) clean
+	@if [ -d "$(MLX_DIR)" ]; then \
+		$(MAKE) -C $(MLX_DIR) clean; \
+	fi
 
 fclean: clean
 	rm -f $(NAME) debug_vec3
