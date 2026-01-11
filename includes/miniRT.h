@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   miniRT.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hayato <hayato@student.42.fr>              +#+  +:+       +#+        */
+/*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/11 18:27:40 by hayato            #+#    #+#             */
-/*   Updated: 2026/01/11 19:54:58 by hayato           ###   ########.fr       */
+/*   Updated: 2026/01/12 03:40:28 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,14 +37,21 @@ typedef struct s_mlx
 	int		bits_per_pixel;
 	int		line_length;
 	int		endian;
-}			t_mlx;
+}	t_mlx;
 
 // mlx_action_close.c
-int			key_hook(int keycode, t_mlx *mlx);
-int			close_window(t_mlx *mlx);
+int		key_hook(int keycode, t_mlx *mlx);
+int		close_window(t_mlx *mlx);
 
 // render_pixel.c
-void		ft_mlx_put_pixel(t_mlx *mlx, int x, int y, int color);
-int			create_color(int r, int g, int b);
+void	ft_mlx_put_pixel(t_mlx *mlx, int x, int y, int color);
+int		create_color(int r, int g, int b);
+
+// error.c
+void	log_error(char *message);
+
+// arg_parser.c
+int		parse_arguments(int argc, char **argv);
+
 
 #endif // MINIRT_H

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hayato <hayato@student.42.fr>              +#+  +:+       +#+        */
+/*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/11 18:30:11 by hayato            #+#    #+#             */
-/*   Updated: 2026/01/11 19:58:54 by hayato           ###   ########.fr       */
+/*   Updated: 2026/01/12 03:40:39 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,11 +16,8 @@ int	main(int argc, char **argv)
 {
 	t_mlx	mlx;
 
-	if (argc != 2)
-	{
-		ft_putendl_fd("Error: Invalid number of arguments.", 2);
+	if (parse_arguments(argc, argv))
 		return (1);
-	}
 	printf("Sorce file: %s\n", argv[1]);
 	mlx.mlx = mlx_init();
 	if (!mlx.mlx)

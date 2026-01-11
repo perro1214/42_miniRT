@@ -30,7 +30,9 @@ MAIN_SRCS	= $(SRCS_DIR)/main.c
 SRCS		= $(SRCS_DIR)/vec3_1.c\
 			  $(SRCS_DIR)/vec3_2.c\
 			  $(SRCS_DIR)/mlx_action_close.c\
-			  $(SRCS_DIR)/render_pixel.c
+			  $(SRCS_DIR)/render_pixel.c\
+				$(SRCS_DIR)/arg_parser.c\
+				$(SRCS_DIR)/error.c
 
 DEBUG_VEC3_SRCS = $(SRCS_DIR)/debug_vec3.c#
 
@@ -49,7 +51,6 @@ DEBUG_MlX_RED_SQUARE_SRCS_OBJS = $(DEBUG_MlX_RED_SQUARE_SRCS:$(SRCS_DIR)/%.c=$(O
 ALL_OBJS	= $(OBJS) $(MAIN_OBJS)
 
 # デフォルトターゲット
-# $(LIBFT) をNAMEの依存関係に移動
 all: $(NAME)
 
 # メインプログラムのビルド
@@ -72,11 +73,13 @@ norm:
 	norminette $(SRC_DIR) $(INC_DIR) | grep -v OK
 
 # clang-tidyが分析するためのファイルcompile_commands.jsonをbuildフォルダに作成
-# cファイルを大きく変更したときに作成ぐらいの頻度でいいと思う。
-bear:
-	@$(MAKE) clean
+# 新しい.c,.hファイルをMakefileに追加した時に実行する。
+bear: clean
 	@mkdir -p build
-	@cd build && bear -- make ..
+	@bear -- make
+	@cp compile_commands.json ./build/
+	@$(RM) compile_commands.json
+
 
 # mlxのビルド (フォルダがない場合は、git clone)
 $(MLX):
@@ -107,4 +110,4 @@ fclean: clean
 
 re: fclean all
 
-.PHONY: all clean fclean re debug_vec3 norm bear
+.PHONY: all clean fclean re debug_vec3 debug_mlx_red_square norm bear
