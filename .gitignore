@@ -24,3 +24,4 @@ debug_vec3
 #Static analysis tools (formatter,linter)
 .clang-format
 .clang-tidy
+compile_commands.json
