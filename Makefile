@@ -28,9 +28,13 @@ INCLUDES	= -I$(INCS_DIR) -I$(LIBFT_DIR)/includes -I$(MLX_DIR)
 MAIN_SRCS	= $(SRCS_DIR)/main.c
 
 SRCS		= $(SRCS_DIR)/vec3_1.c\
-			  $(SRCS_DIR)/vec3_2.c
+			  $(SRCS_DIR)/vec3_2.c\
+			  $(SRCS_DIR)/mlx_action_close.c\
+			  $(SRCS_DIR)/render_pixel.c
 
-DEBUG_VEC3_SRCS = $(SRCS_DIR)/debug_vec3.c
+DEBUG_VEC3_SRCS = $(SRCS_DIR)/debug_vec3.c#
+
+DEBUG_MlX_RED_SQUARE_SRCS = $(SRCS_DIR)/debug_mlx_red_square.c#
 
 # ヘッダー
 
@@ -39,7 +43,8 @@ HEADERS = $(INCS_DIR)/miniRT.h $(INCS_DIR)/vec3.h
 # オブジェクトファイル
 OBJS		= $(SRCS:$(SRCS_DIR)/%.c=$(OBJS_DIR)/%.o)
 MAIN_OBJS	= $(MAIN_SRCS:$(SRCS_DIR)/%.c=$(OBJS_DIR)/%.o)
-DEBUG_VEC3_OBJS	= $(DEBUG_VEC3_SRCS:$(SRCS_DIR)/%.c=$(OBJS_DIR)/%.o)
+DEBUG_VEC3_OBJS	= $(DEBUG_VEC3_SRCS:$(SRCS_DIR)/%.c=$(OBJS_DIR)/%.o)#
+DEBUG_MlX_RED_SQUARE_SRCS_OBJS = $(DEBUG_MlX_RED_SQUARE_SRCS:$(SRCS_DIR)/%.c=$(OBJS_DIR)/%.o)#
 
 # 全オブジェクトファイル
 ALL_OBJS	= $(OBJS) $(MAIN_OBJS)
@@ -53,8 +58,11 @@ $(NAME): $(ALL_OBJS) $(LIBFT) $(MLX)
 	$(CC) $(CFLAGS) $(ALL_OBJS) $(LIBS) -o $(NAME)
 
 # デバッグ用ターゲット
-debug_vec3: $(LIBFT) $(OBJS) $(DEBUG_VEC3_OBJS)
+debug_vec3: $(ALL_OBJS) $(LIBFT) $(MLX) $(DEBUG_VEC3_OBJS)
 	$(CC) $(CFLAGS) $(OBJS) $(DEBUG_VEC3_OBJS) $(LIBS) -o debug_vec3
+
+debug_mlx_red_square: $(ALL_OBJS) $(LIBFT) $(MLX) $(DEBUG_MlX_RED_SQUARE_SRCS_OBJS)
+	$(CC) $(CFLAGS) $(OBJS) $(DEBUG_MlX_RED_SQUARE_SRCS_OBJS) $(LIBS) -o debug_mlx_red_square
 
 # libftのビルド
 $(LIBFT):
@@ -94,6 +102,7 @@ clean:
 
 fclean: clean
 	rm -f $(NAME) debug_vec3
+	rm -f debug_mlx_red_square
 	$(MAKE) -C $(LIBFT_DIR) fclean
 
 re: fclean all

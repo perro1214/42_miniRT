@@ -29,4 +29,6 @@ debug_vec3
 build/compile_commands.json
 
 # その他
-./.vscode/
+docker-compose.yml
+Dockerfile
+

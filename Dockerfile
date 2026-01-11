@@ -74,9 +74,10 @@ RUN rm /home/$USERNAME/.local/share/uv/tools/c-formatter-42/lib/python3.10/site-
 RUN bash -c "$(curl -fsSL https://raw.github.com/xicodomingues/francinette/master/bin/install.sh)" && \
     /home/$USERNAME/francinette/tester.sh -u
 
-# vimプラグインのセットアップ
-RUN mkdir -p /home/$USERNAME/.vim/plugin
-COPY --chown=$USERNAME:$USERNAME 42header/plugin/stdheader.vim /home/$USERNAME/.vim/plugin/
+# 42ヘッダーvimプラグインのセットアップ（GitHubからダウンロード、失敗してもスキップ）
+RUN mkdir -p /home/$USERNAME/.vim/plugin && \
+    curl -fsSL https://raw.githubusercontent.com/42Paris/42header/master/plugin/stdheader.vim \
+    -o /home/$USERNAME/.vim/plugin/stdheader.vim 2>/dev/null || echo "42header plugin skipped"
 
 # デフォルトのコマンド
 CMD ["bash"]
