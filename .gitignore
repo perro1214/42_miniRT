@@ -12,6 +12,8 @@ debug_vec3
 # エディタ関連
 .vscode/
 #!.vscode/settings.json
+#!.vscode/tasks.json
+#!.vscode/launch.json
 *.swp
 *.swo
 *~
