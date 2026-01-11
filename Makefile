@@ -51,7 +51,6 @@ DEBUG_MlX_RED_SQUARE_SRCS_OBJS = $(DEBUG_MlX_RED_SQUARE_SRCS:$(SRCS_DIR)/%.c=$(O
 ALL_OBJS	= $(OBJS) $(MAIN_OBJS)
 
 # デフォルトターゲット
-# $(LIBFT) をNAMEの依存関係に移動
 all: $(NAME)
 
 # メインプログラムのビルド
@@ -74,7 +73,7 @@ norm:
 	norminette $(SRC_DIR) $(INC_DIR) | grep -v OK
 
 # clang-tidyが分析するためのファイルcompile_commands.jsonをbuildフォルダに作成
-# .c,.hファイルをMakefileに追加した時に作成ぐらいの頻度でいいと思う。
+# 新しい.c,.hファイルをMakefileに追加した時に実行する。
 bear: clean
 	@mkdir -p build
 	@bear -- make
@@ -111,4 +110,4 @@ fclean: clean
 
 re: fclean all
 
-.PHONY: all clean fclean re debug_vec3 norm bear
+.PHONY: all clean fclean re debug_vec3 debug_mlx_red_square norm bear
