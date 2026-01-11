@@ -23,6 +23,7 @@ RUN apt-get update && \
     clang \
     clang-format \
     clang-tidy \
+    gdb \
     vim \
     ssh \
     lldb \
