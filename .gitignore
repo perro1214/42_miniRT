@@ -27,3 +27,6 @@ debug_vec3
 #Static analysis tools (formatter,linter)
 .clang-tidy
 build/compile_commands.json
+
+# その他
+./.vscode/

@@ -27,7 +27,8 @@ INCLUDES	= -I$(INCS_DIR) -I$(LIBFT_DIR)/includes -I$(MLX_DIR)
 # ソースファイル
 MAIN_SRCS	= $(SRCS_DIR)/main.c
 
-SRCS		= $(SRCS_DIR)/vec3.c
+SRCS		= $(SRCS_DIR)/vec3_1.c\
+			  $(SRCS_DIR)/vec3_2.c
 
 DEBUG_VEC3_SRCS = $(SRCS_DIR)/debug_vec3.c
 
