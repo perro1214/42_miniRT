@@ -59,6 +59,10 @@ debug_vec3: $(LIBFT) $(OBJS) $(DEBUG_VEC3_OBJS)
 $(LIBFT):
 	$(MAKE) -C $(LIBFT_DIR)
 
+# norminette
+norm:
+	norminette $(SRC_DIR) $(INC_DIR) | grep -v OK
+
 # mlxのビルド (フォルダがない場合は、git clone)
 $(MLX):
 	@if [ ! -d "$(MLX_DIR)" ]; then \
@@ -87,4 +91,4 @@ fclean: clean
 
 re: fclean all
 
-.PHONY: all clean fclean re debug_vec3
+.PHONY: all clean fclean re debug_vec3 norm
