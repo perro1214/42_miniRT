@@ -31,4 +31,4 @@ build/compile_commands.json
 # その他
 docker-compose.yml
 Dockerfile
-
+minilibx-linux
