@@ -11,6 +11,7 @@ debug_vec3
 
 # エディタ関連
 .vscode/
+#!.vscode/settings.json
 *.swp
 *.swo
 *~
@@ -22,6 +23,5 @@ debug_vec3
 .env
 
 #Static analysis tools (formatter,linter)
-.clang-format
 .clang-tidy
-compile_commands.json
+build/compile_commands.json

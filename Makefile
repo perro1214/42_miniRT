@@ -63,6 +63,12 @@ $(LIBFT):
 norm:
 	norminette $(SRC_DIR) $(INC_DIR) | grep -v OK
 
+# clang-tidyが分析するためのファイルcompile_command.jsonをbuildフォルダに作成
+bear:
+	@$(MAKE) clean
+	@mkdir -p build
+	@cd build && bear -- make ..
+
 # mlxのビルド (フォルダがない場合は、git clone)
 $(MLX):
 	@if [ ! -d "$(MLX_DIR)" ]; then \
@@ -72,7 +78,7 @@ $(MLX):
 	@$(MAKE) -C $(MLX_DIR)
 
 # オブジェクトファイルのコンパイルルール
-# ヘッダーファイルを追加、ヘッダーを変更いたときもコンパイルするため
+# ヘッダーファイルを追加、ヘッダーを変更したときもコンパイルするため
 $(OBJS_DIR)/%.o: $(SRCS_DIR)/%.c $(HEADERS)
 	@mkdir -p $(OBJS_DIR)
 	$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
