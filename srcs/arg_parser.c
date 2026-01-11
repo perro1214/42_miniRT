@@ -6,7 +6,7 @@
 /*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/12 00:43:22 by htsutsum          #+#    #+#             */
-/*   Updated: 2026/01/12 03:41:16 by htsutsum         ###   ########.fr       */
+/*   Updated: 2026/01/12 04:35:22 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 #define ERR_INVALID_EXT "File must have .rt extention"
 
 static void	usage(char *prog_name);
-static int	is_rt_file(char *file_name);
+static int	is_rt_file(char *file);
 
 int	parse_arguments(int argc, char **argv)
 {
@@ -35,16 +35,18 @@ int	parse_arguments(int argc, char **argv)
 	return (0);
 }
 
-static int	is_rt_file(char *file_name)
+static int	is_rt_file(char *file)
 {
 	size_t	len;
 
-	if (!file_name)
+	if (!file)
 		return (0);
-	len = ft_strlen(file_name);
+	len = ft_strlen(file);
 	if (len < 4)
 		return (0);
-	if (ft_strncmp(file_name + len - 3, ".rt", 3) == 0)
+	if (file[len - 4] == '/')
+		return (0);
+	if (ft_strncmp(file + len - 3, ".rt", 3) == 0)
 		return (1);
 	return (0);
 }
