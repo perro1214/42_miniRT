@@ -27,12 +27,16 @@ INCLUDES	= -I$(INCS_DIR) -I$(LIBFT_DIR)/includes -I$(MLX_DIR)
 # ソースファイル
 MAIN_SRCS	= $(SRCS_DIR)/main.c
 
-SRCS		= $(SRCS_DIR)/vec3_1.c\
-			  $(SRCS_DIR)/vec3_2.c\
-			  $(SRCS_DIR)/mlx_action_close.c\
-			  $(SRCS_DIR)/render_pixel.c\
-				$(SRCS_DIR)/arg_parser.c\
-				$(SRCS_DIR)/error.c
+
+FILES = vec3_1.c\
+			  vec3_2.c\
+			  mlx_action_close.c\
+			  render_pixel.c\
+				arg_parser.c\
+				error.c\
+				rt_loader.c
+
+SRCS = $(addprefix $(SRCS_DIR)/,$(FILES))
 
 DEBUG_VEC3_SRCS = $(SRCS_DIR)/debug_vec3.c#
 
@@ -55,14 +59,14 @@ all: $(NAME)
 
 # メインプログラムのビルド
 $(NAME): $(ALL_OBJS) $(LIBFT) $(MLX)
-	$(CC) $(CFLAGS) $(ALL_OBJS) $(LIBS) -o $(NAME)
+	$(CC) $(CFLAGS) $(ALL_OBJS) $(LIBS) -o $@
 
 # デバッグ用ターゲット
 debug_vec3: $(ALL_OBJS) $(LIBFT) $(MLX) $(DEBUG_VEC3_OBJS)
-	$(CC) $(CFLAGS) $(OBJS) $(DEBUG_VEC3_OBJS) $(LIBS) -o debug_vec3
+	$(CC) $(CFLAGS) $(OBJS) $(DEBUG_VEC3_OBJS) $(LIBS) -o $@
 
 debug_mlx_red_square: $(ALL_OBJS) $(LIBFT) $(MLX) $(DEBUG_MlX_RED_SQUARE_SRCS_OBJS)
-	$(CC) $(CFLAGS) $(OBJS) $(DEBUG_MlX_RED_SQUARE_SRCS_OBJS) $(LIBS) -o debug_mlx_red_square
+	$(CC) $(CFLAGS) $(OBJS) $(DEBUG_MlX_RED_SQUARE_SRCS_OBJS) $(LIBS) -o $@
 
 # libftのビルド
 $(LIBFT):
@@ -70,7 +74,11 @@ $(LIBFT):
 
 # norminette
 norm:
-	norminette $(SRC_DIR) $(INC_DIR) | grep -v OK
+	norminette $(SRCS_DIR) $(LIBFT_DIR) $(INC_DIR) | grep -v OK
+
+# valgrind
+val:
+	valgrind -s --track-fds=yes --trace-children=yes --leak-check=full --track-origins=yes --show-leak-kinds=all ./$(NAME) $(ARGS)
 
 # clang-tidyが分析するためのファイルcompile_commands.jsonをbuildフォルダに作成
 # 新しい.c,.hファイルをMakefileに追加した時に実行する。
@@ -79,7 +87,6 @@ bear: clean
 	@bear -- make
 	@cp compile_commands.json ./build/
 	@$(RM) compile_commands.json
-
 
 # mlxのビルド (フォルダがない場合は、git clone)
 $(MLX):
@@ -110,4 +117,4 @@ fclean: clean
 
 re: fclean all
 
-.PHONY: all clean fclean re debug_vec3 debug_mlx_red_square norm bear
+.PHONY: all clean fclean re debug_vec3 debug_mlx_red_square norm bear val
