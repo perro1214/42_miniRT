@@ -37,7 +37,6 @@ DEBUG_VEC3_SRCS = $(SRCS_DIR)/debug_vec3.c#
 DEBUG_MlX_RED_SQUARE_SRCS = $(SRCS_DIR)/debug_mlx_red_square.c#
 
 # ヘッダー
-
 HEADERS = $(INCS_DIR)/miniRT.h $(INCS_DIR)/vec3.h
 
 # オブジェクトファイル
@@ -72,7 +71,8 @@ $(LIBFT):
 norm:
 	norminette $(SRC_DIR) $(INC_DIR) | grep -v OK
 
-# clang-tidyが分析するためのファイルcompile_command.jsonをbuildフォルダに作成
+# clang-tidyが分析するためのファイルcompile_commands.jsonをbuildフォルダに作成
+# cファイルを大きく変更したときに作成ぐらいの頻度でいいと思う。
 bear:
 	@$(MAKE) clean
 	@mkdir -p build
@@ -107,4 +107,4 @@ fclean: clean
 
 re: fclean all
 
-.PHONY: all clean fclean re debug_vec3 norm
+.PHONY: all clean fclean re debug_vec3 norm bear
