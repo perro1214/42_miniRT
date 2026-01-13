@@ -34,7 +34,8 @@ FILES = vec3_1.c\
 			  render_pixel.c\
 				arg_parser.c\
 				error.c\
-				rt_loader.c
+				rt_loader.c\
+				timer.c
 
 SRCS = $(addprefix $(SRCS_DIR)/,$(FILES))
 
@@ -83,9 +84,8 @@ val:
 # clang-tidyが分析するためのファイルcompile_commands.jsonをbuildフォルダに作成
 # 新しい.c,.hファイルをMakefileに追加した時に実行する。
 bear: clean
-	@mkdir -p build
 	@bear -- make
-	@cp compile_commands.json ./build/
+	@cp compile_commands.json .vscode/
 	@$(RM) compile_commands.json
 
 # mlxのビルド (フォルダがない場合は、git clone)
