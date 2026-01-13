@@ -44,22 +44,18 @@ typedef struct s_mlx
 	int		endian;
 }	t_mlx;
 
-// object type
 typedef enum e_type {
     SPHERE,
     PLANE,
-    CYLEINDER
+    CYLINDER
 } t_type;
 
-
-// object data
 typedef union  u_obj_data {
     t_sphere sp;
     t_plane pl;
     t_cylinder cu;
 } t_obj_data;
 
-// object
 typedef struct s_object {
     int			type;
     t_vec3		center;
@@ -67,39 +63,28 @@ typedef struct s_object {
     t_obj_data	data;
 }t_object;
 
-// plane
 typedef struct	s_plane
 {
  	t_vec3	normal;  // 平面の法線ベクトル
 }	t_plane;
 
-// // sphere
-// typedef struct	s_sphere
-// {
-//  	double	radius; // 球の半径 （直径から半径に変換）
-// }   t_sphere;
+typedef struct	s_sphere
+{
+ 	double	radius; // 球の半径 （直径から半径に変換）
+}   t_sphere;
 
-// cylinder
 typedef struct s_cylinder
 {
 	t_vec3	axis; // 中心軸の向き。円柱が伸びている方向
     double	height; //高さ
 } t_cylinder;
 
-// color
 typedef struct s_color
 {
 	int	r;
 	int	g;
 	int	b;
 }	t_color;
-
-typedef struct s_sphere
-{
-	t_vec3	center;
-	double	radius;
-	t_color	color;
-}	t_sphere;
 
 typedef struct s_camera
 {
