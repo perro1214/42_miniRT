@@ -5,7 +5,7 @@ INCDIR = includes
 OBJDIR = objs
 SRCDIR = srcs
 INCLUDES = -I$(INCDIR)
-HEADER = $(INCDIR)/libft.h
+HEADER = $(INCDIR)/libft.h $(INCDIR)/get_next_line.h
 LIBFT_FILES = ft_strlen.c \
 		ft_strlcpy.c \
 		ft_strlcat.c \
@@ -43,7 +43,8 @@ LIBFT_FILES = ft_strlen.c \
 		ft_putstr_fd.c \
 		ft_putendl_fd.c \
 		ft_putnbr_fd.c \
-		ft_free_tab.c
+		ft_free_tab.c\
+		get_next_line.c
 B_FILES = ft_lstnew_bonus.c \
 		ft_lstadd_front_bonus.c \
 		ft_lstsize_bonus.c \

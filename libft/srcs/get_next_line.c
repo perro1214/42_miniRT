@@ -6,11 +6,11 @@
 /*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/09 10:12:10 by htsutsum          #+#    #+#             */
-/*   Updated: 2025/05/14 10:50:30 by htsutsum         ###   ########.fr       */
+/*   Updated: 2026/01/14 03:01:01 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
+#include "libft.h"
 
 static int	ft_getc_fd(int fd)
 {
@@ -72,7 +72,7 @@ char	*get_next_line(int fd)
 	line.str = NULL;
 	line.len = 0;
 	line.capa = 0;
-	
+
 	if(!fd || BUFFER_SIZE < 0)
 		return(NULL);
 

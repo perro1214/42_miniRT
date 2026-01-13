@@ -3,14 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   miniRT.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hayato <hayato@student.42.fr>              +#+  +:+       +#+        */
+/*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/11 18:27:40 by hayato            #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2026/01/14 01:57:12 by htsutsum         ###   ########.fr       */
-=======
-/*   Updated: 2026/01/13 17:49:36 by hayato           ###   ########.fr       */
->>>>>>> origin
+/*   Updated: 2026/01/14 02:55:15 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,18 +46,6 @@ typedef enum e_type {
     CYLINDER
 } t_type;
 
-typedef union  u_obj_data {
-    t_sphere sp;
-    t_plane pl;
-    t_cylinder cu;
-} t_obj_data;
-
-typedef struct s_object {
-    int			type;
-    t_vec3		center;
-    t_color		color;
-    t_obj_data	data;
-}t_object;
 
 typedef struct	s_plane
 {
@@ -79,12 +63,26 @@ typedef struct s_cylinder
     double	height; //高さ
 } t_cylinder;
 
+
+typedef union  u_obj_data {
+    t_sphere sp;
+    t_plane pl;
+    t_cylinder cy;
+} t_obj_data;
+
 typedef struct s_color
 {
 	int	r;
 	int	g;
 	int	b;
 }	t_color;
+
+typedef struct s_object {
+    int			type;
+    t_vec3		center;
+    t_color		color;
+    t_obj_data	data;
+}t_object;
 
 typedef struct s_camera
 {
@@ -110,5 +108,8 @@ int		parse_arguments(int argc, char **argv);
 // timer.c
 double	current_time_ms();
 void	log_elapsed_time(char *prefix_str, double start_time);
+
+//rt_loader.c
+int		rt_loader(char *file_name);
 
 #endif // MINIRT_H
