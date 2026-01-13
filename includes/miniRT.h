@@ -3,10 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   miniRT.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: hayato <hayato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/11 18:27:40 by hayato            #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2026/01/14 01:57:12 by htsutsum         ###   ########.fr       */
+=======
+/*   Updated: 2026/01/13 17:49:36 by hayato           ###   ########.fr       */
+>>>>>>> origin
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,14 +44,6 @@ typedef struct s_mlx
 	int		endian;
 }	t_mlx;
 
-// color
-typedef struct s_color
-{
-	int R;
-	int G;
-	int B;
-} t_color;
-
 // object type
 typedef enum e_type {
     SPHERE,
@@ -65,10 +61,10 @@ typedef union  u_obj_data {
 
 // object
 typedef struct s_object {
-    int			type;  // オブジェクトのタイプ
-    t_vec3		center; // 中心
-    t_color		color; // カラー
-    t_obj_data	data; // 個別データ
+    int			type;
+    t_vec3		center;
+    t_color		color;
+    t_obj_data	data;
 }t_object;
 
 // plane
@@ -77,11 +73,11 @@ typedef struct	s_plane
  	t_vec3	normal;  // 平面の法線ベクトル
 }	t_plane;
 
-// sphere
-typedef struct	s_sphere
-{
- 	double	radius; // 球の半径 （直径から半径に変換）
-}   t_sphere;
+// // sphere
+// typedef struct	s_sphere
+// {
+//  	double	radius; // 球の半径 （直径から半径に変換）
+// }   t_sphere;
 
 // cylinder
 typedef struct s_cylinder
@@ -89,6 +85,28 @@ typedef struct s_cylinder
 	t_vec3	axis; // 中心軸の向き。円柱が伸びている方向
     double	height; //高さ
 } t_cylinder;
+
+// color
+typedef struct s_color
+{
+	int	r;
+	int	g;
+	int	b;
+}	t_color;
+
+typedef struct s_sphere
+{
+	t_vec3	center;
+	double	radius;
+	t_color	color;
+}	t_sphere;
+
+typedef struct s_camera
+{
+	t_vec3	position;
+	t_vec3	direction;
+	double	fov;
+}	t_camera;
 
 // mlx_action_close.c
 int		key_hook(int keycode, t_mlx *mlx);

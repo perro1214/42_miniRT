@@ -6,7 +6,7 @@
 /*   By: hayato <hayato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/11 18:18:58 by hayato            #+#    #+#             */
-/*   Updated: 2026/01/11 18:19:18 by hayato           ###   ########.fr       */
+/*   Updated: 2026/01/13 17:34:52 by hayato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ t_vec3	vec3_normalize(t_vec3 v)
 	double	norm;
 
 	norm = vec3_norm(v);
-	if (norm == 0)
+	if (norm < 1e-8)
 	{
 		return (vec3_init(0, 0, 0)); // 正規化できない場合はゼロベクトルを返す
 	}
