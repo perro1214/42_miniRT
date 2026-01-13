@@ -19,23 +19,23 @@ MLX_REPO 	= https://github.com/42Paris/minilibx-linux.git
 # ライブラリ
 LIBFT		= $(LIBFT_DIR)/libft.a
 MLX			= $(MLX_DIR)/libmlx.a
-LIBS		= -L$(LIBFT_DIR) -lft -L$(MLX_DIR) -lmlx -lXext -lX11 -lm
+LIBS		= -L $(LIBFT_DIR) -lft -L $(MLX_DIR) -lmlx -lXext -lX11 -lm
 
 # インクルードパス
-INCLUDES	= -I$(INCS_DIR) -I$(LIBFT_DIR)/includes -I$(MLX_DIR)
+INCLUDES	= -I $(INCS_DIR) -I $(LIBFT_DIR)/includes -I $(MLX_DIR)
 
 # ソースファイル
 MAIN_SRCS	= $(SRCS_DIR)/main.c
 
 
 FILES = vec3_1.c\
-			  vec3_2.c\
-			  mlx_action_close.c\
-			  render_pixel.c\
-				arg_parser.c\
-				error.c\
-				rt_loader.c\
-				timer.c
+		vec3_2.c\
+		mlx_action_close.c\
+		render_pixel.c\
+		arg_parser.c\
+		error.c\
+		rt_loader.c\
+		timer.c
 
 SRCS = $(addprefix $(SRCS_DIR)/,$(FILES))
 

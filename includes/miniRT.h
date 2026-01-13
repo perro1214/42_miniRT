@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   miniRT.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: hayato <hayato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/11 18:27:40 by hayato            #+#    #+#             */
-/*   Updated: 2026/01/13 15:10:40 by htsutsum         ###   ########.fr       */
+/*   Updated: 2026/01/13 17:49:36 by hayato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,27 @@ typedef struct s_mlx
 	int		line_length;
 	int		endian;
 }	t_mlx;
+
+typedef struct s_color
+{
+	int	r;
+	int	g;
+	int	b;
+}	t_color;
+
+typedef struct s_sphere
+{
+	t_vec3	center;
+	double	radius;
+	t_color	color;
+}	t_sphere;
+
+typedef struct s_camera
+{
+	t_vec3	position;
+	t_vec3	direction;
+	double	fov;
+}	t_camera;
 
 // mlx_action_close.c
 int		key_hook(int keycode, t_mlx *mlx);

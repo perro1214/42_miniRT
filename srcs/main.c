@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: hayato <hayato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/11 18:30:11 by hayato            #+#    #+#             */
-/*   Updated: 2026/01/12 03:40:39 by htsutsum         ###   ########.fr       */
+/*   Updated: 2026/01/13 17:46:21 by hayato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ int	main(int argc, char **argv)
 		ft_putendl_fd("Error: mlx_init failed.", 2);
 		return (1);
 	}
-	mlx.win = mlx_new_window(mlx.mlx, 800, 600, "miniRT");
+	mlx.win = mlx_new_window(mlx.mlx, WIN_WIDTH, WIN_HEIGHT, "miniRT");
 	if (!mlx.win)
 	{
 		ft_putendl_fd("Error: mlx_new_window failed.", 2);
