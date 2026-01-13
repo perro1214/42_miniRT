@@ -86,7 +86,7 @@ val:
 bear: clean
 	@bear -- make
 	@cp compile_commands.json .vscode/
-	@$(RM) compile_commands.json
+	@rm -rf compile_commands.json
 
 # mlxのビルド (フォルダがない場合は、git clone)
 $(MLX):

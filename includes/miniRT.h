@@ -6,7 +6,7 @@
 /*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/11 18:27:40 by hayato            #+#    #+#             */
-/*   Updated: 2026/01/13 18:50:51 by htsutsum         ###   ########.fr       */
+/*   Updated: 2026/01/14 01:57:12 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define MINIRT_H
 
 # include "libft.h"
+# include "get_next_line.h"
 # include "mlx.h"
 # include "vec3.h"
 # include <stdio.h>
@@ -39,7 +40,55 @@ typedef struct s_mlx
 	int		endian;
 }	t_mlx;
 
+// color
+typedef struct s_color
+{
+	int R;
+	int G;
+	int B;
+} t_color;
 
+// object type
+typedef enum e_type {
+    SPHERE,
+    PLANE,
+    CYLEINDER
+} t_type;
+
+
+// object data
+typedef union  u_obj_data {
+    t_sphere sp;
+    t_plane pl;
+    t_cylinder cu;
+} t_obj_data;
+
+// object
+typedef struct s_object {
+    int			type;  // オブジェクトのタイプ
+    t_vec3		center; // 中心
+    t_color		color; // カラー
+    t_obj_data	data; // 個別データ
+}t_object;
+
+// plane
+typedef struct	s_plane
+{
+ 	t_vec3	normal;  // 平面の法線ベクトル
+}	t_plane;
+
+// sphere
+typedef struct	s_sphere
+{
+ 	double	radius; // 球の半径 （直径から半径に変換）
+}   t_sphere;
+
+// cylinder
+typedef struct s_cylinder
+{
+	t_vec3	axis; // 中心軸の向き。円柱が伸びている方向
+    double	height; //高さ
+} t_cylinder;
 
 // mlx_action_close.c
 int		key_hook(int keycode, t_mlx *mlx);

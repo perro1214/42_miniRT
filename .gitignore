@@ -11,9 +11,6 @@ debug_vec3
 
 # エディタ関連
 .vscode/
-#!.vscode/settings.json
-#!.vscode/tasks.json
-#!.vscode/launch.json
 *.swp
 *.swo
 *~
@@ -26,7 +23,6 @@ debug_vec3
 
 #Static analysis tools (formatter,linter)
 .clang-tidy
-build/compile_commands.json
 
 # その他
 docker-compose.yml
