@@ -6,7 +6,7 @@
 /*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/11 18:27:40 by hayato            #+#    #+#             */
-/*   Updated: 2026/01/12 03:40:28 by htsutsum         ###   ########.fr       */
+/*   Updated: 2026/01/13 15:10:40 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,5 +53,8 @@ void	log_error(char *message);
 // arg_parser.c
 int		parse_arguments(int argc, char **argv);
 
+// timer.c
+double	current_time_ms();
+void	log_elapsed_time(double start_time);
 
 #endif // MINIRT_H
