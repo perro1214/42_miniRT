@@ -6,7 +6,7 @@
 /*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/11 18:27:40 by hayato            #+#    #+#             */
-/*   Updated: 2026/01/13 15:10:40 by htsutsum         ###   ########.fr       */
+/*   Updated: 2026/01/13 18:50:51 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,8 @@ typedef struct s_mlx
 	int		endian;
 }	t_mlx;
 
+
+
 // mlx_action_close.c
 int		key_hook(int keycode, t_mlx *mlx);
 int		close_window(t_mlx *mlx);
@@ -55,6 +57,6 @@ int		parse_arguments(int argc, char **argv);
 
 // timer.c
 double	current_time_ms();
-void	log_elapsed_time(double start_time);
+void	log_elapsed_time(char *prefix_str, double start_time);
 
 #endif // MINIRT_H

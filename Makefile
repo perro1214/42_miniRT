@@ -29,9 +29,9 @@ MAIN_SRCS	= $(SRCS_DIR)/main.c
 
 
 FILES = vec3_1.c\
-			  vec3_2.c\
-			  mlx_action_close.c\
-			  render_pixel.c\
+				vec3_2.c\
+				mlx_action_close.c\
+				render_pixel.c\
 				arg_parser.c\
 				error.c\
 				rt_loader.c\
@@ -39,7 +39,7 @@ FILES = vec3_1.c\
 
 SRCS = $(addprefix $(SRCS_DIR)/,$(FILES))
 
-DEBUG_VEC3_SRCS = $(SRCS_DIR)/debug_vec3.c#
+DEBUG_VEC3_SRCS = $(SRCS_DIR)/debug_vec3.c
 
 DEBUG_MlX_RED_SQUARE_SRCS = $(SRCS_DIR)/debug_mlx_red_square.c#
 
