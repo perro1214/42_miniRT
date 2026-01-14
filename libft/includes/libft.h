@@ -6,12 +6,14 @@
 /*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/25 11:19:11 by htsutsum          #+#    #+#             */
-/*   Updated: 2025/10/15 00:30:21 by htsutsum         ###   ########.fr       */
+/*   Updated: 2026/01/14 03:01:33 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef LIBFT_H
 # define LIBFT_H
+
+# include "get_next_line.h"
 # include <stdlib.h>
 # include <unistd.h>
 # include <stdint.h>
@@ -84,4 +86,4 @@ int		ft_putstr(char *s);
 int		ft_putint(long long nb);
 int		ft_puthex(unsigned int nb, int flag);
 
-#endif
+#endif // LIBFT_H
