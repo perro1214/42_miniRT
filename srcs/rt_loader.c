@@ -6,17 +6,27 @@
 /*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/12 04:36:41 by htsutsum          #+#    #+#             */
-/*   Updated: 2026/01/14 18:46:30 by htsutsum         ###   ########.fr       */
+/*   Updated: 2026/01/14 21:32:48 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "miniRT.h"
+
+// エラーデータチェック
+// 空行があった場合スキップして次へ行く -> 完了
+// type別のsplitした個数があっているか A
+// 数字、0-9の文字、','と'.'のみのでーたか A
+// データの要素が""からでないか A
+// 数値にしたときに範囲内かどうか color と normal 数値の範囲が決まっている。 B
+// A , B の二つの関数でチェックする
+// norm : too many line
 
 static int	set_object(t_object *obj, char *line);
 static int	set_sphere(t_object *obj, char **rt_data);
 static int	set_plane(t_object *obj, char **rt_data);
 static int	set_cylinder(t_object *obj, char **rt_data);
 
+// ファイルをリードオンリーで開いて１行づつ読み込み、タイプ別にobjsに前に追加
 int	rt_loader(t_object **objs, const char *file_name)
 {
 	int			fd;
@@ -52,14 +62,13 @@ int	rt_loader(t_object **objs, const char *file_name)
 	return (0);
 }
 
+// typeによってobjデータを読み込み、objに変換
 static int	set_object(t_object *obj, char *line)
 {
 	char						**rt_data;
 	int							status;
 	static const char *const	id[] = {"sp", "pl", "cy"};
 
-	if (!line || line[0] == '\0')
-		return (1);
 	rt_data = ft_split(line, ' ');
 	if (!rt_data)
 		return (1);
@@ -84,7 +93,8 @@ static int	set_object(t_object *obj, char *line)
  * point : 0.0,0.0.20.6
  * diameter : 12.6
  * color [0, 255]: 10,0,255
- * rt_data size : 4s
+ * rt_data size : 4
+ * 球のデータを読み込む
  */
 static int	set_sphere(t_object *obj, char **rt_data)
 {
@@ -119,6 +129,7 @@ static int	set_sphere(t_object *obj, char **rt_data)
  * normal [-1, 1]: 0.0,1.0,0.0
  * color [0, 255]: 0,0,255
  * rt_data size : 4
+ * 平面のデータを読み込む
  */
 static int	set_plane(t_object *obj, char **rt_data)
 {
@@ -160,6 +171,7 @@ static int	set_plane(t_object *obj, char **rt_data)
  * height : 21.42
  * color [0, 255] : 10,0,255
  * rt_data size : 6
+ * 円柱のデータをよみこむ
  */
 static int	set_cylinder(t_object *obj, char **rt_data)
 {
