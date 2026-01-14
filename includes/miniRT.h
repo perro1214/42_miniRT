@@ -6,7 +6,7 @@
 /*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/11 18:27:40 by hayato            #+#    #+#             */
-/*   Updated: 2026/01/14 19:41:30 by htsutsum         ###   ########.fr       */
+/*   Updated: 2026/01/15 01:55:32 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,9 @@ typedef struct s_mlx
 }	t_mlx;
 
 typedef enum e_type {
+	CAMERA,
+	AMBIENT,
+	LIGHT,
     SPHERE,
     PLANE,
     CYLINDER,
@@ -65,7 +68,6 @@ typedef struct	s_plane
  	t_vec3	normal;  // 法線ベクトル
 }	t_plane;
 
-
 typedef struct s_cylinder
 {
 	t_vec3	normal; // 法線ベクトル
@@ -79,7 +81,6 @@ typedef union  u_obj_data {
     t_cylinder cy;
 } t_obj_data;
 
-
 typedef struct s_object {
     int			type;
     t_vec3		point;
@@ -88,20 +89,34 @@ typedef struct s_object {
 	struct s_object	*next;
 }t_object;
 
-
-typedef struct s_color
-{
-	int	r;
-	int	g;
-	int	b;
-}	t_color;
-
 typedef struct s_camera
 {
-	t_vec3	position;
-	t_vec3	direction;
+	t_vec3	point;
+	t_vec3	normal;
 	double	fov;
 }	t_camera;
+
+typedef struct s_ambient
+{
+	double ratio;
+	t_vec3 color;
+}	t_ambient;
+
+typedef struct s_light
+{
+	t_vec3 point;
+	double ratio;
+	t_vec3 color;
+	struct s_light *next;
+}	t_light;
+
+typedef struct s_scene
+{
+	t_camera	*cam;
+	t_ambient	*at;
+	t_light		*lts;
+	t_object	*objs;
+} t_scene;
 
 // mlx_action_close.c
 int		key_hook(int keycode, t_mlx *mlx);

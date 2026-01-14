@@ -6,7 +6,7 @@
 /*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/11 18:30:11 by hayato            #+#    #+#             */
-/*   Updated: 2026/01/14 21:19:04 by htsutsum         ###   ########.fr       */
+/*   Updated: 2026/01/15 00:37:17 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 int	main(int argc, char **argv)
 {
 	t_mlx	mlx;
-
 	if (parse_arguments(argc, argv))
 		return (1);
 	printf("Source file: %s\n", argv[1]);
