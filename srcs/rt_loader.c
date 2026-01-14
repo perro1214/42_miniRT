@@ -6,7 +6,7 @@
 /*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/12 04:36:41 by htsutsum          #+#    #+#             */
-/*   Updated: 2026/01/14 15:19:33 by htsutsum         ###   ########.fr       */
+/*   Updated: 2026/01/14 17:47:43 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,14 +14,14 @@
 
 static int	set_object(t_object *obj, char *line);
 static int	set_sphere(t_object *obj, char **rt_data);
-static int	set_plane(t_object *obj, char *rt_data);
-static int	set_cylinder(t_object *obj, char *rt_data);
+static int	set_plane(t_object *obj, char **rt_data);
+static int	set_cylinder(t_object *obj, char **rt_data);
 
-int	rt_loader(const char *file_name)
+int	rt_loader(t_object **objs, const char *file_name)
 {
 	int			fd;
 	char		*line;
-	t_object	*obj;
+	t_object	*new_obj;
 
 	fd = open(file_name, O_RDONLY);
 	if (fd < 0)
@@ -29,23 +29,27 @@ int	rt_loader(const char *file_name)
 		log_error(strerror(errno));
 		return (1);
 	}
+
+
 	while (1)
 	{
 		line = get_next_line(fd);
 		if (line == NULL)
+			break;
+		if(line[0] != '\n' && line[0] != '\0')
 		{
-			log_error("rt Data error");
-			close(fd);
-			return (1);
+			new_obj = ft_calloc(sizeof(t_object), 1);
+			if (new_obj == NULL || set_object(new_obj, line))
+			{
+				free(line);
+				free(new_obj);
+				close(fd);
+				return (1);
+			}
+			add_object_to_list(objs, new_obj);
 		}
-		if (set_object(obj, line))
-		{
-			free(line);
-			close(fd);
-			return (1);
-		}
+		free(line);
 	}
-	free(line);
 	close(fd);
 	return (0);
 }
@@ -77,61 +81,118 @@ static int	set_object(t_object *obj, char *line)
 	return (status);
 }
 
-// sp 0.0,0.0,20.6 12.6 10,0,255
+/* sp 0.0,0.0,20.6 12.6 10,0,255
+ * type : sp
+ * point : 0.0,0.0.20.6
+ * diameter : 12.6
+ * color [0, 255]: 10,0,255
+ * rt_data size : 4s
+ */
 static int	set_sphere(t_object *obj, char **rt_data)
 {
-	char	**center;
+	char	**point;
 	char	**color;
 	int		status;
 
 	if (!rt_data[1] || !rt_data[2] || !rt_data[3])
 		return (1);
-	center = ft_split(rt_data[1], ',');
+	point = ft_split(rt_data[1], ',');
 	color = ft_split(rt_data[3], ',');
-
 	status = 1;
-	if (center && center[0] && center[1] && center[2] && color && color[1]
-		&& color[1] && color[2])
+	if (point && point[0] && point[1] && point[2] && color && color[0] && color[1]
+		&& color[2])
 	{
 		obj->type = SPHERE;
-		obj->center = vec3_init(atof(center[0]), atof(center[1]),
-				atof(center[2]));
+		obj->point = vec3_init(atof(point[0]), atof(point[1]), atof(point[2]));
 		obj->data.sp.radius = atof(rt_data[2]) / 2.0f;
-		obj->color.r = atoi(color[0]);
-		obj->color.g = atoi(color[1]);
-		obj->color.b = atoi(color[2]);
+		obj->color = vec3_init(atof(color[0]), atof(color[1]), atof(color[2]));
+		status = 0;
 	}
-	if (center)
-		ft_free_tab(center);
+	if (point)
+		ft_free_tab(point);
 	if (color)
 		ft_free_tab(color);
-	return (0);
+	return (status);
 }
 
-// pl 0.0,0.0,-10.0 0.0,1.0,0.0 0,0,225
+/* pl 0.0,0.0,-10.0 0.0,1.0,0.0 0,0,225
+ * type : pl
+ * point : 0.0,0.0,-10.0
+ * normal [-1, 1]: 0.0,1.0,0.0
+ * color [0, 255]: 0,0,255
+ * rt_data size : 4
+ */
 static int	set_plane(t_object *obj, char **rt_data)
 {
-	(void)line;
-	obj->type = PLANE;
-	obj->data.pl.normal.x = 1;
-	obj->data.pl.normal.y = 2;
-	obj->data.pl.normal.z = 3;
-	obj->color.r = 0;
-	obj->color.g = 0;
-	obj->color.b = 0;
-	return (0);
+	char	**point;
+	char	**color;
+	char	**normal;
+	int		status;
+
+	if (!rt_data[1] || !rt_data[2] || !rt_data[3])
+		return (1);
+
+	point = ft_split(rt_data[1], ',');
+	normal = ft_split(rt_data[2], ',');
+	color = ft_split(rt_data[3], ',');
+	status = 1;
+	if (point && point[0] && point[1] && point[2] && color && color[0] && color[1]
+		&& color[2])
+	{
+		obj->type = PLANE;
+		obj->point = vec3_init(atof(point[0]), atof(point[1]), atof(point[2]));
+		obj->data.pl.normal = vec3_init(atof(normal[0]), atof(normal[1]), atof(normal[2]));
+		obj->color = vec3_init(atof(color[0]), atof(color[1]), atof(color[2]));
+		status = 0;
+	}
+	if (point)
+		ft_free_tab(point);
+	if (normal)
+		ft_free_tab(normal);
+	if (color)
+		ft_free_tab(color);
+	return (status);
 }
 
-// cy 50.0,0.0,20.6 0.0,0.0,1.0 14.2 21.42 10,0,255
+/* cy 50.0,0.0,20.6 0.0,0.0,1.0 14.2 21.42 10,0,255
+ * type : cy
+ * point : 50.0,0.0.20.6
+ * normal [ -1, 1] :0.0,0.0,1.0
+ * diameter : 14.2
+ * height : 21.42
+ * color [0, 255] : 10,0,255
+ * rt_data size : 6
+ */
 static int	set_cylinder(t_object *obj, char **rt_data)
 {
-	(void)line;
-	obj->type = CYLINDER;
-	obj->data.cy.axis.x = 1;
-	obj->data.cy.axis.y = 2;
-	obj->data.cy.axis.z = 3;
-	obj->color.r = 0;
-	obj->color.g = 0;
-	obj->color.b = 0;
-	return (0);
+	char	**point;
+	char	**color;
+	char	**normal;
+	int		status;
+
+	if (!rt_data[1] || !rt_data[2] || !rt_data[3])
+		return (1);
+
+	point = ft_split(rt_data[1], ',');
+	normal = ft_split(rt_data[2], ',');
+	color = ft_split(rt_data[5], ',');
+	status = 1;
+	if (point && point[0] && point[1] && point[2] && color && color[0] && color[1]
+		&& color[2])
+	{
+		obj->type = CYLINDER;
+		obj->point = vec3_init(atof(point[0]), atof(point[1]), atof(point[2]));
+		obj->data.cy.normal = vec3_init(atof(normal[0]), atof(normal[1]), atof(normal[2]));
+		obj->data.cy.radius = atof(rt_data[3]) / 2.0f;
+		obj->data.cy.height = atof(rt_data[4]);
+		obj->color = vec3_init(atof(color[0]), atof(color[1]), atof(color[2]));
+		status = 0;
+	}
+	if (point)
+		ft_free_tab(point);
+	if (normal)
+		ft_free_tab(normal);
+	if (color)
+		ft_free_tab(color);
+	return (status);
 }

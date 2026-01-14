@@ -6,7 +6,7 @@
 /*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/11 18:27:40 by hayato            #+#    #+#             */
-/*   Updated: 2026/01/14 14:13:04 by htsutsum         ###   ########.fr       */
+/*   Updated: 2026/01/14 17:47:20 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@
 # include <stdio.h>
 # include <errno.h>
 # include <fcntl.h>
+# include <string.h>
 
 // debug flag
 #ifndef DEBUG
@@ -61,13 +62,14 @@ typedef struct	s_sphere
 
 typedef struct	s_plane
 {
- 	t_vec3	normal;  // 平面の法線ベクトル
+ 	t_vec3	normal;  // 正規化した法線ベクトル
 }	t_plane;
 
 
 typedef struct s_cylinder
 {
-	t_vec3	axis; // 中心軸の向き。円柱が伸びている方向
+	t_vec3	normal; // 正規した法線ベクトル
+	double	radius; // 半径
     double	height; //高さ
 } t_cylinder;
 
@@ -77,19 +79,22 @@ typedef union  u_obj_data {
     t_cylinder cy;
 } t_obj_data;
 
+
+typedef struct s_object {
+    int			type;
+    t_vec3		point;
+    t_vec3		color;
+    t_obj_data	data;
+	struct s_object	*next;
+}t_object;
+
+
 typedef struct s_color
 {
 	int	r;
 	int	g;
 	int	b;
 }	t_color;
-
-typedef struct s_object {
-    int			type;
-    t_vec3		center;
-    t_color		color;
-    t_obj_data	data;
-}t_object;
 
 typedef struct s_camera
 {
@@ -117,6 +122,10 @@ double	current_time_ms();
 void	log_elapsed_time(char *prefix_str, double start_time);
 
 //rt_loader.c
-int		rt_loader(char *file_name);
+int		rt_loader(t_object **objs, const char *file_name);
+
+//objedt_list.c
+void	free_objects(t_object *objs);
+void	add_object_to_list(t_object **head, t_object *new_obj);
 
 #endif // MINIRT_H
