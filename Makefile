@@ -27,7 +27,6 @@ INCLUDES	= -I $(INCS_DIR) -I $(LIBFT_DIR)/includes -I $(MLX_DIR)
 # ソースファイル
 MAIN_SRCS	= $(SRCS_DIR)/main.c
 
-
 FILES = vec3_1.c\
 		vec3_2.c\
 		mlx_action_close.c\
@@ -35,13 +34,17 @@ FILES = vec3_1.c\
 		arg_parser.c\
 		error.c\
 		rt_loader.c\
-		timer.c
+		timer.c\
+		object_list.c
 
 SRCS = $(addprefix $(SRCS_DIR)/,$(FILES))
 
+# デバッグ用ソースファイル
 DEBUG_VEC3_SRCS = $(SRCS_DIR)/debug_vec3.c
 
-DEBUG_MlX_RED_SQUARE_SRCS = $(SRCS_DIR)/debug_mlx_red_square.c#
+DEBUG_MlX_RED_SQUARE_SRCS = $(SRCS_DIR)/debug_mlx_red_square.c
+
+DEBUG_RT_LOADER_SRCS = $(SRCS_DIR)/debug_rt_loader.c
 
 # ヘッダー
 HEADERS = $(INCS_DIR)/miniRT.h $(INCS_DIR)/vec3.h
@@ -49,8 +52,9 @@ HEADERS = $(INCS_DIR)/miniRT.h $(INCS_DIR)/vec3.h
 # オブジェクトファイル
 OBJS		= $(SRCS:$(SRCS_DIR)/%.c=$(OBJS_DIR)/%.o)
 MAIN_OBJS	= $(MAIN_SRCS:$(SRCS_DIR)/%.c=$(OBJS_DIR)/%.o)
-DEBUG_VEC3_OBJS	= $(DEBUG_VEC3_SRCS:$(SRCS_DIR)/%.c=$(OBJS_DIR)/%.o)#
-DEBUG_MlX_RED_SQUARE_SRCS_OBJS = $(DEBUG_MlX_RED_SQUARE_SRCS:$(SRCS_DIR)/%.c=$(OBJS_DIR)/%.o)#
+DEBUG_VEC3_OBJS	= $(DEBUG_VEC3_SRCS:$(SRCS_DIR)/%.c=$(OBJS_DIR)/%.o)
+DEBUG_MlX_RED_SQUARE_SRCS_OBJS = $(DEBUG_MlX_RED_SQUARE_SRCS:$(SRCS_DIR)/%.c=$(OBJS_DIR)/%.o)
+DEBUG_RT_LOADER_OBJS =$(DEBUG_RT_LOADER_SRCS:$(SRCS_DIR)/%.c=$(OBJS_DIR)/%.o)
 
 # 全オブジェクトファイル
 ALL_OBJS	= $(OBJS) $(MAIN_OBJS)
@@ -69,13 +73,16 @@ debug_vec3: $(ALL_OBJS) $(LIBFT) $(MLX) $(DEBUG_VEC3_OBJS)
 debug_mlx_red_square: $(ALL_OBJS) $(LIBFT) $(MLX) $(DEBUG_MlX_RED_SQUARE_SRCS_OBJS)
 	$(CC) $(CFLAGS) $(OBJS) $(DEBUG_MlX_RED_SQUARE_SRCS_OBJS) $(LIBS) -o $@
 
+debug_rt_loader: $(OBJS) $(LIBFT) $(MLX) $(DEBUG_RT_LOADER_OBJS)
+	$(CC) $(CFLAGS) $(OBJS) $(DEBUG_RT_LOADER_OBJS) $(LIBS) -o $@
+
 # libftのビルド
 $(LIBFT):
 	$(MAKE) -C $(LIBFT_DIR)
 
 # norminette
 norm:
-	norminette $(SRCS_DIR) $(LIBFT_DIR) $(INC_DIR) | grep -v OK
+	norminette $(SRCS_DIR) $(LIBFT_DIR) $(INCS_DIR) | grep -v OK
 
 # valgrind
 val:
@@ -101,17 +108,19 @@ $(OBJS_DIR)/%.o: $(SRCS_DIR)/%.c $(HEADERS)
 
 # クリーンアップ
 clean:
-	rm -rf $(OBJS_DIR)
+	@rm -rf $(OBJS_DIR)
 	$(MAKE) -C $(LIBFT_DIR) clean
 	@if [ -d "$(MLX_DIR)" ]; then \
 		$(MAKE) -C $(MLX_DIR) clean; \
 	fi
 
 fclean: clean
-	rm -f $(NAME) debug_vec3
-	rm -f debug_mlx_red_square
+	@rm -f $(NAME)
+	@rm -f debug_vec3
+	@rm -f debug_mlx_red_square
+	@rm -f debug_rt_loader
 	$(MAKE) -C $(LIBFT_DIR) fclean
 
 re: fclean all
 
-.PHONY: all clean fclean re debug_vec3 debug_mlx_red_square norm bear val
+.PHONY: all clean fclean re debug_vec3 debug_mlx_red_square debug_rt_loader norm bear val

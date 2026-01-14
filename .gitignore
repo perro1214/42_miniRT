@@ -5,7 +5,8 @@ objs/
 # 実行ファイル
 miniRT
 debug_vec3
-
+debug_rt_loader
+debug_mlx_red_square
 # ライブラリ
 *.a
 
