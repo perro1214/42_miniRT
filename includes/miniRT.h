@@ -6,7 +6,7 @@
 /*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/11 18:27:40 by hayato            #+#    #+#             */
-/*   Updated: 2026/01/14 02:55:15 by htsutsum         ###   ########.fr       */
+/*   Updated: 2026/01/14 14:13:04 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,13 @@
 # include "mlx.h"
 # include "vec3.h"
 # include <stdio.h>
+# include <errno.h>
+# include <fcntl.h>
+
+// debug flag
+#ifndef DEBUG
+# define DEBUG = 1
+#endif
 
 // Window size
 # define WIN_WIDTH 800
@@ -43,26 +50,26 @@ typedef struct s_mlx
 typedef enum e_type {
     SPHERE,
     PLANE,
-    CYLINDER
+    CYLINDER,
+	TYPE_MAX
 } t_type;
-
-
-typedef struct	s_plane
-{
- 	t_vec3	normal;  // 平面の法線ベクトル
-}	t_plane;
 
 typedef struct	s_sphere
 {
  	double	radius; // 球の半径 （直径から半径に変換）
 }   t_sphere;
 
+typedef struct	s_plane
+{
+ 	t_vec3	normal;  // 平面の法線ベクトル
+}	t_plane;
+
+
 typedef struct s_cylinder
 {
 	t_vec3	axis; // 中心軸の向き。円柱が伸びている方向
     double	height; //高さ
 } t_cylinder;
-
 
 typedef union  u_obj_data {
     t_sphere sp;
