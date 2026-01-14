@@ -6,14 +6,13 @@
 /*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/14 17:25:42 by htsutsum          #+#    #+#             */
-/*   Updated: 2026/01/14 21:15:13 by htsutsum         ###   ########.fr       */
+/*   Updated: 2026/01/14 22:37:15 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "miniRT.h"
 
 static void debug_print_objects(t_object *obj);
-
 
 int	main(int argc, char **argv)
 {
@@ -29,9 +28,7 @@ int	main(int argc, char **argv)
         free_objects(objs);
         return (1);
     }
-    printf("Source file: %s\n", argv[1]);
 	debug_print_objects(objs);
-
 	return (0);
 }
 
