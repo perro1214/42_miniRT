@@ -6,7 +6,7 @@
 /*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/11 18:27:40 by hayato            #+#    #+#             */
-/*   Updated: 2026/01/14 17:47:20 by htsutsum         ###   ########.fr       */
+/*   Updated: 2026/01/14 19:41:30 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,13 +62,13 @@ typedef struct	s_sphere
 
 typedef struct	s_plane
 {
- 	t_vec3	normal;  // 正規化した法線ベクトル
+ 	t_vec3	normal;  // 法線ベクトル
 }	t_plane;
 
 
 typedef struct s_cylinder
 {
-	t_vec3	normal; // 正規した法線ベクトル
+	t_vec3	normal; // 法線ベクトル
 	double	radius; // 半径
     double	height; //高さ
 } t_cylinder;
