@@ -81,12 +81,10 @@ norm:
 val:
 	valgrind -s --track-fds=yes --trace-children=yes --leak-check=full --track-origins=yes --show-leak-kinds=all ./$(NAME) $(ARGS)
 
-# clang-tidyが分析するためのファイルcompile_commands.jsonをbuildフォルダに作成
+# clang-tidyが分析するためのファイルcompile_commands.jsonを.vscodeフォルダに作成
 # 新しい.c,.hファイルをMakefileに追加した時に実行する。
 bear: clean
-	@bear -- make
-	@cp compile_commands.json .vscode/
-	@rm -rf compile_commands.json
+	bear --output .vscode/compile_commands.json -- make
 
 # mlxのビルド (フォルダがない場合は、git clone)
 $(MLX):
@@ -97,7 +95,6 @@ $(MLX):
 	@$(MAKE) -C $(MLX_DIR)
 
 # オブジェクトファイルのコンパイルルール
-# ヘッダーファイルを追加、ヘッダーを変更したときもコンパイルするため
 $(OBJS_DIR)/%.o: $(SRCS_DIR)/%.c $(HEADERS)
 	@mkdir -p $(OBJS_DIR)
 	$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
