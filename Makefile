@@ -13,6 +13,7 @@ SRCS_DIR	= srcs
 OBJS_DIR	= objs
 INCS_DIR	= includes
 LIBFT_DIR	= libft
+DEBUGS_DIR = debugs
 MLX_DIR 	= minilibx-linux
 MLX_REPO 	= https://github.com/42Paris/minilibx-linux.git
 
@@ -40,24 +41,23 @@ FILES = vec3_1.c\
 SRCS = $(addprefix $(SRCS_DIR)/,$(FILES))
 
 # デバッグ用ソースファイル
-DEBUG_VEC3_SRCS = $(SRCS_DIR)/debug_vec3.c
+DEBUG_FILES = debug_vec3.c\
+							debug_mlx_red_square.c\
+							debug_rt_loader
 
-DEBUG_MlX_RED_SQUARE_SRCS = $(SRCS_DIR)/debug_mlx_red_square.c
-
-DEBUG_RT_LOADER_SRCS = $(SRCS_DIR)/debug_rt_loader.c
+# ファイル名からターゲット名を生成
+DEBUG_BINS =  $(DEBUG_FILES:.c=)
 
 # ヘッダー
 HEADERS = $(INCS_DIR)/miniRT.h $(INCS_DIR)/vec3.h
 
 # オブジェクトファイル
 OBJS		= $(SRCS:$(SRCS_DIR)/%.c=$(OBJS_DIR)/%.o)
-MAIN_OBJS	= $(MAIN_SRCS:$(SRCS_DIR)/%.c=$(OBJS_DIR)/%.o)
-DEBUG_VEC3_OBJS	= $(DEBUG_VEC3_SRCS:$(SRCS_DIR)/%.c=$(OBJS_DIR)/%.o)
-DEBUG_MlX_RED_SQUARE_SRCS_OBJS = $(DEBUG_MlX_RED_SQUARE_SRCS:$(SRCS_DIR)/%.c=$(OBJS_DIR)/%.o)
-DEBUG_RT_LOADER_OBJS =$(DEBUG_RT_LOADER_SRCS:$(SRCS_DIR)/%.c=$(OBJS_DIR)/%.o)
+MAIN_OBJ	= $(MAIN_SRCS:$(SRCS_DIR)/%.c=$(OBJS_DIR)/%.o)
+DEBUG_OBJS = $(addprefix $(OBJS_DIR)/$(DEBUGS_DIR)/, $(DEBUG_FILES:.c=.o))
 
 # 全オブジェクトファイル
-ALL_OBJS	= $(OBJS) $(MAIN_OBJS)
+ALL_OBJS	= $(OBJS) $(MAIN_OBJ)
 
 # デフォルトターゲット
 all: $(NAME)
@@ -67,14 +67,8 @@ $(NAME): $(ALL_OBJS) $(LIBFT) $(MLX)
 	$(CC) $(CFLAGS) $(ALL_OBJS) $(LIBS) -o $@
 
 # デバッグ用ターゲット
-debug_vec3: $(ALL_OBJS) $(LIBFT) $(MLX) $(DEBUG_VEC3_OBJS)
-	$(CC) $(CFLAGS) $(OBJS) $(DEBUG_VEC3_OBJS) $(LIBS) -o $@
-
-debug_mlx_red_square: $(ALL_OBJS) $(LIBFT) $(MLX) $(DEBUG_MlX_RED_SQUARE_SRCS_OBJS)
-	$(CC) $(CFLAGS) $(OBJS) $(DEBUG_MlX_RED_SQUARE_SRCS_OBJS) $(LIBS) -o $@
-
-debug_rt_loader: $(OBJS) $(LIBFT) $(MLX) $(DEBUG_RT_LOADER_OBJS)
-	$(CC) $(CFLAGS) $(OBJS) $(DEBUG_RT_LOADER_OBJS) $(LIBS) -o $@
+$(DEBUG_BINS): %: $(OBJS) $(LIBFT) $(MLX) $(OBJS_DIR)/$(DEBUGS_DIR)/%.o
+	$(CC) $(CFLAGS) $(OBJS) $(OBJS_DIR)/$(DEBUGS_DIR)/$@.o $(LIBS) -o $@
 
 # libftのビルド
 $(LIBFT):
@@ -103,7 +97,7 @@ $(MLX):
 
 # オブジェクトファイルのコンパイルルール
 $(OBJS_DIR)/%.o: $(SRCS_DIR)/%.c $(HEADERS)
-	@mkdir -p $(OBJS_DIR)
+	@mkdir -p $(dir $@)
 	$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
 
 # クリーンアップ
