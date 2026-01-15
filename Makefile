@@ -35,7 +35,7 @@ FILES = vec3_1.c\
 		error.c\
 		rt_loader.c\
 		timer.c\
-		object_list.c
+		list_utils.c
 
 SRCS = $(addprefix $(SRCS_DIR)/,$(FILES))
 
@@ -67,7 +67,7 @@ $(NAME): $(ALL_OBJS) $(LIBFT) $(MLX)
 	$(CC) $(CFLAGS) $(ALL_OBJS) $(LIBS) -o $@
 
 # デバッグ用ターゲット
-debug_vec3: $(ALL_OBJS) $(LIBFT) $(MLX) $(DEBUG_VEC3_OBJS)
+debug_vec3: $(OBJS) $(LIBFT) $(MLX) $(DEBUG_VEC3_OBJS)
 	$(CC) $(CFLAGS) $(OBJS) $(DEBUG_VEC3_OBJS) $(LIBS) -o $@
 
 debug_mlx_red_square: $(ALL_OBJS) $(LIBFT) $(MLX) $(DEBUG_MlX_RED_SQUARE_SRCS_OBJS)

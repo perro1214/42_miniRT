@@ -6,7 +6,7 @@
 /*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/12 04:36:41 by htsutsum          #+#    #+#             */
-/*   Updated: 2026/01/15 01:24:25 by htsutsum         ###   ########.fr       */
+/*   Updated: 2026/01/15 02:02:56 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,8 @@
 // A , B の二つの関数でチェックする
 // normalの値は正規化されたものとして記載されるが、出ない場合どうするか？ 1,1,1だと１にならない。
 // norm : too many line
+// cameraがないとき エラーをだすか
+// ambientがないときまっくらになるけどどうするか エラーにするか
 
 static int	set_object(t_object *obj, char *line);
 static int	set_sphere(t_object *obj, char **rt_data);
