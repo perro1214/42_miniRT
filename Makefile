@@ -13,6 +13,7 @@ SRCS_DIR	= srcs
 OBJS_DIR	= objs
 INCS_DIR	= includes
 LIBFT_DIR	= libft
+DEBUGS_DIR = debugs
 MLX_DIR 	= minilibx-linux
 MLX_REPO 	= https://github.com/42Paris/minilibx-linux.git
 
@@ -27,7 +28,6 @@ INCLUDES	= -I $(INCS_DIR) -I $(LIBFT_DIR)/includes -I $(MLX_DIR)
 # ソースファイル
 MAIN_SRCS	= $(SRCS_DIR)/main.c
 
-
 FILES = vec3_1.c\
 		vec3_2.c\
 		mlx_action_close.c\
@@ -39,34 +39,32 @@ FILES = vec3_1.c\
 		ray_utils.c\
 		hit_sphere.c\
 		hit_plane.c\
-		screen_norm.c
+		screen_norm.c\
+		object_list.c
 
 SRCS = $(addprefix $(SRCS_DIR)/,$(FILES))
 
-DEBUG_VEC3_SRCS = $(SRCS_DIR)/debug_vec3.c#
+# デバッグ用ソースファイル (srcs/debugs/ に配置)
+DEBUG_FILES =	debug_vec3.c\
+				debug_mlx_red_square.c\
+				debug_rt_loader.c\
+				debug_ray.c\
+				debug_intersection.c\
+				debug_mlx_sphere.c
 
-DEBUG_MlX_RED_SQUARE_SRCS = $(SRCS_DIR)/debug_mlx_red_square.c#
-
-DEBUG_RAY_SRCS = $(SRCS_DIR)/debug_ray.c#
-
-DEBUG_INTERSECTION_SRCS = $(SRCS_DIR)/debug_intersection.c#
-
-DEBUG_MlX_SPHERE_SRCS = $(SRCS_DIR)/debug_mlx_sphere.c#
+# ファイル名からターゲット名を生成
+DEBUG_BINS = $(DEBUG_FILES:.c=)
 
 # ヘッダー
 HEADERS = $(INCS_DIR)/miniRT.h $(INCS_DIR)/vec3.h
 
 # オブジェクトファイル
 OBJS		= $(SRCS:$(SRCS_DIR)/%.c=$(OBJS_DIR)/%.o)
-MAIN_OBJS	= $(MAIN_SRCS:$(SRCS_DIR)/%.c=$(OBJS_DIR)/%.o)
-DEBUG_VEC3_OBJS	= $(DEBUG_VEC3_SRCS:$(SRCS_DIR)/%.c=$(OBJS_DIR)/%.o)#
-DEBUG_MlX_RED_SQUARE_SRCS_OBJS = $(DEBUG_MlX_RED_SQUARE_SRCS:$(SRCS_DIR)/%.c=$(OBJS_DIR)/%.o)#
-DEBUG_RAY_OBJS = $(DEBUG_RAY_SRCS:$(SRCS_DIR)/%.c=$(OBJS_DIR)/%.o)#
-DEBUG_INTERSECTION_OBJS = $(DEBUG_INTERSECTION_SRCS:$(SRCS_DIR)/%.c=$(OBJS_DIR)/%.o)#
-DEBUG_MlX_SPHERE_SRCS_OBJS = $(DEBUG_MlX_SPHERE_SRCS:$(SRCS_DIR)/%.c=$(OBJS_DIR)/%.o)#
+MAIN_OBJ	= $(MAIN_SRCS:$(SRCS_DIR)/%.c=$(OBJS_DIR)/%.o)
+DEBUG_OBJS	= $(addprefix $(OBJS_DIR)/$(DEBUGS_DIR)/, $(DEBUG_FILES:.c=.o))
 
 # 全オブジェクトファイル
-ALL_OBJS	= $(OBJS) $(MAIN_OBJS)
+ALL_OBJS	= $(OBJS) $(MAIN_OBJ)
 
 # デフォルトターゲット
 all: $(NAME)
@@ -75,21 +73,9 @@ all: $(NAME)
 $(NAME): $(ALL_OBJS) $(LIBFT) $(MLX)
 	$(CC) $(CFLAGS) $(ALL_OBJS) $(LIBS) -o $@
 
-# デバッグ用ターゲット
-debug_vec3: $(ALL_OBJS) $(LIBFT) $(MLX) $(DEBUG_VEC3_OBJS)
-	$(CC) $(CFLAGS) $(OBJS) $(DEBUG_VEC3_OBJS) $(LIBS) -o $@
-
-debug_mlx_red_square: $(ALL_OBJS) $(LIBFT) $(MLX) $(DEBUG_MlX_RED_SQUARE_SRCS_OBJS)
-	$(CC) $(CFLAGS) $(OBJS) $(DEBUG_MlX_RED_SQUARE_SRCS_OBJS) $(LIBS) -o $@
-
-debug_ray: $(ALL_OBJS) $(LIBFT) $(MLX) $(DEBUG_RAY_OBJS)
-	$(CC) $(CFLAGS) $(OBJS) $(DEBUG_RAY_OBJS) $(LIBS) -o $@
-
-debug_intersection: $(ALL_OBJS) $(LIBFT) $(MLX) $(DEBUG_INTERSECTION_OBJS)
-	$(CC) $(CFLAGS) $(OBJS) $(DEBUG_INTERSECTION_OBJS) $(LIBS) -o $@
-
-debug_mlx_sphere: $(ALL_OBJS) $(LIBFT) $(MLX) $(DEBUG_MlX_SPHERE_SRCS_OBJS)
-	$(CC) $(CFLAGS) $(OBJS) $(DEBUG_MlX_SPHERE_SRCS_OBJS) $(LIBS) -o $@
+# デバッグ用ターゲット (全て srcs/debugs/ から統一的にビルド)
+$(DEBUG_BINS): %: $(OBJS) $(LIBFT) $(MLX) $(OBJS_DIR)/$(DEBUGS_DIR)/%.o
+	$(CC) $(CFLAGS) $(OBJS) $(OBJS_DIR)/$(DEBUGS_DIR)/$@.o $(LIBS) -o $@
 
 # libftのビルド
 $(LIBFT):
@@ -97,18 +83,16 @@ $(LIBFT):
 
 # norminette
 norm:
-	norminette $(SRCS_DIR) $(LIBFT_DIR) $(INC_DIR) | grep -v OK
+	norminette $(SRCS_DIR) $(LIBFT_DIR) $(INCS_DIR) | grep -v OK
 
 # valgrind
 val:
 	valgrind -s --track-fds=yes --trace-children=yes --leak-check=full --track-origins=yes --show-leak-kinds=all ./$(NAME) $(ARGS)
 
-# clang-tidyが分析するためのファイルcompile_commands.jsonをbuildフォルダに作成
+# clang-tidyが分析するためのファイルcompile_commands.jsonを.vscodeフォルダに作成
 # 新しい.c,.hファイルをMakefileに追加した時に実行する。
 bear: clean
-	@bear -- make
-	@cp compile_commands.json .vscode/
-	@$(RM) compile_commands.json
+	bear --output .vscode/compile_commands.json -- make
 
 # mlxのビルド (フォルダがない場合は、git clone)
 $(MLX):
@@ -119,24 +103,23 @@ $(MLX):
 	@$(MAKE) -C $(MLX_DIR)
 
 # オブジェクトファイルのコンパイルルール
-# ヘッダーファイルを追加、ヘッダーを変更したときもコンパイルするため
 $(OBJS_DIR)/%.o: $(SRCS_DIR)/%.c $(HEADERS)
-	@mkdir -p $(OBJS_DIR)
+	@mkdir -p $(dir $@)
 	$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
 
 # クリーンアップ
 clean:
-	rm -rf $(OBJS_DIR)
+	@rm -rf $(OBJS_DIR)
 	$(MAKE) -C $(LIBFT_DIR) clean
 	@if [ -d "$(MLX_DIR)" ]; then \
 		$(MAKE) -C $(MLX_DIR) clean; \
 	fi
 
 fclean: clean
-	rm -f $(NAME) debug_vec3
-	rm -f debug_*
+	@rm -f $(NAME)
+	@rm -f debug_*
 	$(MAKE) -C $(LIBFT_DIR) fclean
 
 re: fclean all
 
-.PHONY: all clean fclean re debug_vec3 debug_mlx_red_square norm bear val
+.PHONY: all clean fclean re $(DEBUG_BINS) norm bear val

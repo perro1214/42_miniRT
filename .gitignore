@@ -5,15 +5,13 @@ objs/
 # 実行ファイル
 miniRT
 debug_vec3
-
+debug_rt_loader
+debug_mlx_red_square
 # ライブラリ
 *.a
 
 # エディタ関連
 .vscode/
-#!.vscode/settings.json
-#!.vscode/tasks.json
-#!.vscode/launch.json
 *.swp
 *.swo
 *~
@@ -26,7 +24,6 @@ debug_vec3
 
 #Static analysis tools (formatter,linter)
 .clang-tidy
-build/compile_commands.json
 
 # その他
 docker-compose.yml

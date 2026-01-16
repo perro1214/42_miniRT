@@ -62,15 +62,15 @@ static double	calculate_t(t_vec3 oc, t_ray ray, double dis)
 }
 
 // 球とレイの交差判定を行う関数
-double	hit_sphere(t_sphere *sphere, t_ray ray)
+double	hit_sphere(t_object *obj, t_ray ray)
 {
 	double	discriminant;
 	double	t;
 	t_vec3	oc;
 
-	// oc = S - C
-	oc = vec3_sub(ray.origin, sphere->center);
-	discriminant = calculate_discriminant(oc, ray, sphere->radius);
+	// oc = S - C (obj->point が球の中心)
+	oc = vec3_sub(ray.origin, obj->point);
+	discriminant = calculate_discriminant(oc, ray, obj->data.sp.radius);
 	// 交差なし
 	if (discriminant < 0)
 		return (-1.0);

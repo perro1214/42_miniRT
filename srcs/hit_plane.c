@@ -13,21 +13,22 @@
 #include "miniRT.h"
 
 // 平面とレイの交差判定を行う関数
-double	hit_plane(t_plane *plane, t_ray ray)
+double	hit_plane(t_object *obj, t_ray ray)
 {
-	double denominator; // 分母 (D · N)
-	double t;           // 交差点までの距離
-	t_vec3 p0_to_S;     // P0 - S
+	double	denominator;
+	double	t;
+	t_vec3	p0_to_s;
+
 	// 分母を計算 (D · N)
-	denominator = vec3_dot(ray.direction, plane->normal);
+	denominator = vec3_dot(ray.direction, obj->data.pl.normal);
 	if (fabs(denominator) < 1e-6)
 	{
 		// レイが平面に平行の場合、交差しない
 		return (-1.0);
 	}
-	// t = ((P0 - S) · N) / (D · N)
-	p0_to_S = vec3_sub(plane->point, ray.origin);
-	t = vec3_dot(p0_to_S, plane->normal) / denominator;
+	// t = ((P0 - S) · N) / (D · N) (obj->point が平面上の点)
+	p0_to_s = vec3_sub(obj->point, ray.origin);
+	t = vec3_dot(p0_to_s, obj->data.pl.normal) / denominator;
 	// tが負の場合、交差しない
 	if (t < 0.0001)
 	{

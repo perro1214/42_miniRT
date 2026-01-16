@@ -18,15 +18,17 @@
 */
 void	render_test(t_mlx *mlx, int width, int height)
 {
-	t_sphere	sp;
+	t_object	obj;
 	t_ray		ray;
 	double		t;
 	int			color;
+	int			px;
+	int			py;
 
-	int px, py;
-	// テスト用の球
-	sp.center = vec3_init(0, 0, 5);
-	sp.radius = 1.0;
+	// テスト用の球 (t_objectを使用)
+	obj.type = SPHERE;
+	obj.point = vec3_init(0, 0, 5);
+	obj.data.sp.radius = 1.0;
 	py = 0;
 	while (py < height)
 	{
@@ -34,11 +36,11 @@ void	render_test(t_mlx *mlx, int width, int height)
 		while (px < width)
 		{
 			ray = get_ray_fixed(px, py);
-			t = hit_sphere(&sp, ray);
+			t = hit_sphere(&obj, ray);
 			if (t > 0)
-				color = 0xFF0000; // 赤（交差あり）
+				color = 0xFF0000;
 			else
-				color = 0x0000FF; // 青（交差なし）
+				color = 0x0000FF;
 			ft_mlx_put_pixel(mlx, px, py, color);
 			px++;
 		}
