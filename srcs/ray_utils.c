@@ -1,19 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   error.c                                            :+:      :+:    :+:   */
+/*   ray_util.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hayato <hayato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/01/12 01:17:26 by htsutsum          #+#    #+#             */
-/*   Updated: 2026/01/13 18:23:32 by hayato           ###   ########.fr       */
+/*   Created: 2026/01/13 19:29:02 by hayato            #+#    #+#             */
+/*   Updated: 2026/01/13 21:29:19 by hayato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "miniRT.h"
+#include "ray.h"
 
-void	log_error(char *message)
+// レイの生成
+t_ray	ray_init(t_vec3 origin, t_vec3 direction)
 {
-	ft_putstr_fd("Error : ", 2);
-	ft_putendl_fd(message, 2);
+	t_ray	ray;
+
+	ray.origin = origin;
+	ray.direction = vec3_normalize(direction);
+	return (ray);
+}
+
+// レイ上の点を取得 P = S + t * D
+t_vec3	ray_at(t_ray ray, double t)
+{
+	return (vec3_add(ray.origin, vec3_scale(ray.direction, t)));
 }

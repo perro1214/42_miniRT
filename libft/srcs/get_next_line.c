@@ -67,7 +67,7 @@ static int	push_stack(t_line *line, char c)
 char	*get_next_line(int fd)
 {
 	t_line	line;
-	char	c;
+	int		c;
 
 	line.str = NULL;
 	line.len = 0;

@@ -36,17 +36,24 @@ FILES = vec3_1.c\
 		error.c\
 		rt_loader.c\
 		timer.c\
+		ray_utils.c\
+		hit_sphere.c\
+		hit_plane.c\
+		screen_norm.c\
 		object_list.c
 
 SRCS = $(addprefix $(SRCS_DIR)/,$(FILES))
 
-# デバッグ用ソースファイル
-DEBUG_FILES = debug_vec3.c\
-							debug_mlx_red_square.c\
-							debug_rt_loader
+# デバッグ用ソースファイル (srcs/debugs/ に配置)
+DEBUG_FILES =	debug_vec3.c\
+				debug_mlx_red_square.c\
+				debug_rt_loader.c\
+				debug_ray.c\
+				debug_intersection.c\
+				debug_mlx_sphere.c
 
 # ファイル名からターゲット名を生成
-DEBUG_BINS =  $(DEBUG_FILES:.c=)
+DEBUG_BINS = $(DEBUG_FILES:.c=)
 
 # ヘッダー
 HEADERS = $(INCS_DIR)/miniRT.h $(INCS_DIR)/vec3.h
@@ -54,7 +61,7 @@ HEADERS = $(INCS_DIR)/miniRT.h $(INCS_DIR)/vec3.h
 # オブジェクトファイル
 OBJS		= $(SRCS:$(SRCS_DIR)/%.c=$(OBJS_DIR)/%.o)
 MAIN_OBJ	= $(MAIN_SRCS:$(SRCS_DIR)/%.c=$(OBJS_DIR)/%.o)
-DEBUG_OBJS = $(addprefix $(OBJS_DIR)/$(DEBUGS_DIR)/, $(DEBUG_FILES:.c=.o))
+DEBUG_OBJS	= $(addprefix $(OBJS_DIR)/$(DEBUGS_DIR)/, $(DEBUG_FILES:.c=.o))
 
 # 全オブジェクトファイル
 ALL_OBJS	= $(OBJS) $(MAIN_OBJ)
@@ -66,7 +73,7 @@ all: $(NAME)
 $(NAME): $(ALL_OBJS) $(LIBFT) $(MLX)
 	$(CC) $(CFLAGS) $(ALL_OBJS) $(LIBS) -o $@
 
-# デバッグ用ターゲット
+# デバッグ用ターゲット (全て srcs/debugs/ から統一的にビルド)
 $(DEBUG_BINS): %: $(OBJS) $(LIBFT) $(MLX) $(OBJS_DIR)/$(DEBUGS_DIR)/%.o
 	$(CC) $(CFLAGS) $(OBJS) $(OBJS_DIR)/$(DEBUGS_DIR)/$@.o $(LIBS) -o $@
 
@@ -110,11 +117,9 @@ clean:
 
 fclean: clean
 	@rm -f $(NAME)
-	@rm -f debug_vec3
-	@rm -f debug_mlx_red_square
-	@rm -f debug_rt_loader
+	@rm -f debug_*
 	$(MAKE) -C $(LIBFT_DIR) fclean
 
 re: fclean all
 
-.PHONY: all clean fclean re debug_vec3 debug_mlx_red_square debug_rt_loader norm bear val
+.PHONY: all clean fclean re $(DEBUG_BINS) norm bear val
