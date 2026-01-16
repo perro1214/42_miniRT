@@ -90,13 +90,6 @@ typedef struct s_object
 	struct s_object	*next;
 }					t_object;
 
-typedef struct s_color
-{
-	int				r;
-	int				g;
-	int				b;
-}					t_color;
-
 typedef struct s_camera
 {
 	t_vec3			position;
@@ -107,16 +100,14 @@ typedef struct s_camera
 typedef struct s_ambient
 {
 	double			ratio;
-
-	t_color			color;
-
+	t_vec3			color;
 }					t_ambient;
 
 typedef struct s_light
 {
 	t_vec3			position;
 	double			intensity;
-	t_color			color;
+	t_vec3			color;
 }					t_light;
 
 // mlx_action_close.c
@@ -125,10 +116,7 @@ int					close_window(t_mlx *mlx);
 
 // render_pixel.c
 void				ft_mlx_put_pixel(t_mlx *mlx, int x, int y, int color);
-t_color				color_init(int r, int g, int b);
-t_color				color_multiply(t_color color_A, t_color color_B);
-t_color				color_scalar(t_color color, float scalar);
-int					create_color(t_color color);
+int					vec3_to_color(t_vec3 color);
 
 // error.c
 void				log_error(char *message);

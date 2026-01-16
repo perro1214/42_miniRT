@@ -50,24 +50,28 @@ int	main(int argc, char **argv)
 
 
 	// 赤い四角を描画
-	t_color red = color_init(255, 0, 0);
+	t_vec3 red = vec3_init(255, 0, 0);
 	for (int y = 100; y < 200; y++)
 	{
 		for (int x = 100; x < 200; x++)
 		{
-			ft_mlx_put_pixel(&mlx, x, y, create_color(red));
+			ft_mlx_put_pixel(&mlx, x, y, vec3_to_color(red));
 		}
 	}
 
-	t_color white = color_init(255, 255, 255);
-	t_color red_white = color_multiply(red, white);
-	printf("Red-White Mixed Color: R=%d, G=%d, B=%d\n", red_white.r, red_white.g, red_white.b);
+	t_vec3 white = vec3_init(255, 255, 255);
+	// 色の混合: (r1 * r2) / 255
+	t_vec3 red_white;
+	red_white.x = (red.x * white.x) / 255.0f;
+	red_white.y = (red.y * white.y) / 255.0f;
+	red_white.z = (red.z * white.z) / 255.0f;
+	printf("Red-White Mixed Color: R=%.0f, G=%.0f, B=%.0f\n", red_white.x, red_white.y, red_white.z);
 
 	for (int y = 250; y < 350; y++)
 	{
 		for (int x = 250; x < 350; x++)
 		{
-			ft_mlx_put_pixel(&mlx, x, y, create_color(red_white));
+			ft_mlx_put_pixel(&mlx, x, y, vec3_to_color(red_white));
 		}
 	}
 

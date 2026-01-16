@@ -6,7 +6,7 @@
 /*   By: hayato <hayato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/13 18:24:01 by hayato            #+#    #+#             */
-/*   Updated: 2026/01/13 22:54:12 by hayato           ###   ########.fr       */
+/*   Updated: 2026/01/16 13:05:46 by hayato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ void	render_test(t_mlx *mlx, int width, int height)
 	// テスト用の球 (t_objectを使用)
 	obj.type = SPHERE;
 	obj.point = vec3_init(0, 0, 5);
-	obj.data.sp.radius = 1.0;
+	obj.data.sp.radius = 2.0;
 	py = 0;
 	while (py < height)
 	{
