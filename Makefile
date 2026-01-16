@@ -1,21 +1,23 @@
 NAME		= miniRT
 
 # コンパイラとフラグ
-CC			= cc
-CFLAGS		= -Wall -Wextra -Werror -g -O0
+CC			:= cc
+CFLAGS	:= -Wall -Wextra -Werror -g -O0
 
 # 本番用最適化フラグ全部乗せ
-# -ffast-mathは計算に誤差がでることがあるので試し必要あり。
+# -march=native CPUに最適化
+# -flto リンク時最適化（サイズや速度に効果）
+# -ffast-math 不動小数点の計算精度や順序が変わる可能性あり、精度が重要な場合は要注意
 #CFLAGS		= -Wall -Wextra -Werror -O3 -march=native -ffast-math -flto
 
 # ディレクトリ
-SRCS_DIR	= srcs
-OBJS_DIR	= objs
-INCS_DIR	= includes
-LIBFT_DIR	= libft
-DEBUGS_DIR = debugs
-MLX_DIR 	= minilibx-linux
-MLX_REPO 	= https://github.com/42Paris/minilibx-linux.git
+SRCS_DIR	 := srcs
+OBJS_DIR	 := objs
+INCS_DIR	 := includes
+LIBFT_DIR	 := libft
+DEBUGS_DIR := debugs
+MLX_DIR 	 := minilibx-linux
+MLX_REPO 	 := https://github.com/42Paris/minilibx-linux.git
 
 # ライブラリ
 LIBFT		= $(LIBFT_DIR)/libft.a
@@ -28,7 +30,7 @@ INCLUDES	= -I $(INCS_DIR) -I $(LIBFT_DIR)/includes -I $(MLX_DIR)
 # ソースファイル
 MAIN_SRCS	= $(SRCS_DIR)/main.c
 
-FILES = vec3_1.c\
+FILES := vec3_1.c\
 		vec3_2.c\
 		mlx_action_close.c\
 		render_pixel.c\
@@ -40,13 +42,12 @@ FILES = vec3_1.c\
 		ray_utils.c\
 		hit_sphere.c\
 		hit_plane.c\
-		screen_norm.c\
-		object_list.c
+		screen_norm.c
 
 SRCS = $(addprefix $(SRCS_DIR)/,$(FILES))
 
 # デバッグ用ソースファイル (srcs/debugs/ に配置)
-DEBUG_FILES =	debug_vec3.c\
+DEBUG_FILES :=	debug_vec3.c\
 				debug_mlx_red_square.c\
 				debug_rt_loader.c\
 				debug_ray.c\
@@ -57,7 +58,7 @@ DEBUG_FILES =	debug_vec3.c\
 DEBUG_BINS = $(DEBUG_FILES:.c=)
 
 # ヘッダー
-HEADERS = $(INCS_DIR)/miniRT.h $(INCS_DIR)/vec3.h
+HEADERS := $(INCS_DIR)/miniRT.h $(INCS_DIR)/vec3.h
 
 # オブジェクトファイル
 OBJS		= $(SRCS:$(SRCS_DIR)/%.c=$(OBJS_DIR)/%.o)
