@@ -1,19 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   error.c                                            :+:      :+:    :+:   */
+/*   ray.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hayato <hayato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/01/12 01:17:26 by htsutsum          #+#    #+#             */
-/*   Updated: 2026/01/13 18:23:32 by hayato           ###   ########.fr       */
+/*   Created: 2026/01/13 19:27:35 by hayato            #+#    #+#             */
+/*   Updated: 2026/01/13 21:16:51 by hayato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "miniRT.h"
+#ifndef RAY_H
+# define RAY_H
 
-void	log_error(char *message)
+# include "vec3.h"
+
+typedef struct s_ray
 {
-	ft_putstr_fd("Error : ", 2);
-	ft_putendl_fd(message, 2);
-}
+	t_vec3	origin;// S
+	t_vec3	direction;// D
+}			t_ray;
+
+t_ray	ray_init(t_vec3 origin, t_vec3 direction);
+t_vec3	ray_at(t_ray ray, double t);
+
+#endif // RAY_H
