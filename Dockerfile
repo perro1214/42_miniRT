@@ -41,12 +41,16 @@ RUN apt-get update && \
     && rm -rf /var/lib/apt/lists/*
 #    && unminimize \
 
+# fishをインストール
+RUN apt-get update && apt-get install -y fish
+
+
 # 3. セキュリティ向上のため、一般ユーザーを作成
 #    - sudoとzshをインストールした後でユーザーを作成します
 #    - /etc/sudoers.d ディレクトリを先に作成しておく必要があります
 RUN mkdir -p /etc/sudoers.d && \
     groupadd --gid $USER_GID $USERNAME && \
-    useradd --uid $USER_UID --gid $USER_GID -m $USERNAME --shell /bin/zsh && \
+    useradd --uid $USER_UID --gid $USER_GID -m $USERNAME --shell /bin/fish && \
     echo "$USERNAME ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers.d/$USERNAME && \
     chmod 0440 /etc/sudoers.d/$USERNAME
 

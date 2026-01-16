@@ -35,13 +35,23 @@ FILES = vec3_1.c\
 		arg_parser.c\
 		error.c\
 		rt_loader.c\
-		timer.c
+		timer.c\
+		ray_utils.c\
+		hit_sphere.c\
+		hit_plane.c\
+		screen_norm.c
 
 SRCS = $(addprefix $(SRCS_DIR)/,$(FILES))
 
 DEBUG_VEC3_SRCS = $(SRCS_DIR)/debug_vec3.c#
 
 DEBUG_MlX_RED_SQUARE_SRCS = $(SRCS_DIR)/debug_mlx_red_square.c#
+
+DEBUG_RAY_SRCS = $(SRCS_DIR)/debug_ray.c#
+
+DEBUG_INTERSECTION_SRCS = $(SRCS_DIR)/debug_intersection.c#
+
+DEBUG_MlX_SPHERE_SRCS = $(SRCS_DIR)/debug_mlx_sphere.c#
 
 # ヘッダー
 HEADERS = $(INCS_DIR)/miniRT.h $(INCS_DIR)/vec3.h
@@ -51,6 +61,9 @@ OBJS		= $(SRCS:$(SRCS_DIR)/%.c=$(OBJS_DIR)/%.o)
 MAIN_OBJS	= $(MAIN_SRCS:$(SRCS_DIR)/%.c=$(OBJS_DIR)/%.o)
 DEBUG_VEC3_OBJS	= $(DEBUG_VEC3_SRCS:$(SRCS_DIR)/%.c=$(OBJS_DIR)/%.o)#
 DEBUG_MlX_RED_SQUARE_SRCS_OBJS = $(DEBUG_MlX_RED_SQUARE_SRCS:$(SRCS_DIR)/%.c=$(OBJS_DIR)/%.o)#
+DEBUG_RAY_OBJS = $(DEBUG_RAY_SRCS:$(SRCS_DIR)/%.c=$(OBJS_DIR)/%.o)#
+DEBUG_INTERSECTION_OBJS = $(DEBUG_INTERSECTION_SRCS:$(SRCS_DIR)/%.c=$(OBJS_DIR)/%.o)#
+DEBUG_MlX_SPHERE_SRCS_OBJS = $(DEBUG_MlX_SPHERE_SRCS:$(SRCS_DIR)/%.c=$(OBJS_DIR)/%.o)#
 
 # 全オブジェクトファイル
 ALL_OBJS	= $(OBJS) $(MAIN_OBJS)
@@ -68,6 +81,15 @@ debug_vec3: $(ALL_OBJS) $(LIBFT) $(MLX) $(DEBUG_VEC3_OBJS)
 
 debug_mlx_red_square: $(ALL_OBJS) $(LIBFT) $(MLX) $(DEBUG_MlX_RED_SQUARE_SRCS_OBJS)
 	$(CC) $(CFLAGS) $(OBJS) $(DEBUG_MlX_RED_SQUARE_SRCS_OBJS) $(LIBS) -o $@
+
+debug_ray: $(ALL_OBJS) $(LIBFT) $(MLX) $(DEBUG_RAY_OBJS)
+	$(CC) $(CFLAGS) $(OBJS) $(DEBUG_RAY_OBJS) $(LIBS) -o $@
+
+debug_intersection: $(ALL_OBJS) $(LIBFT) $(MLX) $(DEBUG_INTERSECTION_OBJS)
+	$(CC) $(CFLAGS) $(OBJS) $(DEBUG_INTERSECTION_OBJS) $(LIBS) -o $@
+
+debug_mlx_sphere: $(ALL_OBJS) $(LIBFT) $(MLX) $(DEBUG_MlX_SPHERE_SRCS_OBJS)
+	$(CC) $(CFLAGS) $(OBJS) $(DEBUG_MlX_SPHERE_SRCS_OBJS) $(LIBS) -o $@
 
 # libftのビルド
 $(LIBFT):
@@ -112,7 +134,7 @@ clean:
 
 fclean: clean
 	rm -f $(NAME) debug_vec3
-	rm -f debug_mlx_red_square
+	rm -f debug_*
 	$(MAKE) -C $(LIBFT_DIR) fclean
 
 re: fclean all
