@@ -6,7 +6,7 @@
 /*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/14 17:36:17 by htsutsum          #+#    #+#             */
-/*   Updated: 2026/01/15 02:08:08 by htsutsum         ###   ########.fr       */
+/*   Updated: 2026/01/16 22:15:43 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,17 +24,17 @@ void free_objects(t_object *objs)
 	}
 }
 
-void free_lights(t_light *lts)
-{
-	t_light *tmp;
+// void free_lights(t_light *lts)
+// {
+// 	t_light *tmp;
 
-	while ( lts != NULL)
-	{
-		tmp = lts->next;
-		free(lts);
-		lts = tmp
-	}
-}
+// 	while ( lts != NULL)
+// 	{
+// 		tmp = lts->next;
+// 		free(lts);
+// 		lts = tmp
+// 	}
+// }
 
 void	add_object_to_list(t_object **head, t_object *new_obj)
 {

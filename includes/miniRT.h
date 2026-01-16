@@ -3,14 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   miniRT.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hayato <hayato@student.42.fr>              +#+  +:+       +#+        */
+/*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/11 18:27:40 by hayato            #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2026/01/15 01:55:32 by htsutsum         ###   ########.fr       */
-=======
-/*   Updated: 2026/01/16 11:28:12 by hayato           ###   ########.fr       */
->>>>>>> origin/main
+/*   Updated: 2026/01/16 22:16:04 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,21 +107,8 @@ typedef struct s_light
 	t_vec3			position;
 	double			intensity;
 	t_vec3			color;
-}					t_light;
-
-typedef struct s_ambient
-{
-	double ratio;
-	t_vec3 color;
-}	t_ambient;
-
-typedef struct s_light
-{
-	t_vec3 point;
-	double ratio;
-	t_vec3 color;
-	struct s_light *next;
-}	t_light;
+	struct s_light  *next;
+}				t_light;
 
 typedef struct s_scene
 {

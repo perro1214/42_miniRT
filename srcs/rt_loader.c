@@ -6,7 +6,7 @@
 /*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/12 04:36:41 by htsutsum          #+#    #+#             */
-/*   Updated: 2026/01/15 02:02:56 by htsutsum         ###   ########.fr       */
+/*   Updated: 2026/01/16 22:14:03 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -211,37 +211,37 @@ static int	set_cylinder(t_object *obj, char **rt_data)
 }
 
 
-/* A 0.2 255,255,255
- * type : A
- * brightness [0.0  1.0] : 0.2
- * color [0 - 255] : 255,255,255
- */
-static int set_ambient(t_ambient *at, char **rt_data)
-{
+// /* A 0.2 255,255,255
+//  * type : A
+//  * brightness [0.0  1.0] : 0.2
+//  * color [0 - 255] : 255,255,255
+//  */
+// static int set_ambient(t_ambient *at, char **rt_data)
+// {
 
-	return (0);
-}
+// 	return (0);
+// }
 
 
-/* L -40.0,50.0,0.0 0.6 10,0,255
- * type : L
- * pos :-40.0,50.0,0.0
- * brightness [0.0 1.0] : 0.6
- * color [0, 255]: 10,0,255
- * 光源データを読み込む
- */
-static int set_light(t_light *lt, char **rt_data)
-{
-	return (0);
-}
-/* C -50.0,0,20,0,0,1,70
- * type : C
- * pos : -50,0,0
- * normal [-1, 1] : 0.0,0.0.1.0
- * fov [0 - 70] : 70
- * カメラのデータを読み込む
- */
-static int set_camera(t_camera *cam, char **rt_data)
-{
-	return (0);
-}
+// /* L -40.0,50.0,0.0 0.6 10,0,255
+//  * type : L
+//  * pos :-40.0,50.0,0.0
+//  * brightness [0.0 1.0] : 0.6
+//  * color [0, 255]: 10,0,255
+//  * 光源データを読み込む
+//  */
+// static int set_light(t_light *lt, char **rt_data)
+// {
+// 	return (0);
+// }
+// /* C -50.0,0,20,0,0,1,70
+//  * type : C
+//  * pos : -50,0,0
+//  * normal [-1, 1] : 0.0,0.0.1.0
+//  * fov [0 - 70] : 70
+//  * カメラのデータを読み込む
+//  */
+// static int set_camera(t_camera *cam, char **rt_data)
+// {
+// 	return (0);
+// }

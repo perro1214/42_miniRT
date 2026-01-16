@@ -36,7 +36,7 @@ FILES = vec3_1.c\
 		error.c\
 		rt_loader.c\
 		timer.c\
-		list_utils.c
+		list_utils.c\
 		ray_utils.c\
 		hit_sphere.c\
 		hit_plane.c\
@@ -74,21 +74,9 @@ all: $(NAME)
 $(NAME): $(ALL_OBJS) $(LIBFT) $(MLX)
 	$(CC) $(CFLAGS) $(ALL_OBJS) $(LIBS) -o $@
 
-<<<<<<< HEAD
-# デバッグ用ターゲット
-debug_vec3: $(OBJS) $(LIBFT) $(MLX) $(DEBUG_VEC3_OBJS)
-	$(CC) $(CFLAGS) $(OBJS) $(DEBUG_VEC3_OBJS) $(LIBS) -o $@
-
-debug_mlx_red_square: $(ALL_OBJS) $(LIBFT) $(MLX) $(DEBUG_MlX_RED_SQUARE_SRCS_OBJS)
-	$(CC) $(CFLAGS) $(OBJS) $(DEBUG_MlX_RED_SQUARE_SRCS_OBJS) $(LIBS) -o $@
-
-debug_rt_loader: $(OBJS) $(LIBFT) $(MLX) $(DEBUG_RT_LOADER_OBJS)
-	$(CC) $(CFLAGS) $(OBJS) $(DEBUG_RT_LOADER_OBJS) $(LIBS) -o $@
-=======
 # デバッグ用ターゲット (全て srcs/debugs/ から統一的にビルド)
 $(DEBUG_BINS): %: $(OBJS) $(LIBFT) $(MLX) $(OBJS_DIR)/$(DEBUGS_DIR)/%.o
 	$(CC) $(CFLAGS) $(OBJS) $(OBJS_DIR)/$(DEBUGS_DIR)/$@.o $(LIBS) -o $@
->>>>>>> origin/main
 
 # libftのビルド
 $(LIBFT):
