@@ -6,7 +6,7 @@
 /*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/11 18:27:40 by hayato            #+#    #+#             */
-/*   Updated: 2026/01/16 22:16:04 by htsutsum         ###   ########.fr       */
+/*   Updated: 2026/01/21 16:59:28 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,9 @@ typedef struct s_mlx
 }					t_mlx;
 
 typedef enum e_type {
+	AMBIENT,
+	LIGHT,
+	CAMERA,
     SPHERE,
     PLANE,
     CYLINDER,
@@ -110,13 +113,14 @@ typedef struct s_light
 	struct s_light  *next;
 }				t_light;
 
+// 前から3文字で統一、sで複数
 typedef struct s_scene
 {
 	t_camera	*cam;
-	t_ambient	*at;
-	t_light		*lts;
+	t_ambient	*amb;
+	t_light		*ligs;
 	t_object	*objs;
-} t_scene;
+} 				t_scene;
 
 // mlx_action_close.c
 int					key_hook(int keycode, t_mlx *mlx);
