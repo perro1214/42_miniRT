@@ -6,7 +6,7 @@
 /*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/11 18:27:40 by hayato            #+#    #+#             */
-/*   Updated: 2026/01/21 16:59:28 by htsutsum         ###   ########.fr       */
+/*   Updated: 2026/01/21 22:01:31 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,9 +50,6 @@ typedef struct s_mlx
 }					t_mlx;
 
 typedef enum e_type {
-	AMBIENT,
-	LIGHT,
-	CAMERA,
     SPHERE,
     PLANE,
     CYLINDER,
@@ -86,7 +83,7 @@ typedef union u_obj_data
 typedef struct s_object
 {
 	int				type;
-	t_vec3			point;
+	t_vec3			position;
 	t_vec3			color;
 	t_obj_data		data;
 	struct s_object	*next;
@@ -110,7 +107,7 @@ typedef struct s_light
 	t_vec3			position;
 	double			intensity;
 	t_vec3			color;
-	struct s_light  *next;
+	struct s_light	*next;
 }				t_light;
 
 // 前から3文字で統一、sで複数
@@ -123,37 +120,49 @@ typedef struct s_scene
 } 				t_scene;
 
 // mlx_action_close.c
-int					key_hook(int keycode, t_mlx *mlx);
-int					close_window(t_mlx *mlx);
+int		key_hook(int keycode, t_mlx *mlx);
+int		close_window(t_mlx *mlx);
 
 // render_pixel.c
-void				ft_mlx_put_pixel(t_mlx *mlx, int x, int y, int color);
-int					vec3_to_color(t_vec3 color);
+void	ft_mlx_put_pixel(t_mlx *mlx, int x, int y, int color);
+int		vec3_to_color(t_vec3 color);
 
 // error.c
-void				log_error(char *message);
+void	log_error(char *message);
 
 // arg_parser.c
-int					parse_arguments(int argc, char **argv);
+int		parse_arguments(int argc, char **argv);
 
 // timer.c
-double				current_time_ms(void);
-void				log_elapsed_time(char *prefix_str, double start_time);
+double	current_time_ms(void);
+void	log_elapsed_time(char *prefix_str, double start_time);
 
 // hit_sphere.c
-double				hit_sphere(t_object *obj, t_ray ray);
+double	hit_sphere(t_object *obj, t_ray ray);
 
 // hit_plane.c
-double				hit_plane(t_object *obj, t_ray ray);
+double	hit_plane(t_object *obj, t_ray ray);
 
 // screen_norm.c
-t_ray				get_ray_fixed(int px, int py);
+t_ray	get_ray_fixed(int px, int py);
 
 // rt_loader.c
-int					rt_loader(t_object **objs, const char *file_name);
+int		rt_loader(t_object **objs, const char *file_name);
+
+// set_scene.c
+int		set_ambient(t_scene *scene, char **rt_data);
+int		set_camera(t_scene *scene, char **rt_data);
+int		set_light(t_scene *scene, char **rt_data);
+void	free_light(t_light *lights);
 
 // object_list.c
-void				free_objects(t_object *objs);
-void				add_object_to_list(t_object **head, t_object *new_obj);
+void	free_objects(t_object *objs);
+void	add_object_to_list(t_object **head, t_object *new_obj);
+
+// rt_parse_util.c
+t_vec3	str_to_vec3(char *str, int *status);
+int 	is_valid_color(t_vec3 color);
+int		is_in_range(double value, double min, double max);
+int		is_normalized(t_vec3 vec)
 
 #endif // MINIRT_H
