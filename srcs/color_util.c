@@ -6,12 +6,11 @@
 /*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/21 22:32:10 by htsutsum          #+#    #+#             */
-/*   Updated: 2026/01/21 22:33:23 by htsutsum         ###   ########.fr       */
+/*   Updated: 2026/01/21 22:34:37 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "miniRT.h"
-
 
 // カラー範囲のチェック
 int	is_valid_color(t_vec3 color)
