@@ -6,13 +6,13 @@
 /*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/21 19:30:31 by htsutsum          #+#    #+#             */
-/*   Updated: 2026/01/21 19:30:44 by htsutsum         ###   ########.fr       */
+/*   Updated: 2026/01/21 20:03:23 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-size_t	count_tab(char **tab)
+size_t	ft_count_tab(char **tab)
 {
 	size_t	i;
 
