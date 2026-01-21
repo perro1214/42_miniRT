@@ -6,7 +6,7 @@
 /*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/14 17:25:42 by htsutsum          #+#    #+#             */
-/*   Updated: 2026/01/21 23:35:09 by htsutsum         ###   ########.fr       */
+/*   Updated: 2026/01/22 00:15:16 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,10 @@ static void print_scene(t_scene *scene)
         else if (o->type == PLANE)
             print_vec3("Normal", o->data.pl.normal);
         else if (o->type == CYLINDER)
+        {
+            print_vec3("Normal", o->data.cy.normal);
             printf("Rad: %.2f Height: %.2f | ", o->data.cy.radius, o->data.cy.height);
+        }
         print_color(o->color);
         o = o->next;
     }

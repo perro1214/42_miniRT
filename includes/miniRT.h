@@ -6,7 +6,7 @@
 /*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/11 18:27:40 by hayato            #+#    #+#             */
-/*   Updated: 2026/01/21 23:23:46 by htsutsum         ###   ########.fr       */
+/*   Updated: 2026/01/21 23:46:49 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -147,23 +147,23 @@ double	hit_plane(t_object *obj, t_ray ray);
 t_ray	get_ray_fixed(int px, int py);
 
 // rt_loader.c
-int		rt_loader(t_object **objs, const char *file_name);
+int		rt_loader(t_scene *scene, char *file_name);
 int		is_valid_scene(t_scene *scene);
 void	free_scene(t_scene *scene);
 
 // set_object.c
-int	set_sphere(t_object *obj, char **rt_data);
-int	set_plane(t_object *obj, char **rt_data);
-int	set_cylinder(t_object *obj, char **rt_data);
+int		set_sphere(t_object *obj, char **rt_data);
+int		set_plane(t_object *obj, char **rt_data);
+int		set_cylinder(t_object *obj, char **rt_data);
 
 // set_scene.c
 int		set_ambient(t_scene *scene, char **rt_data);
 int		set_camera(t_scene *scene, char **rt_data);
 int		set_light(t_scene *scene, char **rt_data);
-void	free_light(t_light *lights);
+void	free_lights(t_light *lights);
 
 // object_util.c
-int		add_new_object(t_scene *scene, const char **rt_data);
+int		add_new_object(t_scene *scene, char **rt_data);
 void	add_object_to_list(t_object **head, t_object *new_obj);
 void	free_objects(t_object *objs);
 
@@ -171,8 +171,7 @@ void	free_objects(t_object *objs);
 t_vec3	str_to_vec3(char *str, int *status);
 int		is_in_range(double value, double min, double max);
 int		is_normalized(t_vec3 vec);
-int		is_valid_double_str(char *str);
-double get_double(char *str, int *status);
+double	get_double(char *str, int *status);
 
 // color_util.c
 int 	is_valid_color(t_vec3 color);

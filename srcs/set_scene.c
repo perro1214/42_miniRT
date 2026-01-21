@@ -6,7 +6,7 @@
 /*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/18 18:42:56 by htsutsum          #+#    #+#             */
-/*   Updated: 2026/01/21 21:14:06 by htsutsum         ###   ########.fr       */
+/*   Updated: 2026/01/22 00:19:19 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ int	set_ambient(t_scene *scene, char **rt_data)
 	scene->amb = ft_calloc(1, sizeof(t_ambient));
 	if (!scene->amb)
 		return (1);
-	scene->amb->ratio = atof(rt_data[1]);
+	scene->amb->ratio = get_double(rt_data[1], &status);
 	scene->amb->color = str_to_vec3(rt_data[2], &status);
 	if (status || !is_in_range(scene->amb->ratio, 0.0, 1.0)
 		|| !is_valid_color(scene->amb->color))
@@ -109,7 +109,7 @@ int	set_light(t_scene *scene, char **rt_data)
 	return (0);
 }
 
-void	free_light(t_light *lights)
+void	free_lights(t_light *lights)
 {
 	t_light	*tmp;
 

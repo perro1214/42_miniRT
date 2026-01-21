@@ -6,7 +6,7 @@
 /*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/12 04:36:41 by htsutsum          #+#    #+#             */
-/*   Updated: 2026/01/21 23:25:29 by htsutsum         ###   ########.fr       */
+/*   Updated: 2026/01/22 00:38:21 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,13 +21,14 @@
 // normal どうちぇっくするか -> is_normalized正規化できるかチェック ->完了
 // norm : too many line -> 完了
 // camera,ambient,light,objectが少なくとも一つないとエラーを表示 -> is_valid_scene関数
-// get_next_lineの最後の改行を切り取りする
+// get_next_lineの最後の改行を切り取りする -> trim_newline 暫定
+// tab、スペース複数、対策するか？
 
 static int	parse_line(t_scene *scene, char *line);
 static void trim_newline(char *line);
 
 // ファイルをリードオンリーで開いて１行づつ読み込み。
-int	rt_loader(t_scene *scene, const char *file_name)
+int	rt_loader(t_scene *scene, char *file_name)
 {
 	int		fd;
 	char	*line;

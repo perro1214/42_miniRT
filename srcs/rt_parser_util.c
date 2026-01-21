@@ -6,7 +6,7 @@
 /*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/18 18:38:56 by htsutsum          #+#    #+#             */
-/*   Updated: 2026/01/21 22:39:15 by htsutsum         ###   ########.fr       */
+/*   Updated: 2026/01/21 23:47:32 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 #ifndef EPSILON
 # define EPSILON 1e-8
 #endif
+
 
 static int	is_valid_double_str(char *str);
 
@@ -71,7 +72,7 @@ int	is_normalized(t_vec3 vec)
  * 文字列が [0-9], '.', '+', '-' だけで構成されているか
  * かつ、ドットが2つ以上ないかをチェック
  */
-int	is_valid_double_str(char *str)
+static int	is_valid_double_str(char *str)
 {
 	int	i;
 	int	dot_count;
