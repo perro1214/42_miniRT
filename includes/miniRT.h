@@ -6,7 +6,7 @@
 /*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/11 18:27:40 by hayato            #+#    #+#             */
-/*   Updated: 2026/01/21 22:33:48 by htsutsum         ###   ########.fr       */
+/*   Updated: 2026/01/21 22:46:51 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -149,6 +149,13 @@ t_ray	get_ray_fixed(int px, int py);
 // rt_loader.c
 int		rt_loader(t_object **objs, const char *file_name);
 
+
+// set_object.c
+int	set_sphere(t_object *obj, char **rt_data);
+int	set_plane(t_object *obj, char **rt_data);
+int	set_cylinder(t_object *obj, char **rt_data);
+
+
 // set_scene.c
 int		set_ambient(t_scene *scene, char **rt_data);
 int		set_camera(t_scene *scene, char **rt_data);
@@ -168,6 +175,5 @@ double get_double(char *str, int *status);
 
 // color_util.c
 int 	is_valid_color(t_vec3 color);
-
 
 #endif // MINIRT_H
