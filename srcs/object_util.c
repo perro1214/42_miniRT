@@ -6,13 +6,13 @@
 /*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/14 17:36:17 by htsutsum          #+#    #+#             */
-/*   Updated: 2026/01/21 22:59:38 by htsutsum         ###   ########.fr       */
+/*   Updated: 2026/01/21 23:43:59 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "miniRT.h"
 
-int	add_new_object(t_scene *scene, const char **rt_data)
+int	add_new_object(t_scene *scene, char **rt_data)
 {
     t_object *new;
 

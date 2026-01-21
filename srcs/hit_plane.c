@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   hit_plane.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hayato <hayato@student.42.fr>              +#+  +:+       +#+        */
+/*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/13 22:10:21 by hayato            #+#    #+#             */
-/*   Updated: 2026/01/13 22:15:14 by hayato           ###   ########.fr       */
+/*   Updated: 2026/01/21 23:48:26 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ double	hit_plane(t_object *obj, t_ray ray)
 		return (-1.0);
 	}
 	// t = ((P0 - S) · N) / (D · N) (obj->point が平面上の点)
-	p0_to_s = vec3_sub(obj->point, ray.origin);
+	p0_to_s = vec3_sub(obj->position, ray.origin);
 	t = vec3_dot(p0_to_s, obj->data.pl.normal) / denominator;
 	// tが負の場合、交差しない
 	if (t < 0.0001)

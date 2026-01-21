@@ -37,8 +37,12 @@ FILES := vec3_1.c\
 		arg_parser.c\
 		error.c\
 		rt_loader.c\
+		color_util.c\
+		object_util.c\
+		rt_parser_util.c\
+		set_object.c\
+		set_scene.c\
 		timer.c\
-		list_utils.c\
 		ray_utils.c\
 		hit_sphere.c\
 		hit_plane.c\
