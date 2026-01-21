@@ -6,7 +6,7 @@
 /*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/18 18:42:56 by htsutsum          #+#    #+#             */
-/*   Updated: 2026/01/22 00:19:19 by htsutsum         ###   ########.fr       */
+/*   Updated: 2026/01/22 01:27:31 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,8 +71,8 @@ int	set_camera(t_scene *scene, char **rt_data)
 		log_error("Camera: Vector parsing failed");
 	else if (!is_normalized(scene->cam->direction))
 		log_error("Camera: Direction vector is not normalized");
-	else if (!is_in_range(scene->cam->fov, 0.1, 70))
-		log_error("Camera: FOV out of range [0.1, 70]");
+	else if (!is_in_range(scene->cam->fov, 0.1, 179.9))
+		log_error("Camera: FOV out of range [0.1, 179.9]");
 	else
 		return (0);
 	return (free(scene->cam), scene->cam = NULL, 1);
