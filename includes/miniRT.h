@@ -6,7 +6,7 @@
 /*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/11 18:27:40 by hayato            #+#    #+#             */
-/*   Updated: 2026/01/21 22:01:31 by htsutsum         ###   ########.fr       */
+/*   Updated: 2026/01/21 22:33:48 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -161,8 +161,13 @@ void	add_object_to_list(t_object **head, t_object *new_obj);
 
 // rt_parse_util.c
 t_vec3	str_to_vec3(char *str, int *status);
-int 	is_valid_color(t_vec3 color);
 int		is_in_range(double value, double min, double max);
-int		is_normalized(t_vec3 vec)
+int		is_normalized(t_vec3 vec);
+int		is_valid_double_str(char *str);
+double get_double(char *str, int *status);
+
+// color_util.c
+int 	is_valid_color(t_vec3 color);
+
 
 #endif // MINIRT_H
