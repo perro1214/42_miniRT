@@ -6,7 +6,7 @@
 /*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/12 04:36:41 by htsutsum          #+#    #+#             */
-/*   Updated: 2026/01/22 00:38:21 by htsutsum         ###   ########.fr       */
+/*   Updated: 2026/01/22 00:42:32 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,23 +33,34 @@ int	rt_loader(t_scene *scene, char *file_name)
 	int		fd;
 	char	*line;
 	int		status;
+	int		count;
 
 	fd = open(file_name, O_RDONLY);
 	if (fd < 0)
 		return (log_error(strerror(errno)), 1);
 	status = 0;
+	count = 0;
 	while (1)
 	{
 		line = get_next_line(fd);
 		if (line == NULL)
 			break ;
 		if (line[0] != '\n' && line[0] != '\0')
+		{
 			status = parse_line(scene, line);
+			if (status == 0)
+				count++;
+		}
 		free(line);
 		if (status == 1)
 			break ;
 	}
 	close(fd);
+	if (status == 0 && count == 0)
+    {
+        log_error("Scene file is empty or contains no valid data");
+        return (1);
+    }
 	return (status);
 }
 
