@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   screen_norm.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hayato <hayato@student.42.fr>              +#+  +:+       +#+        */
+/*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/13 22:29:25 by hayato            #+#    #+#             */
-/*   Updated: 2026/01/13 23:02:41 by hayato           ###   ########.fr       */
+/*   Updated: 2026/01/16 22:36:14 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,6 @@ static double	screen_y_corrected(int py, double aspect_ratio)
 方向(0,0,1)
 スクリーン位置 z=0
 */
-
 t_ray	get_ray_fixed(int px, int py)
 {
 	t_vec3 camera_pos;   // カメラ位置

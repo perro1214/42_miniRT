@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   hit_sphere.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hayato <hayato@student.42.fr>              +#+  +:+       +#+        */
+/*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/13 21:32:26 by hayato            #+#    #+#             */
-/*   Updated: 2026/01/13 22:27:09 by hayato           ###   ########.fr       */
+/*   Updated: 2026/01/21 23:48:09 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ double	hit_sphere(t_object *obj, t_ray ray)
 	t_vec3	oc;
 
 	// oc = S - C (obj->point が球の中心)
-	oc = vec3_sub(ray.origin, obj->point);
+	oc = vec3_sub(ray.origin, obj->position);
 	discriminant = calculate_discriminant(oc, ray, obj->data.sp.radius);
 	// 交差なし
 	if (discriminant < 0)

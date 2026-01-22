@@ -6,7 +6,7 @@
 /*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/25 11:19:11 by htsutsum          #+#    #+#             */
-/*   Updated: 2026/01/14 03:01:33 by htsutsum         ###   ########.fr       */
+/*   Updated: 2026/01/21 20:00:59 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,7 @@ void	ft_putstr_fd(char *s, int fd);
 void	ft_putendl_fd(char *s, int fd);
 void	ft_putnbr_fd(int n, int fd);
 void	ft_free_tab(char **table);
+size_t	ft_count_tab(char **tab);
 
 typedef struct s_list
 {

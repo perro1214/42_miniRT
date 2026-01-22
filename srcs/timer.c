@@ -6,7 +6,7 @@
 /*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/13 14:37:55 by htsutsum          #+#    #+#             */
-/*   Updated: 2026/01/13 19:06:26 by htsutsum         ###   ########.fr       */
+/*   Updated: 2026/01/15 00:41:13 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,30 +24,22 @@ double	current_time_ms()
 
 void	log_elapsed_time(char *prefix_str, double start_time)
 {
-	double		diff;
-	char		*int_str;
-	char		*frac_str;
-	long long	f_part;
+	long long	total_micros;
+	long long	milli_part;
+	long long	micro_part;
 
-	diff = current_time_ms() - start_time;
+	total_micros = (long long)((current_time_ms() - start_time) * 1000);
+	if (total_micros < 0)
+		total_micros = 0;
+	milli_part = total_micros / 1000;
+	micro_part = total_micros % 1000;
 	ft_putstr_fd(prefix_str, 2);
-	int_str = ft_lltoa((long long)diff);
-	if (int_str)
-	{
-		ft_putstr_fd(int_str, 2);
-		free(int_str);
-	}
+	ft_putnbr_fd(milli_part, 2);
 	ft_putstr_fd(".", 2);
-	f_part = (long long)round((diff - (long long)diff) * 1000);
-	if (f_part < 100)
+	if (micro_part < 100)
 		ft_putstr_fd("0", 2);
-	if (f_part < 10)
+	if (micro_part < 10)
 		ft_putstr_fd("0", 2);
-	frac_str = ft_lltoa(f_part);
-	if (frac_str)
-	{
-		ft_putstr_fd(frac_str, 2);
-		free(frac_str);
-	}
+	ft_putnbr_fd(micro_part, 2);
 	ft_putendl_fd(" ms", 2);
 }

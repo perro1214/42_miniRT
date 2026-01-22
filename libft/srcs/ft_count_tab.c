@@ -1,36 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.h                                    :+:      :+:    :+:   */
+/*   ft_count_tab.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/09 10:11:30 by htsutsum          #+#    #+#             */
-/*   Updated: 2026/01/21 19:33:46 by htsutsum         ###   ########.fr       */
+/*   Created: 2026/01/21 19:30:31 by htsutsum          #+#    #+#             */
+/*   Updated: 2026/01/21 20:03:23 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef GET_NEXT_LINE_H
-# define GET_NEXT_LINE_H
-# include <fcntl.h>
-# include <stdio.h>
-# include <stdlib.h>
-# include <unistd.h>
+#include "libft.h"
 
-# ifndef BUFFER_SIZE
-#  define BUFFER_SIZE 4096
-# endif
-
-# define EXTEND_SIZE 4096
-# define READ_ERROR -3
-
-typedef struct s_line
+size_t	ft_count_tab(char **tab)
 {
-	char	*str;
-	size_t	len;
-	size_t	capa;
-}			t_line;
+	size_t	i;
 
-char		*get_next_line(int fd);
-
-#endif
+	i = 0;
+	while (tab && tab[i])
+		i++;
+	return (i);
+}

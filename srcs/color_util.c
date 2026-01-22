@@ -1,36 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.h                                    :+:      :+:    :+:   */
+/*   color_util.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/09 10:11:30 by htsutsum          #+#    #+#             */
-/*   Updated: 2026/01/21 19:33:46 by htsutsum         ###   ########.fr       */
+/*   Created: 2026/01/21 22:32:10 by htsutsum          #+#    #+#             */
+/*   Updated: 2026/01/21 22:34:37 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef GET_NEXT_LINE_H
-# define GET_NEXT_LINE_H
-# include <fcntl.h>
-# include <stdio.h>
-# include <stdlib.h>
-# include <unistd.h>
+#include "miniRT.h"
 
-# ifndef BUFFER_SIZE
-#  define BUFFER_SIZE 4096
-# endif
-
-# define EXTEND_SIZE 4096
-# define READ_ERROR -3
-
-typedef struct s_line
+// カラー範囲のチェック
+int	is_valid_color(t_vec3 color)
 {
-	char	*str;
-	size_t	len;
-	size_t	capa;
-}			t_line;
-
-char		*get_next_line(int fd);
-
-#endif
+	if (color.x < 0.0 || color.x > 255.0)
+		return (0);
+	if (color.y < 0.0 || color.y > 255.0)
+		return (0);
+	if (color.z < 0.0 || color.z > 255.0)
+		return (0);
+	return (1);
+}
