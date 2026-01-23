@@ -37,6 +37,7 @@ FILES := vec3_1.c\
 		arg_parser.c\
 		error.c\
 		rt_loader.c\
+		rt_validator.c\
 		color_util.c\
 		object_util.c\
 		rt_parser_util.c\

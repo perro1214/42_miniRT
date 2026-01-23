@@ -6,7 +6,7 @@
 /*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/19 17:24:08 by htsutsum          #+#    #+#             */
-/*   Updated: 2026/01/21 22:42:20 by htsutsum         ###   ########.fr       */
+/*   Updated: 2026/01/24 02:35:08 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,13 +34,14 @@ int	set_sphere(t_object *obj, char **rt_data)
     obj->color = str_to_vec3(rt_data[3], &status);
     if (status || !is_valid_color(obj->color) || obj->data.sp.radius <= 0)
         return (log_error("Sphere: Invalid data values"), 1);
+    obj->color = color_to_unit(obj->color);
     return (0);
 }
 
 /* pl 0.0,0.0,-10.0 0.0,1.0,0.0 0,0,225
  * type : pl
  * position : 0.0,0.0,-10.0
- * normal [-1, 1]: 0.0,1.0,0.0
+ * direction [-1, 1]: 0.0,1.0,0.0
  * color [0, 255]: 0,0,255
  * rt_data size : 4
  * @brief load a plane data.
@@ -57,15 +58,17 @@ int	set_plane(t_object *obj, char **rt_data)
     obj->position = str_to_vec3(rt_data[1], &status);
     obj->data.pl.normal = str_to_vec3(rt_data[2], &status);
     obj->color = str_to_vec3(rt_data[3], &status);
-    if (status || !is_valid_color(obj->color) || !is_normalized(obj->data.pl.normal))
-        return (log_error("Plane: Invalid data or unnormalized normal"), 1);
+    if (status || !is_valid_color(obj->color) || !is_valid_normal(obj->data.pl.normal))
+        return (log_error("Plane: Invalid data or normal"), 1);
+    obj->color = color_to_unit(obj->color);
+    obj->data.pl.normal = vec3_normalize(obj->data.pl.normal);
     return (0);
 }
 
 /* cy 50.0,0.0,20.6 0.0,0.0,1.0 14.2 21.42 10,0,255
  * type : cy
  * position : 50.0,0.0.20.6
- * normal [ -1, 1] :0.0,0.0,1.0
+ * direction : [ -1, 1] :0.0,0.0,1.0
  * diameter : 14.2
  * height : 21.42
  * color [0, 255] : 10,0,255
@@ -86,8 +89,10 @@ int	set_cylinder(t_object *obj, char **rt_data)
     obj->data.cy.radius = get_double(rt_data[3], &status) / 2.0;
     obj->data.cy.height = get_double(rt_data[4], &status);
     obj->color = str_to_vec3(rt_data[5], &status);
-    if (status || !is_valid_color(obj->color) || !is_normalized(obj->data.cy.normal)
+    if (status || !is_valid_color(obj->color) || !is_valid_normal(obj->data.cy.normal)
         || obj->data.cy.radius <= 0 || obj->data.cy.height <= 0)
-        return (log_error("Cylinder: Invalid data values"), 1);
+        return (log_error("Cylinder: Invalid data or noraml"), 1);
+    obj->color = color_to_unit(obj->color);
+    obj->data.cy.normal = vec3_normalize(obj->data.cy.normal);
     return (0);
 }

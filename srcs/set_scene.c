@@ -6,7 +6,7 @@
 /*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/18 18:42:56 by htsutsum          #+#    #+#             */
-/*   Updated: 2026/01/22 01:27:31 by htsutsum         ###   ########.fr       */
+/*   Updated: 2026/01/24 02:49:47 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,7 @@ int	set_ambient(t_scene *scene, char **rt_data)
 		log_error("Ambient: Invalid ratio or color range");
 		return (free(scene->amb), scene->amb = NULL, 1);
 	}
+	scene->amb->color = color_to_unit(scene->amb->color);
 	return (0);
 }
 
@@ -66,17 +67,16 @@ int	set_camera(t_scene *scene, char **rt_data)
 		return (1);
 	scene->cam->position = str_to_vec3(rt_data[1], &status);
 	scene->cam->direction = str_to_vec3(rt_data[2], &status);
-	scene->cam->fov = atof(rt_data[3]);
-	if (status)
-		log_error("Camera: Vector parsing failed");
-	else if (!is_normalized(scene->cam->direction))
-		log_error("Camera: Direction vector is not normalized");
-	else if (!is_in_range(scene->cam->fov, 0.1, 179.9))
-		log_error("Camera: FOV out of range [0.1, 179.9]");
-	else
-		return (0);
-	return (free(scene->cam), scene->cam = NULL, 1);
-	return (0);
+	scene->cam->fov = get_double(rt_data[3], &status);
+    if (status || !is_valid_normal(scene->cam->direction)
+        || !is_in_range(scene->cam->fov, 0.001, 179.999))
+    {
+        free(scene->cam);
+        scene->cam = NULL;
+        return (log_error("Camera: Invalid data values"), 1);
+    }
+    scene->cam->direction = vec3_normalize(scene->cam->direction);
+    return (0);
 }
 
 /* L -40.0,50.0,0.0 0.6 10,0,255
@@ -97,7 +97,7 @@ int	set_light(t_scene *scene, char **rt_data)
 	if (!new)
 		return (1);
 	new->position = str_to_vec3(rt_data[1], &status);
-	new->intensity = atof(rt_data[2]);
+	new->intensity = get_double(rt_data[2], &status);
 	new->color = str_to_vec3(rt_data[3], &status);
 	if (status || !is_in_range(new->intensity, 0.0, 1.0)
 		|| !is_valid_color(new->color))
@@ -105,6 +105,7 @@ int	set_light(t_scene *scene, char **rt_data)
 		free(new);
 		return (log_error("Light: Invalid data values"), 1);
 	}
+	new->color = color_to_unit(new->color);
 	add_light_to_list(&(scene->ligs), new);
 	return (0);
 }
