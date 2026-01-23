@@ -6,7 +6,7 @@
 /*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/18 18:38:56 by htsutsum          #+#    #+#             */
-/*   Updated: 2026/01/24 02:42:41 by htsutsum         ###   ########.fr       */
+/*   Updated: 2026/01/24 03:16:59 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,8 +43,8 @@ t_vec3	str_to_vec3(char *str, int *status)
 	return (vec);
 }
 
-// 文字のチェックなど
-double get_double(char *str, int *status)
+//ヘルパー関数(文字のチェックした後に値を返す）
+double	get_double(char *str, int *status)
 {
 	if (!str || !is_valid_double_str(str))
 	{
