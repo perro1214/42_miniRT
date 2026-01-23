@@ -6,7 +6,7 @@
 /*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/18 18:42:56 by htsutsum          #+#    #+#             */
-/*   Updated: 2026/01/24 02:49:47 by htsutsum         ###   ########.fr       */
+/*   Updated: 2026/01/24 03:12:33 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,15 +68,15 @@ int	set_camera(t_scene *scene, char **rt_data)
 	scene->cam->position = str_to_vec3(rt_data[1], &status);
 	scene->cam->direction = str_to_vec3(rt_data[2], &status);
 	scene->cam->fov = get_double(rt_data[3], &status);
-    if (status || !is_valid_normal(scene->cam->direction)
-        || !is_in_range(scene->cam->fov, 0.001, 179.999))
-    {
-        free(scene->cam);
-        scene->cam = NULL;
-        return (log_error("Camera: Invalid data values"), 1);
-    }
-    scene->cam->direction = vec3_normalize(scene->cam->direction);
-    return (0);
+	if (status || !is_valid_normal(scene->cam->direction)
+		|| !is_in_range(scene->cam->fov, 0.001, 179.999))
+	{
+		free(scene->cam);
+		scene->cam = NULL;
+		return (log_error("Camera: Invalid data values"), 1);
+	}
+	scene->cam->direction = vec3_normalize(scene->cam->direction);
+	return (0);
 }
 
 /* L -40.0,50.0,0.0 0.6 10,0,255

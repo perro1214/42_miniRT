@@ -6,14 +6,14 @@
 /*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/24 02:31:03 by htsutsum          #+#    #+#             */
-/*   Updated: 2026/01/24 02:54:30 by htsutsum         ###   ########.fr       */
+/*   Updated: 2026/01/24 03:13:47 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "miniRT.h"
 
 // colorを [0, 255] から [0, 1] に変換する専用関数
-t_vec3 color_to_unit(t_vec3 color)
+t_vec3	color_to_unit(t_vec3 color)
 {
 	return ((t_vec3){color.x / 255.0, color.y / 255.0, color.z / 255.0});
 }
