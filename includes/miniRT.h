@@ -6,7 +6,7 @@
 /*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/11 18:27:40 by hayato            #+#    #+#             */
-/*   Updated: 2026/01/21 23:46:49 by htsutsum         ###   ########.fr       */
+/*   Updated: 2026/01/24 02:54:00 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -169,11 +169,16 @@ void	free_objects(t_object *objs);
 
 // rt_parse_util.c
 t_vec3	str_to_vec3(char *str, int *status);
-int		is_in_range(double value, double min, double max);
-int		is_normalized(t_vec3 vec);
 double	get_double(char *str, int *status);
 
-// color_util.c
+//color_util.c
+t_vec3 color_to_unit(t_vec3 color);
+
+//rt_validator.c
+int		is_in_range(double value, double min, double max);
+int 	is_valid_normal(t_vec3 normal);
+int 	is_valid_normal_vec(t_vec3 normal);
+int		is_normalized(t_vec3 vec);
 int 	is_valid_color(t_vec3 color);
 
 #endif // MINIRT_H

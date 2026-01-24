@@ -6,16 +6,11 @@
 /*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/18 18:38:56 by htsutsum          #+#    #+#             */
-/*   Updated: 2026/01/21 23:47:32 by htsutsum         ###   ########.fr       */
+/*   Updated: 2026/01/24 03:16:59 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "miniRT.h"
-
-#ifndef EPSILON
-# define EPSILON 1e-8
-#endif
-
 
 static int	is_valid_double_str(char *str);
 
@@ -48,24 +43,15 @@ t_vec3	str_to_vec3(char *str, int *status)
 	return (vec);
 }
 
-
-// 範囲チェック
-int	is_in_range(double value, double min, double max)
+//ヘルパー関数(文字のチェックした後に値を返す）
+double	get_double(char *str, int *status)
 {
-	if (value < min || value > max)
-		return (0);
-	return (1);
-}
-
-// 正規化できるかどうかをチェック、0,0,0もはじく
-int	is_normalized(t_vec3 vec)
-{
-	double	mag_sq;
-
-	mag_sq = (vec.x * vec.x) + (vec.y * vec.y) + (vec.z * vec.z);
-	if (mag_sq < (1.0 - EPSILON) || mag_sq > (1.0 + EPSILON))
-		return (0);
-	return (1);
+	if (!str || !is_valid_double_str(str))
+	{
+		*status = 1;
+		return (0.0);
+	}
+	return (atof(str));
 }
 
 /*
@@ -95,14 +81,4 @@ static int	is_valid_double_str(char *str)
 		i++;
 	}
 	return (1);
-}
-
-double get_double(char *str, int *status)
-{
-	if (!str || !is_valid_double_str(str))
-	{
-		*status = 1;
-		return (0.0);
-	}
-	return (atof(str));
 }
