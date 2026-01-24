@@ -119,13 +119,25 @@ typedef struct s_scene
 	t_object	*objs;
 } 				t_scene;
 
+/*
+** 交差情報（ヒットレコード）
+** シェーディング計算に必要な情報をまとめる
+*/
+typedef struct s_hit_record
+{
+	t_vec3			point;
+	t_vec3			normal;
+	t_vec3			color;
+	double			t;
+	int				hit;
+}					t_hit_record;
+
 // mlx_action_close.c
 int		key_hook(int keycode, t_mlx *mlx);
 int		close_window(t_mlx *mlx);
 
 // render_pixel.c
 void	ft_mlx_put_pixel(t_mlx *mlx, int x, int y, int color);
-int		vec3_to_color(t_vec3 color);
 
 // error.c
 void	log_error(char *message);
@@ -172,7 +184,10 @@ t_vec3	str_to_vec3(char *str, int *status);
 double	get_double(char *str, int *status);
 
 //color_util.c
-t_vec3 color_to_unit(t_vec3 color);
+t_vec3	color_to_unit(t_vec3 color);
+int		vec3_to_color(t_vec3 color);
+t_vec3	denormalize_color(t_vec3 color);
+t_vec3	clamp_color(t_vec3 color);
 
 //rt_validator.c
 int		is_in_range(double value, double min, double max);
@@ -180,5 +195,17 @@ int 	is_valid_normal(t_vec3 normal);
 int 	is_valid_normal_vec(t_vec3 normal);
 int		is_normalized(t_vec3 vec);
 int 	is_valid_color(t_vec3 color);
+
+// calc_ambient.c
+t_vec3				calc_ambient(t_ambient ambient, t_vec3 object_color);
+
+// calc_diffuse.c
+t_vec3				calc_diffuse(t_light light, t_vec3 hit_point, t_vec3 normal,
+						t_vec3 object_color);
+
+
+// calc_shading.c
+t_vec3				calc_shading(t_hit_record *rec, t_ambient *ambient,
+						t_light *light);
 
 #endif // MINIRT_H

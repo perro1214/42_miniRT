@@ -30,6 +30,7 @@ double		vec3_dot(t_vec3 a, t_vec3 b);
 t_vec3		vec3_cross(t_vec3 a, t_vec3 b);
 double		vec3_norm(t_vec3 v);
 t_vec3		vec3_normalize(t_vec3 v);
+t_vec3		vec3_multiply(t_vec3 a, t_vec3 b);
 // void vec3_print(t_vec3 v); //  debug
 
 #endif // VEC3_H
