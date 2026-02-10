@@ -8,6 +8,8 @@ debug_vec3
 debug_rt_loader
 debug_mlx_red_square
 debug_split
+debug_mlx_circle
+debug_mlx_cylinder.c
 # ライブラリ
 *.a
 
