@@ -21,7 +21,7 @@ debug_split
 .DS_Store
 
 # docker
-.env
+.envgit
 
 #Static analysis tools (formatter,linter)
 .clang-tidy
