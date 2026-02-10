@@ -23,7 +23,7 @@ debug_mlx_cylinder.c
 .DS_Store
 
 # docker
-.envgit
+.env
 
 #Static analysis tools (formatter,linter)
 .clang-tidy
