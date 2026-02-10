@@ -27,6 +27,4 @@ debug_split
 .clang-tidy
 
 # その他
-docker-compose.yml
-Dockerfile
 minilibx-linux

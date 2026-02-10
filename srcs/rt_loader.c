@@ -6,23 +6,16 @@
 /*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/12 04:36:41 by htsutsum          #+#    #+#             */
-/*   Updated: 2026/01/22 00:48:52 by htsutsum         ###   ########.fr       */
+/*   Updated: 2026/02/10 04:32:12 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "miniRT.h"
 
-// エラーデータチェック
-// 空行があった場合スキップして次へ行く -> 完了
-// type別のsplitした個数があっているか -> ft_count_tab完了
-// 数字、0-9の文字、','と'.'-のみのデータか > is_valid_double_str完了
-// データの要素が""からでないか、splitで分けた時、数をチェック> 完了
-// 数値にしたときに範囲内かどうか color と normal 数値の範囲が決まっている。 ->完了
-// normal どうちぇっくするか -> is_normalized正規化できるかチェック ->完了
-// norm : too many line -> 完了
-// camera,ambient,light,objectが少なくとも一つないとエラーを表示 -> is_valid_scene関数
-// get_next_lineの最後の改行を切り取りする -> trim_newline 暫定
-// tab、スペース複数、対策するか？
+// 本当に強制的に正規化していいのか？ ドキュメントとの整合性
+// tab、スペース複数、対策するか？ split
+// 改行問題 -> get_next_lineはリターンコード含む、リターンコード削除で一応対応済み。
+// FOVを0.001 179.99にしているが、度ky面とは0-180の範囲になっているので、調整必要かも?
 
 static int	parse_line(t_scene *scene, char *line);
 static void trim_newline(char *line);
