@@ -207,5 +207,11 @@ t_vec3				calc_diffuse(t_light light, t_vec3 hit_point, t_vec3 normal,
 // calc_shading.c
 t_vec3				calc_shading(t_hit_record *rec, t_ambient *ambient,
 						t_light *light);
+t_vec3				calc_lighting(t_object *objects, t_ambient *ambient,
+						t_light *light, t_hit_record *rec);
+
+// shadow.c
+int					is_in_shadow(t_object *objects, t_light *light,
+						t_vec3 hit_point, t_vec3 normal);
 
 #endif // MINIRT_H
