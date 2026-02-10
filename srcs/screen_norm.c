@@ -6,7 +6,7 @@
 /*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/13 22:29:25 by hayato            #+#    #+#             */
-/*   Updated: 2026/02/10 09:17:02 by htsutsum         ###   ########.fr       */
+/*   Updated: 2026/02/10 16:25:42 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,8 +44,6 @@ t_ray	get_ray_fixed(int px, int py)
 	return (ray_init(camera_pos, direction));
 }
 
-
-
 // get_ray
 // t_camera 引数追加 ->完了
 // fovとアスペクト比からスケーを計算 -> 完了
@@ -55,11 +53,11 @@ t_ray	get_ray_fixed(int px, int py)
 // 最後に真っすぐなベクトルに upとrightを足すことで、上下左右の移動が可能になる。
 t_ray get_ray(int px, int py, t_camera *cam)
 {
-	double aspect_ratio; // アスペクト比
-	double x_n;
-	double y_n;
-	double scale;
-	t_vec3 ray_dir;
+	double	aspect_ratio; // アスペクト比
+	double	x_n;
+	double	y_n;
+	double	scale;
+	t_vec3	ray_dir;
 	t_vec3	right_component;
 	t_vec3	up_component;
 

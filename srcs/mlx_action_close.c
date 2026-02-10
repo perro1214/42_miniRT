@@ -6,7 +6,7 @@
 /*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/11 19:39:14 by hayato            #+#    #+#             */
-/*   Updated: 2026/02/10 10:06:07 by htsutsum         ###   ########.fr       */
+/*   Updated: 2026/02/10 17:08:32 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,9 +40,9 @@ int	key_hook(int keycode, t_scene *scene)
 		scene->cam->pitch += rot_speed;
     if (keycode == XK_k)
 		scene->cam->pitch -= rot_speed;
-    if (keycode == XK_l)
-		scene->cam->yaw -= rot_speed;
     if (keycode == XK_j)
+		scene->cam->yaw -= rot_speed;
+    if (keycode == XK_l)
 		scene->cam->yaw += rot_speed;
 	// リセット
 	if (keycode == XK_r)

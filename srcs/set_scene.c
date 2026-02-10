@@ -6,7 +6,7 @@
 /*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/18 18:42:56 by htsutsum          #+#    #+#             */
-/*   Updated: 2026/02/10 06:02:38 by htsutsum         ###   ########.fr       */
+/*   Updated: 2026/02/10 18:02:19 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,7 +101,7 @@ int	set_light(t_scene *scene, char **rt_data)
 	new = ft_calloc(1, sizeof(t_light));
 	if (!new)
 		return (1);
-	new->position = str_to_vec3(rt_data[1], &status);
+	new->pos = str_to_vec3(rt_data[1], &status);
 	new->intensity = get_double(rt_data[2], &status);
 	new->color = str_to_vec3(rt_data[3], &status);
 	if (status || !is_in_range(new->intensity, 0.0, 1.0)

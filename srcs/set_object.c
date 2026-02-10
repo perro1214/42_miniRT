@@ -6,7 +6,7 @@
 /*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/19 17:24:08 by htsutsum          #+#    #+#             */
-/*   Updated: 2026/01/24 03:11:48 by htsutsum         ###   ########.fr       */
+/*   Updated: 2026/02/10 18:01:59 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ int	set_sphere(t_object *obj, char **rt_data)
 	if (ft_count_tab(rt_data) != 4)
 		return (log_error("Sphere: Invalid number of arguments"), 1);
 	obj->type = SPHERE;
-	obj->position = str_to_vec3(rt_data[1], &status);
+	obj->pos = str_to_vec3(rt_data[1], &status);
 	obj->data.sp.radius = get_double(rt_data[2], &status) / 2.0;
 	obj->color = str_to_vec3(rt_data[3], &status);
 	if (status || !is_valid_color(obj->color) || obj->data.sp.radius <= 0)
@@ -55,7 +55,7 @@ int	set_plane(t_object *obj, char **rt_data)
 	if (ft_count_tab(rt_data) != 4)
 		return (log_error("Plane: Invalid number of arguments"), 1);
 	obj->type = PLANE;
-	obj->position = str_to_vec3(rt_data[1], &status);
+	obj->pos = str_to_vec3(rt_data[1], &status);
 	obj->data.pl.normal = str_to_vec3(rt_data[2], &status);
 	obj->color = str_to_vec3(rt_data[3], &status);
 	if (status || !is_valid_color(obj->color)
@@ -85,7 +85,7 @@ int	set_cylinder(t_object *obj, char **rt_data)
 	if (ft_count_tab(rt_data) != 6)
 		return (log_error("Cylinder: Invalid number of arguments"), 1);
 	obj->type = CYLINDER;
-	obj->position = str_to_vec3(rt_data[1], &status);
+	obj->pos = str_to_vec3(rt_data[1], &status);
 	obj->data.cy.normal = str_to_vec3(rt_data[2], &status);
 	obj->data.cy.radius = get_double(rt_data[3], &status) / 2.0;
 	obj->data.cy.height = get_double(rt_data[4], &status);

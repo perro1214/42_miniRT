@@ -6,7 +6,7 @@
 /*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/11 18:27:40 by hayato            #+#    #+#             */
-/*   Updated: 2026/02/10 10:02:04 by htsutsum         ###   ########.fr       */
+/*   Updated: 2026/02/10 17:37:00 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,7 +106,7 @@ typedef union u_obj_data
 typedef struct s_object
 {
 	int				type;
-	t_vec3			position;
+	t_vec3			pos;
 	t_vec3			color;
 	t_obj_data		data;
 	t_transform		curr;
@@ -134,7 +134,7 @@ typedef struct s_ambient
 
 typedef struct s_light
 {
-	t_vec3			position;
+	t_vec3			pos;
 	double			intensity;
 	t_vec3			color;
 	struct s_light	*next;
