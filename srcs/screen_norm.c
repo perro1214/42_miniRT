@@ -6,7 +6,7 @@
 /*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/13 22:29:25 by hayato            #+#    #+#             */
-/*   Updated: 2026/01/16 22:36:14 by htsutsum         ###   ########.fr       */
+/*   Updated: 2026/02/10 16:25:42 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,11 +25,10 @@ static double	screen_y_corrected(int py, double aspect_ratio)
 
 /*
 固定カメラ　テスト
-
 スクリーンの座標を[-1,1]に正規化し、カメラの位置と方向を基にレイを生成する関数
 位置(0,0,-5)
 方向(0,0,1)
-スクリーン位置 z=0
+// スクリーン位置 z=0
 */
 t_ray	get_ray_fixed(int px, int py)
 {
@@ -43,4 +42,31 @@ t_ray	get_ray_fixed(int px, int py)
 			screen_y_corrected(py, aspect_ratio), 0.0);
 	direction = vec3_sub(screen_point, camera_pos);
 	return (ray_init(camera_pos, direction));
+}
+
+// get_ray
+// t_camera 引数追加 ->完了
+// fovとアスペクト比からスケーを計算 -> 完了
+// ワールド座標(0 - WIN_WIDTH)を -1.0 ～ 1.0の範囲に正規化、中心を0.0にし、アスペクト比とスケールを掛ける
+// カメラの基底ベクトル (dir ,right, up)を使って方向合成
+// 方向 = (前方向 * 1.0) + (右方向 * x_n) + (上方向 * y_n);
+// 最後に真っすぐなベクトルに upとrightを足すことで、上下左右の移動が可能になる。
+t_ray get_ray(int px, int py, t_camera *cam)
+{
+	double	aspect_ratio; // アスペクト比
+	double	x_n;
+	double	y_n;
+	double	scale;
+	t_vec3	ray_dir;
+	t_vec3	right_component;
+	t_vec3	up_component;
+
+	aspect_ratio = (double)WIN_WIDTH / (double)WIN_HEIGHT;
+	scale = tan((cam->fov * M_PI / 180.0) * 0.5);
+	x_n = (2.0 * (px + 0.5) / (double)WIN_WIDTH - 1.0) * aspect_ratio * scale;
+	y_n = (1.0 - 2.0 * (py + 0.5) / (double)WIN_HEIGHT) * scale;
+	right_component = vec3_scale(cam->right, x_n);
+	up_component = vec3_scale(cam->up, y_n);
+	ray_dir = vec3_add(cam->dir, vec3_add(right_component, up_component));
+	return (ray_init(cam->pos, ray_dir));
 }

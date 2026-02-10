@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   debug_mlx_sphere.c                                 :+:      :+:    :+:   */
+/*   debug_mlx_cylinder.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/13 18:24:01 by hayato            #+#    #+#             */
-/*   Updated: 2026/02/10 02:10:36 by htsutsum         ###   ########.fr       */
+/*   Updated: 2026/02/10 06:57:47 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,37 +15,53 @@
 /*
 ** 固定カメラ・固定球での描画テスト
 ** 交差したら赤、しなかったら青
-*/
-void	render_test(t_mlx *mlx, int width, int height)
+*/void    render_test(t_mlx *mlx, int width, int height)
 {
-	t_object	obj;
-	t_ray		ray;
-	double		t;
-	int			color;
-	int			px;
-	int			py;
+    t_object    obj;
+    t_ray       ray;
+	t_camera	cam;
+    double      t;
+    int         color;
+    int         px;
+    int         py;
 
-	// テスト用の球 (t_objectを使用)
-	obj.type = SPHERE;
-	obj.position = vec3_init(0, 0, 5);
-	obj.data.sp.radius = 2.0;
-	py = 0;
-	while (py < height)
-	{
-		px = 0;
-		while (px < width)
-		{
-			ray = get_ray_fixed(px, py);
-			t = hit_sphere(&obj, ray);
-			if (t > 0)
-				color = 0xFF0000;
-			else
-				color = 0x0000FF;
-			ft_mlx_put_pixel(mlx, px, py, color);
-			px++;
-		}
-		py++;
-	}
+    // 円柱の設定
+    obj.type = CYLINDER;
+    obj.position = vec3_init(0, -1, 0);          // 底面の中心
+    obj.data.cy.normal = vec3_normalize(vec3_init(0, 1, 0)); // 少し傾ける
+    obj.data.cy.radius = 1.0;
+    obj.data.cy.height = 2.0;
+	cam.init_pos = vec3_init(2.0, 3.0, -5.0);
+	cam.init_dir = vec3_init(0.0, 0.0, 1.0);
+	cam.fov = 60;
+	cam.pos = cam.init_pos;
+	cam.dir = cam.init_dir;
+	cam.pitch = 25 * (M_PI / 180.0); // カメラが下を向く
+	cam.yaw = -45 * (M_PI/ 180.0); // カメラが左に向く
+
+	update_camera(&cam);
+
+    py = 0;
+    while (py < height)
+    {
+        px = 0;
+        while (px < width)
+        {
+            ray = get_ray(px, py, &cam); // カメラからのレイを取得
+
+            //  円柱の呼び出し
+            t = hit_cylinder(&obj, ray);
+
+            if (t > 0)
+                color = 0xFF0000; // ヒットしたら赤
+            else
+                color = 0x0000FF; // 背景は青
+
+            ft_mlx_put_pixel(mlx, px, py, color);
+            px++;
+        }
+        py++;
+    }
 }
 
 int	main(int argc, char **argv){

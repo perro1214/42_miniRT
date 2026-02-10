@@ -6,7 +6,7 @@
 /*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/18 18:42:56 by htsutsum          #+#    #+#             */
-/*   Updated: 2026/01/24 03:12:33 by htsutsum         ###   ########.fr       */
+/*   Updated: 2026/02/10 18:02:19 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ int	set_ambient(t_scene *scene, char **rt_data)
  * type : C
  * position : -50,0,0
  * direction [-1, 1] : 0.0,0.0.1.0
- * fov [0 - 70] : 70
+ * fov [0 - 180] : 70
  * @brief load a camera data.
  *
  */
@@ -65,17 +65,22 @@ int	set_camera(t_scene *scene, char **rt_data)
 	scene->cam = ft_calloc(1, sizeof(t_camera));
 	if (!scene->cam)
 		return (1);
-	scene->cam->position = str_to_vec3(rt_data[1], &status);
-	scene->cam->direction = str_to_vec3(rt_data[2], &status);
+	scene->cam->init_pos = str_to_vec3(rt_data[1], &status);
+	scene->cam->init_dir = str_to_vec3(rt_data[2], &status);
 	scene->cam->fov = get_double(rt_data[3], &status);
-	if (status || !is_valid_normal(scene->cam->direction)
+	if (status || !is_valid_normal(scene->cam->init_dir)
 		|| !is_in_range(scene->cam->fov, 0.001, 179.999))
 	{
 		free(scene->cam);
 		scene->cam = NULL;
 		return (log_error("Camera: Invalid data values"), 1);
 	}
-	scene->cam->direction = vec3_normalize(scene->cam->direction);
+	scene->cam->init_dir = vec3_normalize(scene->cam->init_dir);
+	scene->cam->pos = scene->cam->init_pos;
+	scene->cam->dir = scene->cam->init_dir;
+	scene->cam->pitch = 0.0;
+	scene->cam->yaw = 0.0;
+	update_camera(scene->cam);
 	return (0);
 }
 
@@ -96,7 +101,7 @@ int	set_light(t_scene *scene, char **rt_data)
 	new = ft_calloc(1, sizeof(t_light));
 	if (!new)
 		return (1);
-	new->position = str_to_vec3(rt_data[1], &status);
+	new->pos = str_to_vec3(rt_data[1], &status);
 	new->intensity = get_double(rt_data[2], &status);
 	new->color = str_to_vec3(rt_data[3], &status);
 	if (status || !is_in_range(new->intensity, 0.0, 1.0)
