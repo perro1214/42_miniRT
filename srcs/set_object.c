@@ -6,11 +6,14 @@
 /*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/19 17:24:08 by htsutsum          #+#    #+#             */
-/*   Updated: 2026/02/10 18:01:59 by htsutsum         ###   ########.fr       */
+/*   Updated: 2026/02/11 10:46:33 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "miniRT.h"
+
+
+static void init_object_transforms(t_object *obj);
 
 /* sp 0.0,0.0,20.6 12.6 10,0,255
  * type : sp
@@ -35,6 +38,7 @@ int	set_sphere(t_object *obj, char **rt_data)
 	if (status || !is_valid_color(obj->color) || obj->data.sp.radius <= 0)
 		return (log_error("Sphere: Invalid data values"), 1);
 	obj->color = color_to_unit(obj->color);
+	init_object_transforms(obj);
 	return (0);
 }
 
@@ -63,6 +67,7 @@ int	set_plane(t_object *obj, char **rt_data)
 		return (log_error("Plane: Invalid data or normal"), 1);
 	obj->color = color_to_unit(obj->color);
 	obj->data.pl.normal = vec3_normalize(obj->data.pl.normal);
+	init_object_transforms(obj);
 	return (0);
 }
 
@@ -96,5 +101,18 @@ int	set_cylinder(t_object *obj, char **rt_data)
 		return (log_error("Cylinder: Invalid data or normal data"), 1);
 	obj->color = color_to_unit(obj->color);
 	obj->data.cy.normal = vec3_normalize(obj->data.cy.normal);
+	init_object_transforms(obj);
 	return (0);
+}
+
+static void init_object_transforms(t_object *obj)
+{
+	obj->curr.pos = obj->pos;
+	obj->curr.angle = vec3_init(0, 0, 0);
+	if (obj->type == PLANE)
+		obj->curr.normal = obj->data.pl.normal;
+	else if (obj->type == CYLINDER)
+		obj->curr.normal = obj->data.cy.normal;
+	else if (obj->type == SPHERE)
+		obj->curr.normal = vec3_init(0, 1, 0);
 }
