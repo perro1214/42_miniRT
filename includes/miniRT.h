@@ -6,7 +6,7 @@
 /*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/11 18:27:40 by hayato            #+#    #+#             */
-/*   Updated: 2026/02/11 09:34:17 by htsutsum         ###   ########.fr       */
+/*   Updated: 2026/02/11 11:57:01 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -140,16 +140,6 @@ typedef struct s_light
 	struct s_light	*next;
 }	t_light;
 
-// オブジェクトの移動モード
-
-typedef enum e_mode
-{
-	NONE,
-	MOVE,
-	ROTATE,
-	SCALE
-}	t_mode;
-
 // 前から3文字で統一、sで複数
 typedef struct s_scene
 {
@@ -159,8 +149,6 @@ typedef struct s_scene
 	t_light		*ligs;
 	t_object	*objs;
 	t_object	*selected_obj;
-	t_mode		mode;
-	int			target_axis; // 0:x, 1:y 2,z
 } 	t_scene;
 
 // mlx_action_close.c

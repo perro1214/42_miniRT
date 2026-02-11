@@ -6,13 +6,13 @@
 /*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/11 18:18:58 by hayato            #+#    #+#             */
-/*   Updated: 2026/02/10 04:41:25 by htsutsum         ###   ########.fr       */
+/*   Updated: 2026/02/11 11:54:21 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "vec3.h"
 
-// X軸まわりの回転 (ピッチ)
+// X軸まわりの回転 (pitch)
 t_vec3	vec3_rotate_x(t_vec3 v, double angle)
 {
 	t_vec3	res;
@@ -25,7 +25,7 @@ t_vec3	vec3_rotate_x(t_vec3 v, double angle)
 	return (res);
 }
 
-// Y軸まわりの回転 (ヨー)
+// Y軸まわりの回転 (yaw)
 t_vec3	vec3_rotate_y(t_vec3 v, double angle)
 {
 	t_vec3	res;
@@ -38,7 +38,7 @@ t_vec3	vec3_rotate_y(t_vec3 v, double angle)
 	return (res);
 }
 
-// Z軸まわりの回転 (ロール)
+// Z軸まわりの回転 (roll)
 t_vec3	vec3_rotate_z(t_vec3 v, double angle)
 {
 	t_vec3	res;

@@ -6,7 +6,7 @@
 /*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/11 19:39:14 by hayato            #+#    #+#             */
-/*   Updated: 2026/02/11 10:21:43 by htsutsum         ###   ########.fr       */
+/*   Updated: 2026/02/11 12:10:59 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,8 @@
 
 void object_control(int keycode, t_object *obj);
 void camera_control(int keycode, t_camera *cam);
+void object_rotation(int keycode, t_object *obj);
+void update_object(t_object *obj);
 
 int	key_hook(int keycode, t_scene *scene)
 {
@@ -119,21 +121,55 @@ void camera_control(int keycode, t_camera *cam)
 void object_control(int keycode, t_object *obj)
 {
 	double	move_step;
-	// double 	rot_step;
-	// t_vec3	*axis;
 
-	// rot_step = 0.1;
 	move_step = 1.0;
 	if (keycode == XK_w)
-		obj->pos.z += move_step;
+		obj->curr.pos.z += move_step;
     if (keycode == XK_s)
-		obj->pos.z -= move_step;
+		obj->curr.pos.z -= move_step;
     if (keycode == XK_d)
-		obj->pos.x += move_step;
+		obj->curr.pos.x += move_step;
     if (keycode == XK_a)
-		obj->pos.x -= move_step;
+		obj->curr.pos.x -= move_step;
     if (keycode == XK_q)
-		obj->pos.y += move_step;
+		obj->curr.pos.y += move_step;
     if (keycode == XK_z)
-		obj->pos.y -= move_step;
+		obj->curr.pos.y -= move_step;
+	object_rotation(keycode, obj);
+}
+
+void object_rotation(int keycode, t_object *obj)
+{
+	double rot_step;
+
+	rot_step = 0.05;
+	if (keycode == XK_i)
+		obj->curr.angle.x += rot_step; // 上に傾く
+    if (keycode == XK_k)
+		obj->curr.angle.x -= rot_step; // 下に傾く
+    if (keycode == XK_l)
+		obj->curr.angle.y += rot_step; // 右に回る
+    if (keycode == XK_j)
+		obj->curr.angle.y -= rot_step; // 左に回る
+	update_object(obj);
+}
+
+void update_object(t_object *obj)
+{
+	t_vec3	base_normal;
+	t_vec3	dir_n;
+
+	// 球は回転は非対応
+	if (obj->type == PLANE)
+        base_normal = obj->data.pl.normal;
+    else if (obj->type == CYLINDER)
+        base_normal = obj->data.cy.normal;
+    else
+	{
+        return ;
+	}
+	dir_n = vec3_rotate_x(base_normal, obj->curr.angle.x);
+	dir_n = vec3_rotate_y(dir_n, obj->curr.angle.y);
+	dir_n = vec3_rotate_z(dir_n, obj->curr.angle.z);
+	obj->curr.normal = vec3_normalize(dir_n);
 }
