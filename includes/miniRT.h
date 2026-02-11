@@ -6,7 +6,7 @@
 /*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/11 18:27:40 by hayato            #+#    #+#             */
-/*   Updated: 2026/02/10 17:37:00 by htsutsum         ###   ########.fr       */
+/*   Updated: 2026/02/11 13:43:02 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ typedef enum e_type
 typedef struct s_transform
 {
 	t_vec3 pos;  // 移動後の位置
-	t_vec3 normal; // 法線の向き（回転後の向き）
+	t_vec3 normal; // 正規化されたベクトル
 	t_vec3 angle;// 現在の回転各（ラジアン）
 }	t_transform;
 
@@ -115,13 +115,10 @@ typedef struct s_object
 
 typedef struct s_camera
 {
-	t_vec3			init_pos; // 初期値
-	t_vec3			init_dir;
-	double			fov;
-	t_vec3			pos;  // 移動後
+	t_vec3			pos; // 初期値
 	t_vec3			dir;
-	double			pitch;
-	double			yaw;
+	double			fov;
+	t_transform		curr; // 動かす値
 	t_vec3			right; // 計算済みデータ、レイ計算高速化
 	t_vec3			up;
 }	t_camera;
@@ -137,18 +134,9 @@ typedef struct s_light
 	t_vec3			pos;
 	double			intensity;
 	t_vec3			color;
+	t_transform		curr;
 	struct s_light	*next;
 }	t_light;
-
-// おbジェクトの移動モード
-
-typedef enum e_mode
-{
-	NONE,
-	MOVE,
-	ROTATE,
-	SCALE
-}	t_mode;
 
 // 前から3文字で統一、sで複数
 typedef struct s_scene
@@ -159,12 +147,11 @@ typedef struct s_scene
 	t_light		*ligs;
 	t_object	*objs;
 	t_object	*selected_obj;
-	t_mode		mode;
-	int			target_axis; // 0:x, 1:y 2,z
 } 	t_scene;
 
 // mlx_action_close.c
 int		key_hook(int keycode, t_scene *scene);
+int		mouse_hook(int button, int x, int y, t_scene *scene);
 int		expose_hook(t_scene *scene);
 int		close_window(t_scene *scene);
 
@@ -243,6 +230,7 @@ int 	is_valid_color(t_vec3 color);
 void	update_camera(t_camera *cam);
 
 // render_scene.c
-void	render_scene(t_scene *scene);
+void		render_scene(t_scene *scene);
+t_object	*find_closest_obj(t_scene *scene, t_ray ray, double *out_t);
 
 #endif // MINIRT_H

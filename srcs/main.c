@@ -6,7 +6,7 @@
 /*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/11 18:30:11 by hayato            #+#    #+#             */
-/*   Updated: 2026/02/10 10:03:10 by htsutsum         ###   ########.fr       */
+/*   Updated: 2026/02/11 08:40:19 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ int	main(int argc, char **argv)
 	mlx.win = mlx_new_window(mlx.mlx, WIN_WIDTH, WIN_HEIGHT, "miniRT");
 	if (!mlx.win)
 	{
+		free(mlx.mlx);
 		free_scene(&scene);
 		log_error("mlx_new_window failed.");
 		return (1);
@@ -45,6 +46,7 @@ int	main(int argc, char **argv)
 	scene.mlx = &mlx;
 	render_scene(&scene);
 	mlx_key_hook(mlx.win, key_hook, &scene);
+	mlx_mouse_hook(mlx.win, mouse_hook, &scene);
 	mlx_expose_hook(mlx.win, expose_hook, &scene);
 	mlx_hook(mlx.win, EVENT_CLOSE, 0, close_window, &scene);
 	mlx_loop(mlx.mlx);

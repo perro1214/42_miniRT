@@ -6,7 +6,7 @@
 /*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/13 21:32:26 by hayato            #+#    #+#             */
-/*   Updated: 2026/02/10 18:02:39 by htsutsum         ###   ########.fr       */
+/*   Updated: 2026/02/11 11:33:54 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ double	hit_sphere(t_object *obj, t_ray ray)
 	t_vec3	oc;
 
 	// oc = S - C (obj->point が球の中心)
-	oc = vec3_sub(ray.origin, obj->pos);
+	oc = vec3_sub(ray.origin, obj->curr.pos);
 	discriminant = calculate_discriminant(oc, ray, obj->data.sp.radius);
 	// 交差なし
 	if (discriminant < 0)

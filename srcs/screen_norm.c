@@ -6,7 +6,7 @@
 /*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/13 22:29:25 by hayato            #+#    #+#             */
-/*   Updated: 2026/02/10 16:25:42 by htsutsum         ###   ########.fr       */
+/*   Updated: 2026/02/11 13:37:25 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,15 +58,11 @@ t_ray get_ray(int px, int py, t_camera *cam)
 	double	y_n;
 	double	scale;
 	t_vec3	ray_dir;
-	t_vec3	right_component;
-	t_vec3	up_component;
 
 	aspect_ratio = (double)WIN_WIDTH / (double)WIN_HEIGHT;
 	scale = tan((cam->fov * M_PI / 180.0) * 0.5);
 	x_n = (2.0 * (px + 0.5) / (double)WIN_WIDTH - 1.0) * aspect_ratio * scale;
 	y_n = (1.0 - 2.0 * (py + 0.5) / (double)WIN_HEIGHT) * scale;
-	right_component = vec3_scale(cam->right, x_n);
-	up_component = vec3_scale(cam->up, y_n);
-	ray_dir = vec3_add(cam->dir, vec3_add(right_component, up_component));
-	return (ray_init(cam->pos, ray_dir));
+	ray_dir = vec3_add(cam->curr.normal, vec3_add(vec3_scale(cam->right, x_n), vec3_scale(cam->up, y_n)));
+	return (ray_init(cam->curr.pos, ray_dir));
 }
