@@ -6,7 +6,7 @@
 /*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/11 18:27:40 by hayato            #+#    #+#             */
-/*   Updated: 2026/02/11 13:38:45 by htsutsum         ###   ########.fr       */
+/*   Updated: 2026/02/11 13:43:02 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ typedef enum e_type
 typedef struct s_transform
 {
 	t_vec3 pos;  // 移動後の位置
-	t_vec3 normal; // 法線
+	t_vec3 normal; // 正規化されたベクトル
 	t_vec3 angle;// 現在の回転各（ラジアン）
 }	t_transform;
 

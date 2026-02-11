@@ -6,7 +6,7 @@
 /*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/18 18:42:56 by htsutsum          #+#    #+#             */
-/*   Updated: 2026/02/11 13:12:52 by htsutsum         ###   ########.fr       */
+/*   Updated: 2026/02/11 13:51:43 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,6 +119,9 @@ int	set_light(t_scene *scene, char **rt_data)
 		return (log_error("Light: Invalid data values"), 1);
 	}
 	new->color = color_to_unit(new->color);
+	new->curr.pos =  new->pos;
+	new->curr.normal = vec3_init(0, 0, 0);
+	new->curr.angle = vec3_init(0, 0, 0);
 	add_light_to_list(&(scene->ligs), new);
 	return (0);
 }
