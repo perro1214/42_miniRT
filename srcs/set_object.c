@@ -6,14 +6,13 @@
 /*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/19 17:24:08 by htsutsum          #+#    #+#             */
-/*   Updated: 2026/02/11 10:46:33 by htsutsum         ###   ########.fr       */
+/*   Updated: 2026/02/11 10:54:51 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "miniRT.h"
 
-
-static void init_object_transforms(t_object *obj);
+static void	init_object_transforms(t_object *obj);
 
 /* sp 0.0,0.0,20.6 12.6 10,0,255
  * type : sp
@@ -105,7 +104,10 @@ int	set_cylinder(t_object *obj, char **rt_data)
 	return (0);
 }
 
-static void init_object_transforms(t_object *obj)
+/**
+ * @brief initialize transform of a t_object.
+ */
+static void	init_object_transforms(t_object *obj)
 {
 	obj->curr.pos = obj->pos;
 	obj->curr.angle = vec3_init(0, 0, 0);
