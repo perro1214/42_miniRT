@@ -6,7 +6,7 @@
 /*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/18 18:42:56 by htsutsum          #+#    #+#             */
-/*   Updated: 2026/02/10 18:02:19 by htsutsum         ###   ########.fr       */
+/*   Updated: 2026/02/11 11:10:02 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,15 @@
 
 static void	add_light_to_list(t_light **head, t_light *new_light);
 
-/* A 0.2 255,255,255
+/**
+ * ex.
+ * A 0.2 255,255,255
  * type : A
  * ratio [0.0  1.0] : 0.2
  * color [0 - 255] : 255,255,25
  * size 3
- * @brief load an ambient light data.
+ *
+ * @brief loads ambient light data.
  */
 int	set_ambient(t_scene *scene, char **rt_data)
 {
@@ -45,12 +48,15 @@ int	set_ambient(t_scene *scene, char **rt_data)
 	return (0);
 }
 
-/* C -50.0,0 0,0,1 70
+/**
+ * ex.
+ * C -50.0,0 0,0,1 70
  * type : C
  * position : -50,0,0
  * direction [-1, 1] : 0.0,0.0.1.0
  * fov [0 - 180] : 70
- * @brief load a camera data.
+ *
+ * @brief loads camera data.
  *
  */
 int	set_camera(t_scene *scene, char **rt_data)
@@ -78,18 +84,20 @@ int	set_camera(t_scene *scene, char **rt_data)
 	scene->cam->init_dir = vec3_normalize(scene->cam->init_dir);
 	scene->cam->pos = scene->cam->init_pos;
 	scene->cam->dir = scene->cam->init_dir;
-	scene->cam->pitch = 0.0;
-	scene->cam->yaw = 0.0;
 	update_camera(scene->cam);
 	return (0);
 }
 
-/* L -40.0,50.0,0.0 0.6 10,0,255
+/**
+ * ex.
+ * L -40.0,50.0,0.0 0.6 10,0,255
  * type : L
  * position : -40.0, 50.0, 0.0
  * intensity [0.0, 1.0] : 0.6
  * color [0, 255] : 10,0,255
- * @brief load a light data.
+ * size 4
+ *
+ * @brief loads light data.
  */
 int	set_light(t_scene *scene, char **rt_data)
 {

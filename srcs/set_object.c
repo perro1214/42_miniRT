@@ -6,7 +6,7 @@
 /*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/19 17:24:08 by htsutsum          #+#    #+#             */
-/*   Updated: 2026/02/11 10:54:51 by htsutsum         ###   ########.fr       */
+/*   Updated: 2026/02/11 11:05:09 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,13 +14,16 @@
 
 static void	init_object_transforms(t_object *obj);
 
-/* sp 0.0,0.0,20.6 12.6 10,0,255
+/**
+ * ex.
+ * sp 0.0,0.0,20.6 12.6 10,0,255
  * type : sp
  * position : 0.0,0.0.20.6
  * diameter : 12.6
  * color [0, 255]: 10,0,255
  * rt_data size : 4
- * @brief load a sphere data.
+ *
+ * @brief loads sphere data.
  *
  */
 int	set_sphere(t_object *obj, char **rt_data)
@@ -41,13 +44,16 @@ int	set_sphere(t_object *obj, char **rt_data)
 	return (0);
 }
 
-/* pl 0.0,0.0,-10.0 0.0,1.0,0.0 0,0,225
+/**
+ * ex.
+ * pl 0.0,0.0,-10.0 0.0,1.0,0.0 0,0,225
  * type : pl
  * position : 0.0,0.0,-10.0
  * direction [-1, 1]: 0.0,1.0,0.0
  * color [0, 255]: 0,0,255
  * rt_data size : 4
- * @brief load a plane data.
+ *
+ * @brief loads plane data.
  *
  */
 int	set_plane(t_object *obj, char **rt_data)
@@ -70,7 +76,9 @@ int	set_plane(t_object *obj, char **rt_data)
 	return (0);
 }
 
-/* cy 50.0,0.0,20.6 0.0,0.0,1.0 14.2 21.42 10,0,255
+/**
+ * ex.
+ * cy 50.0,0.0,20.6 0.0,0.0,1.0 14.2 21.42 10,0,255
  * type : cy
  * position : 50.0,0.0.20.6
  * direction : [ -1, 1] :0.0,0.0,1.0
@@ -78,7 +86,8 @@ int	set_plane(t_object *obj, char **rt_data)
  * height : 21.42
  * color [0, 255] : 10,0,255
  * rt_data size : 6
- * @brief load a cylinder data.
+ *
+ * @brief loads cylinder data.
  *
  */
 int	set_cylinder(t_object *obj, char **rt_data)
@@ -105,7 +114,7 @@ int	set_cylinder(t_object *obj, char **rt_data)
 }
 
 /**
- * @brief initialize transform of a t_object.
+ * @brief Initializes the transform state of the object.
  */
 static void	init_object_transforms(t_object *obj)
 {
