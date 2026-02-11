@@ -6,7 +6,7 @@
 /*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/11 18:27:40 by hayato            #+#    #+#             */
-/*   Updated: 2026/02/10 17:37:00 by htsutsum         ###   ########.fr       */
+/*   Updated: 2026/02/11 09:34:17 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -140,7 +140,7 @@ typedef struct s_light
 	struct s_light	*next;
 }	t_light;
 
-// おbジェクトの移動モード
+// オブジェクトの移動モード
 
 typedef enum e_mode
 {
@@ -165,6 +165,7 @@ typedef struct s_scene
 
 // mlx_action_close.c
 int		key_hook(int keycode, t_scene *scene);
+int		mouse_hook(int button, int x, int y, t_scene *scene);
 int		expose_hook(t_scene *scene);
 int		close_window(t_scene *scene);
 
@@ -243,6 +244,7 @@ int 	is_valid_color(t_vec3 color);
 void	update_camera(t_camera *cam);
 
 // render_scene.c
-void	render_scene(t_scene *scene);
+void		render_scene(t_scene *scene);
+t_object	*find_closest_obj(t_scene *scene, t_ray ray, double *out_t);
 
 #endif // MINIRT_H

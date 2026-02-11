@@ -6,7 +6,7 @@
 /*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/11 19:39:14 by hayato            #+#    #+#             */
-/*   Updated: 2026/02/10 17:08:32 by htsutsum         ###   ########.fr       */
+/*   Updated: 2026/02/11 09:36:37 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,19 +67,39 @@ int	key_hook(int keycode, t_scene *scene)
 	return (0);
 }
 
-// 大きさ変更したときも、レンダリングする。レンダリングの大きさは変更しない。
+// ウィンドウの大きさ変更したときも、レンダリングする。レンダリングの大きさは変更しない。
 int	expose_hook(t_scene *scene)
 {
+	render_scene(scene);
+	return (0);
+}
+
+
+//
+int mouse_hook(int button, int x, int y, t_scene *scene)
+{
+	double	t;
+	t_ray	ray;
+
+	if (button == 1)
+	{
+		ray = get_ray(x, y, scene->cam);
+		scene->selected_obj = find_closest_obj(scene, ray, &t);
+		if ( scene->selected_obj)
+			printf("Selected: %d at distance %f\n", scene->selected_obj->type, t);
+		else
+			printf("Selected cleared..\n");
 		render_scene(scene);
-		return (0);
+	}
+	return (0);
 }
 
 int	close_window(t_scene *scene)
 {
 	mlx_destroy_image(scene->mlx->mlx, scene->mlx->img);
 	mlx_destroy_window(scene->mlx->mlx, scene->mlx->win);
-	free_scene(scene);
 	free(scene->mlx->mlx);
+	free_scene(scene);
 	exit(0);
 	return (0);
 }

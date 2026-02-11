@@ -6,7 +6,7 @@
 /*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/28 22:38:44 by htsutsum          #+#    #+#             */
-/*   Updated: 2026/02/10 18:03:33 by htsutsum         ###   ########.fr       */
+/*   Updated: 2026/02/11 08:23:05 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,6 @@ double	hit_cylinder(t_object *obj, t_ray ray)
 		return (t_side);
 	if (t_caps > EPSILON)
 		return (t_caps);
-
 	return (-1.0);
 }
 
