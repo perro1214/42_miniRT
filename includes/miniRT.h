@@ -6,7 +6,7 @@
 /*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/11 18:27:40 by hayato            #+#    #+#             */
-/*   Updated: 2026/02/11 11:57:01 by htsutsum         ###   ########.fr       */
+/*   Updated: 2026/02/11 13:38:45 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ typedef enum e_type
 typedef struct s_transform
 {
 	t_vec3 pos;  // 移動後の位置
-	t_vec3 normal; // 法線の向き（回転後の向き）
+	t_vec3 normal; // 法線
 	t_vec3 angle;// 現在の回転各（ラジアン）
 }	t_transform;
 
@@ -115,13 +115,10 @@ typedef struct s_object
 
 typedef struct s_camera
 {
-	t_vec3			init_pos; // 初期値
-	t_vec3			init_dir;
-	double			fov;
-	t_vec3			pos;  // 移動後
+	t_vec3			pos; // 初期値
 	t_vec3			dir;
-	double			pitch;
-	double			yaw;
+	double			fov;
+	t_transform		curr; // 動かす値
 	t_vec3			right; // 計算済みデータ、レイ計算高速化
 	t_vec3			up;
 }	t_camera;
@@ -137,6 +134,7 @@ typedef struct s_light
 	t_vec3			pos;
 	double			intensity;
 	t_vec3			color;
+	t_transform		curr;
 	struct s_light	*next;
 }	t_light;
 

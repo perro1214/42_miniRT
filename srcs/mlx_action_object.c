@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   mlx_action_close.c                                 :+:      :+:    :+:   */
+/*   mlx_action_hook.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/11 19:39:14 by hayato            #+#    #+#             */
-/*   Updated: 2026/02/11 13:31:01 by htsutsum         ###   ########.fr       */
+/*   Updated: 2026/02/11 12:56:45 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ int	key_hook(int keycode, t_scene *scene)
 	if (keycode == XK_Escape)
 		close_window(scene);
 
+	update_camera(scene->cam);
 	render_scene(scene);
 	return (0);
 }
@@ -70,45 +71,50 @@ int	close_window(t_scene *scene)
 
 void camera_control(int keycode, t_camera *cam)
 {
-	double move_speed;
-	double rot_speed;
+	double move_speed = 1.0;
+	double rot_speed = 0.05;
 
-	move_speed = 1.0;
-	rot_speed = 0.05;
 	// 移動 前後
 	// Wキー：dir（向いている方向）に進む
 	if (keycode == XK_w)
-		cam->curr.pos = vec3_add(cam->curr.pos, vec3_scale(cam->curr.normal, move_speed));
+		cam->pos = vec3_add(cam->pos, vec3_scale(cam->dir, move_speed));
 	// Sキー：dirの逆方向に進む
 	if (keycode == XK_s)
-		cam->curr.pos = vec3_sub(cam->curr.pos, vec3_scale(cam->curr.normal, move_speed));
+		cam->pos = vec3_sub(cam->pos, vec3_scale(cam->dir, move_speed));
 	// Dキー：right（右方向）に進む
 	if (keycode == XK_d)
-		cam->curr.pos = vec3_add(cam->curr.pos, vec3_scale(cam->right, move_speed));
+		cam->pos = vec3_add(cam->pos, vec3_scale(cam->right, move_speed));
 	// Aキー：rightの逆方向に進む
 	if (keycode == XK_a)
-		cam->curr.pos = vec3_sub(cam->curr.pos, vec3_scale(cam->right, move_speed));
+		cam->pos = vec3_sub(cam->pos, vec3_scale(cam->right, move_speed));
 	// 移動 上下
 	if (keycode == XK_q)
-		cam->curr.pos.y += move_speed;
+		cam->pos.y += move_speed;
     if (keycode == XK_z)
-		cam->curr.pos.y -= move_speed;
+		cam->pos.y -= move_speed;
 	// 回転
 	if (keycode == XK_i)
-		cam->curr.angle.x += rot_speed;
+		cam->pitch += rot_speed;
     if (keycode == XK_k)
-		cam->curr.angle.x -= rot_speed;
+		cam->pitch -= rot_speed;
     if (keycode == XK_j)
-		cam->curr.angle.y -= rot_speed;
+		cam->yaw -= rot_speed;
     if (keycode == XK_l)
-		cam->curr.angle.y += rot_speed;
+		cam->yaw += rot_speed;
 	// リセット
 	if (keycode == XK_r)
 	{
-		cam->curr.pos = cam->pos;
-		cam->curr.angle = vec3_init(0, 0, 0);
+		cam->pos = cam->init_pos;
+		cam->pitch = 0.0;
+		cam->yaw = 0.0;
 	}
-	update_camera(cam);
+	// // debug
+	// printf("pos: %f, %f, %f | dir: %f, %f, %f\n",
+	// scene->cam->pos.x, scene->cam->pos.y, scene->cam->pos.z,
+	// scene->cam->dir.x, scene->cam->dir.y, scene->cam->dir.z);
+	// printf("dir: %f, %f, %f | right: %f, %f, %f\n",
+    //     scene->cam->dir.x, scene->cam->dir.y, scene->cam->dir.z,
+    //     scene->cam->right.x, scene->cam->right.y, scene->cam->right.z);
 }
 
 void object_control(int keycode, t_object *obj)
@@ -150,7 +156,7 @@ void object_rotation(int keycode, t_object *obj)
 void update_object_rotation(t_object *obj)
 {
 	t_vec3	base_normal;
-	t_vec3	rot_dir;
+	t_vec3	dir_n;
 
 	if (obj->type == PLANE)
         base_normal = obj->data.pl.normal;
@@ -160,8 +166,8 @@ void update_object_rotation(t_object *obj)
 	{
         return ;
 	}
-	rot_dir = vec3_rotate_x(base_normal, obj->curr.angle.x);
-	rot_dir = vec3_rotate_y(rot_dir, obj->curr.angle.y);
-	rot_dir = vec3_rotate_z(rot_dir, obj->curr.angle.z);
-	obj->curr.normal = vec3_normalize(rot_dir);
+	dir_n = vec3_rotate_x(base_normal, obj->curr.angle.x);
+	dir_n = vec3_rotate_y(dir_n, obj->curr.angle.y);
+	dir_n = vec3_rotate_z(dir_n, obj->curr.angle.z);
+	obj->curr.normal = vec3_normalize(dir_n);
 }

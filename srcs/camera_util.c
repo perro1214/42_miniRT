@@ -6,7 +6,7 @@
 /*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/13 19:33:35 by hayato            #+#    #+#             */
-/*   Updated: 2026/02/10 10:07:32 by htsutsum         ###   ########.fr       */
+/*   Updated: 2026/02/11 13:21:31 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,16 +23,16 @@
 void	update_camera(t_camera *cam)
 {
 	t_vec3	world_up;
-	t_vec3	d;
+	t_vec3	rot_dir;
 
-	d = cam->init_dir;
-	d = vec3_rotate_x(d, cam->pitch);
-	d = vec3_rotate_y(d, cam->yaw);
-	cam->dir = vec3_normalize(d);
+	rot_dir = vec3_rotate_x(cam->dir,cam->curr.angle.x);
+	rot_dir = vec3_rotate_y(rot_dir,cam->curr.angle.y);
+	cam->curr.normal = vec3_normalize(rot_dir);
 	world_up = vec3_init(0, 1, 0);
-	if (fabs(vec3_dot(cam->dir, world_up)) > 0.99)
+	if (fabs(vec3_dot(cam->curr.normal, world_up)) > 0.99)
 		world_up = vec3_init(0, 0, 1);
-
-	cam->right = vec3_normalize(vec3_cross(world_up, cam->dir));
-	cam->up = vec3_normalize(vec3_cross(cam->dir, cam->right));
+	// 右ベクトル = world_up × 視線方向
+	cam->right = vec3_normalize(vec3_cross(world_up, cam->curr.normal));
+	// 上ベクトル = 視線方向 × 右ベクトル
+	cam->up = vec3_normalize(vec3_cross(cam->curr.normal, cam->right));
 }

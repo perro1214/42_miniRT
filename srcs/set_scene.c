@@ -6,7 +6,7 @@
 /*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/18 18:42:56 by htsutsum          #+#    #+#             */
-/*   Updated: 2026/02/11 11:22:27 by htsutsum         ###   ########.fr       */
+/*   Updated: 2026/02/11 13:12:52 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,19 +71,19 @@ int	set_camera(t_scene *scene, char **rt_data)
 	scene->cam = ft_calloc(1, sizeof(t_camera));
 	if (!scene->cam)
 		return (1);
-	scene->cam->init_pos = str_to_vec3(rt_data[1], &status);
-	scene->cam->init_dir = str_to_vec3(rt_data[2], &status);
+	scene->cam->pos = str_to_vec3(rt_data[1], &status);
+	scene->cam->dir = str_to_vec3(rt_data[2], &status);
 	scene->cam->fov = get_double(rt_data[3], &status);
-	if (status || !is_valid_normal(scene->cam->init_dir)
+	if (status || !is_valid_normal(scene->cam->dir)
 		|| !is_in_range(scene->cam->fov, 0.001, 179.999))
 	{
 		free(scene->cam);
 		scene->cam = NULL;
 		return (log_error("Camera: Invalid data values"), 1);
 	}
-	scene->cam->init_dir = vec3_normalize(scene->cam->init_dir);
-	scene->cam->pos = scene->cam->init_pos;
-	scene->cam->dir = scene->cam->init_dir;
+	scene->cam->curr.pos = scene->cam->pos;
+	scene->cam->curr.normal = vec3_normalize(scene->cam->dir);
+	scene->cam->curr.angle = vec3_init(0, 0, 0);
 	update_camera(scene->cam);
 	return (0);
 }
