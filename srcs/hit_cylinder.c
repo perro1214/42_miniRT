@@ -6,7 +6,7 @@
 /*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/28 22:38:44 by htsutsum          #+#    #+#             */
-/*   Updated: 2026/02/11 08:23:05 by htsutsum         ###   ########.fr       */
+/*   Updated: 2026/02/11 11:30:38 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,14 +37,14 @@ double	hit_cylinder(t_object *obj, t_ray ray)
 // V: 円柱の方向ベクトル(単位ベクトル), W: レイ始点から円柱位置へのベクトル
 static double	hit_cylinder_side(t_object *obj, t_ray ray)
 {
-	t_vec3	w = vec3_sub(ray.origin, obj->pos);
+	t_vec3	w = vec3_sub(ray.origin, obj->curr.pos);
 	double	dv; // ray.direction と v の内積
 	double	wv; // w と v の内積
 	double	a, b, c, t1, t2;
 
 	// 正規化済み前提の最適化
-	dv = vec3_dot(ray.direction, obj->data.cy.normal);
-	wv = vec3_dot(w, obj->data.cy.normal);
+	dv = vec3_dot(ray.direction, obj->curr.normal);
+	wv = vec3_dot(w, obj->curr.normal);
 	// a = 1.0 - (D・V)^2  (ray.directionが正規されているため、 D・D は 1.0)
 	a = 1.0 - (dv * dv);
 	if (fabs(a) < EPSILON) // 軸と平行な場合は側面には当たらない
@@ -80,13 +80,13 @@ static double	hit_cylinder_caps(t_object *obj, t_ray ray)
 	t_vec3	n;
 	double	r;
 
-	n = obj->data.cy.normal;
+	n = obj->curr.normal;
 	r = obj->data.cy.radius;
 
 	// 底面の判定
-	bottom = hit_disk(ray, obj->pos, n, r);
+	bottom = hit_disk(ray, obj->curr.pos, n, r);
 	// 上面の判定 (上面中心 = 底面中心 + normal * height)
-	top_center = vec3_add(obj->pos, vec3_scale(n, obj->data.cy.height));
+	top_center = vec3_add(obj->curr.pos, vec3_scale(n, obj->data.cy.height));
 	top = hit_disk(ray, top_center, n, r);
 	// 両方の候補から最小の正の値を返す
 	if (bottom > EPSILON && (top < EPSILON || bottom < top))
