@@ -68,7 +68,7 @@ static int	find_closest_hit(t_object *objects, t_ray ray, t_hit_record *rec)
 	rec->color = closest_obj->color;
 	rec->hit = 1;
 	if (closest_obj->type == SPHERE)
-		rec->normal = get_sphere_normal(rec->point, closest_obj->position);
+		rec->normal = get_sphere_normal(rec->point, closest_obj->curr.pos);
 	else if (closest_obj->type == PLANE)
 		rec->normal = get_plane_normal(closest_obj, ray.direction);
 	return (1);
@@ -117,10 +117,12 @@ int	main(int argc, char **argv)
 	t_scene	scene;
 	char	*rt_file;
 
+	scene.mlx = &mlx;
 	scene.cam = NULL;
 	scene.amb = NULL;
 	scene.ligs = NULL;
 	scene.objs = NULL;
+	scene.selected_obj = NULL;
 	/* rtファイルの指定（デフォルト: rtfiles/shadow_test.rt） */
 	if (argc >= 2)
 		rt_file = argv[1];
@@ -148,8 +150,8 @@ int	main(int argc, char **argv)
 	/* 画像をウィンドウに表示 */
 	mlx_put_image_to_window(mlx.mlx, mlx.win, mlx.img, 0, 0);
 	/* イベントループ開始 */
-	mlx_key_hook(mlx.win, key_hook, &mlx);
-	mlx_hook(mlx.win, EVENT_CLOSE, 0, close_window, &mlx);
+	mlx_key_hook(mlx.win, key_hook, &scene);
+	mlx_hook(mlx.win, EVENT_CLOSE, 0, close_window, &scene);
 	mlx_loop(mlx.mlx);
 	free_scene(&scene);
 	return (0);

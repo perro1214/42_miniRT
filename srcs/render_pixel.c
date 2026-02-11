@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   render_pixel.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hayato <hayato@student.42.fr>              +#+  +:+       +#+        */
+/*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/11 19:50:29 by hayato            #+#    #+#             */
-/*   Updated: 2026/01/16 17:57:22 by hayato           ###   ########.fr       */
+/*   Updated: 2026/02/10 07:49:30 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,4 +26,3 @@ void	ft_mlx_put_pixel(t_mlx *mlx, int x, int y, int color)
 	}
 	*(unsigned int *)dst = color;
 }
-

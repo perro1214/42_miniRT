@@ -32,7 +32,7 @@ t_vec3	calc_diffuse(t_light light, t_vec3 hit_point, t_vec3 normal,
 	t_vec3	diffuse_light;
 
 	// 光源方向ベクトルの計算（交点から光源へのベクトル）
-	light_dir = vec3_normalize(vec3_sub(light.position, hit_point));
+	light_dir = vec3_normalize(vec3_sub(light.pos, hit_point));
 	// 法線ベクトルと光源方向ベクトルの内積を計算
 	N_dot_L = vec3_dot(normal, light_dir);
 	// 内積が負の場合、光源は表面の裏側にあるため、拡散光は0

@@ -32,6 +32,7 @@ MAIN_SRCS	= $(SRCS_DIR)/main.c
 
 FILES := vec3_1.c\
 		vec3_2.c\
+		vec3_3.c\
 		mlx_action_close.c\
 		render_pixel.c\
 		arg_parser.c\
@@ -44,10 +45,15 @@ FILES := vec3_1.c\
 		set_object.c\
 		set_scene.c\
 		timer.c\
+		camera_util.c\
 		ray_utils.c\
 		hit_sphere.c\
 		hit_plane.c\
+		hit_cylinder.c\
+		hit_circle.c\
+		hit_util.c\
 		screen_norm.c\
+		render_scene.c\
 		calc_ambient.c\
 		calc_diffuse.c\
 		calc_shading.c\
@@ -62,6 +68,8 @@ DEBUG_FILES :=	debug_vec3.c\
 				debug_ray.c\
 				debug_intersection.c\
 				debug_mlx_sphere.c\
+				debug_mlx_cylinder.c\
+				deebug_mlx_circle.c\
 				debug_shading.c\
 				debug_shadow.c
 

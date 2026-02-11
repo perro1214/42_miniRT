@@ -6,7 +6,7 @@
 /*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/18 18:42:56 by htsutsum          #+#    #+#             */
-/*   Updated: 2026/01/24 03:12:33 by htsutsum         ###   ########.fr       */
+/*   Updated: 2026/02/11 13:51:43 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,15 @@
 
 static void	add_light_to_list(t_light **head, t_light *new_light);
 
-/* A 0.2 255,255,255
+/**
+ * ex.
+ * A 0.2 255,255,255
  * type : A
  * ratio [0.0  1.0] : 0.2
  * color [0 - 255] : 255,255,25
  * size 3
- * @brief load an ambient light data.
+ *
+ * @brief loads ambient light data.
  */
 int	set_ambient(t_scene *scene, char **rt_data)
 {
@@ -45,12 +48,15 @@ int	set_ambient(t_scene *scene, char **rt_data)
 	return (0);
 }
 
-/* C -50.0,0 0,0,1 70
+/**
+ * ex.
+ * C -50.0,0 0,0,1 70
  * type : C
  * position : -50,0,0
  * direction [-1, 1] : 0.0,0.0.1.0
- * fov [0 - 70] : 70
- * @brief load a camera data.
+ * fov [0 - 180] : 70
+ *
+ * @brief loads camera data.
  *
  */
 int	set_camera(t_scene *scene, char **rt_data)
@@ -65,26 +71,33 @@ int	set_camera(t_scene *scene, char **rt_data)
 	scene->cam = ft_calloc(1, sizeof(t_camera));
 	if (!scene->cam)
 		return (1);
-	scene->cam->position = str_to_vec3(rt_data[1], &status);
-	scene->cam->direction = str_to_vec3(rt_data[2], &status);
+	scene->cam->pos = str_to_vec3(rt_data[1], &status);
+	scene->cam->dir = str_to_vec3(rt_data[2], &status);
 	scene->cam->fov = get_double(rt_data[3], &status);
-	if (status || !is_valid_normal(scene->cam->direction)
+	if (status || !is_valid_normal(scene->cam->dir)
 		|| !is_in_range(scene->cam->fov, 0.001, 179.999))
 	{
 		free(scene->cam);
 		scene->cam = NULL;
 		return (log_error("Camera: Invalid data values"), 1);
 	}
-	scene->cam->direction = vec3_normalize(scene->cam->direction);
+	scene->cam->curr.pos = scene->cam->pos;
+	scene->cam->curr.normal = vec3_normalize(scene->cam->dir);
+	scene->cam->curr.angle = vec3_init(0, 0, 0);
+	update_camera(scene->cam);
 	return (0);
 }
 
-/* L -40.0,50.0,0.0 0.6 10,0,255
+/**
+ * ex.
+ * L -40.0,50.0,0.0 0.6 10,0,255
  * type : L
  * position : -40.0, 50.0, 0.0
  * intensity [0.0, 1.0] : 0.6
  * color [0, 255] : 10,0,255
- * @brief load a light data.
+ * size 4
+ *
+ * @brief loads light data.
  */
 int	set_light(t_scene *scene, char **rt_data)
 {
@@ -96,7 +109,7 @@ int	set_light(t_scene *scene, char **rt_data)
 	new = ft_calloc(1, sizeof(t_light));
 	if (!new)
 		return (1);
-	new->position = str_to_vec3(rt_data[1], &status);
+	new->pos = str_to_vec3(rt_data[1], &status);
 	new->intensity = get_double(rt_data[2], &status);
 	new->color = str_to_vec3(rt_data[3], &status);
 	if (status || !is_in_range(new->intensity, 0.0, 1.0)
@@ -106,6 +119,9 @@ int	set_light(t_scene *scene, char **rt_data)
 		return (log_error("Light: Invalid data values"), 1);
 	}
 	new->color = color_to_unit(new->color);
+	new->curr.pos =  new->pos;
+	new->curr.normal = vec3_init(0, 0, 0);
+	new->curr.angle = vec3_init(0, 0, 0);
 	add_light_to_list(&(scene->ligs), new);
 	return (0);
 }
