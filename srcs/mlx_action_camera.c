@@ -13,17 +13,17 @@
 #include "miniRT.h"
 
 
-void object_control(int keycode, t_object *obj);
-void camera_control(int keycode, t_camera *cam);
-void object_rotation(int keycode, t_object *obj);
-void update_object_rotation(t_object *obj);
+void	object_control(int keycode, t_object *obj);
+void	camera_control(int keycode, t_scene *scene);
+void	object_rotation(int keycode, t_object *obj);
+void	update_object_rotation(t_object *obj);
 
 int	key_hook(int keycode, t_scene *scene)
 {
 	if (scene->selected_obj)
 		object_control(keycode, scene->selected_obj);
 	else
-		camera_control(keycode, scene->cam);
+		camera_control(keycode, scene);
 
 	if (keycode == XK_Escape)
 		close_window(scene);
@@ -69,37 +69,68 @@ int	close_window(t_scene *scene)
 	return (0);
 }
 
-void camera_control(int keycode, t_camera *cam)
+// 移動可能距離を計算（オブジェクトとの衝突を考慮）
+static double	get_safe_move_distance(t_scene *scene, t_vec3 move_dir,
+					double requested_dist)
 {
-	double move_speed = 1.0;
-	double rot_speed = 0.05;
+	t_ray	ray;
+	double	hit_dist;
+	double	safe_margin;
 
-	// 移動 前後
-	// Wキー：dir（向いている方向）に進む
+	safe_margin = 0.5;
+	ray.origin = scene->cam->pos;
+	ray.direction = vec3_normalize(move_dir);
+	// オブジェクトとの交差判定
+	find_closest_obj(scene, ray, &hit_dist);
+	// 安全距離（オブジェクト手前にマージンを設ける）
+	if (hit_dist < requested_dist + safe_margin)
+		return (fmax(0.0, hit_dist - safe_margin));
+	return (requested_dist);
+}
+
+// カメラを指定方向に安全に移動する
+static void	move_camera_safe(t_scene *scene, t_vec3 move_dir, double speed)
+{
+	double	safe_dist;
+
+	safe_dist = get_safe_move_distance(scene, move_dir, speed);
+	if (safe_dist > 0.0)
+		scene->cam->pos = vec3_add(scene->cam->pos,
+				vec3_scale(vec3_normalize(move_dir), safe_dist));
+}
+
+void	camera_control(int keycode, t_scene *scene)
+{
+	t_camera	*cam;
+	double		move_speed;
+	double		rot_speed;
+
+	cam = scene->cam;
+	move_speed = 1.0;
+	rot_speed = 0.05;
+	// 移動 前後（衝突判定付き）
 	if (keycode == XK_w)
-		cam->pos = vec3_add(cam->pos, vec3_scale(cam->dir, move_speed));
-	// Sキー：dirの逆方向に進む
+		move_camera_safe(scene, cam->dir, move_speed);
 	if (keycode == XK_s)
-		cam->pos = vec3_sub(cam->pos, vec3_scale(cam->dir, move_speed));
-	// Dキー：right（右方向）に進む
+		move_camera_safe(scene, vec3_scale(cam->dir, -1), move_speed);
+	// 移動 左右（衝突判定付き）
 	if (keycode == XK_d)
-		cam->pos = vec3_add(cam->pos, vec3_scale(cam->right, move_speed));
-	// Aキー：rightの逆方向に進む
+		move_camera_safe(scene, cam->right, move_speed);
 	if (keycode == XK_a)
-		cam->pos = vec3_sub(cam->pos, vec3_scale(cam->right, move_speed));
-	// 移動 上下
+		move_camera_safe(scene, vec3_scale(cam->right, -1), move_speed);
+	// 移動 上下（衝突判定付き）
 	if (keycode == XK_q)
-		cam->pos.y += move_speed;
-    if (keycode == XK_z)
-		cam->pos.y -= move_speed;
+		move_camera_safe(scene, vec3_init(0, 1, 0), move_speed);
+	if (keycode == XK_z)
+		move_camera_safe(scene, vec3_init(0, -1, 0), move_speed);
 	// 回転
 	if (keycode == XK_i)
 		cam->pitch += rot_speed;
-    if (keycode == XK_k)
+	if (keycode == XK_k)
 		cam->pitch -= rot_speed;
-    if (keycode == XK_j)
+	if (keycode == XK_j)
 		cam->yaw -= rot_speed;
-    if (keycode == XK_l)
+	if (keycode == XK_l)
 		cam->yaw += rot_speed;
 	// リセット
 	if (keycode == XK_r)
@@ -108,31 +139,24 @@ void camera_control(int keycode, t_camera *cam)
 		cam->pitch = 0.0;
 		cam->yaw = 0.0;
 	}
-	// // debug
-	// printf("pos: %f, %f, %f | dir: %f, %f, %f\n",
-	// scene->cam->pos.x, scene->cam->pos.y, scene->cam->pos.z,
-	// scene->cam->dir.x, scene->cam->dir.y, scene->cam->dir.z);
-	// printf("dir: %f, %f, %f | right: %f, %f, %f\n",
-    //     scene->cam->dir.x, scene->cam->dir.y, scene->cam->dir.z,
-    //     scene->cam->right.x, scene->cam->right.y, scene->cam->right.z);
 }
 
-void object_control(int keycode, t_object *obj)
+void	object_control(int keycode, t_object *obj)
 {
 	double	move_step;
 
 	move_step = 1.0;
 	if (keycode == XK_w)
 		obj->curr.pos.z += move_step;
-    if (keycode == XK_s)
+	if (keycode == XK_s)
 		obj->curr.pos.z -= move_step;
-    if (keycode == XK_d)
+	if (keycode == XK_d)
 		obj->curr.pos.x += move_step;
-    if (keycode == XK_a)
+	if (keycode == XK_a)
 		obj->curr.pos.x -= move_step;
-    if (keycode == XK_q)
+	if (keycode == XK_q)
 		obj->curr.pos.y += move_step;
-    if (keycode == XK_z)
+	if (keycode == XK_z)
 		obj->curr.pos.y -= move_step;
 	object_rotation(keycode, obj);
 }

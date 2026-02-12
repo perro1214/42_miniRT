@@ -168,6 +168,9 @@ int		mouse_hook(int button, int x, int y, t_scene *scene);
 int		expose_hook(t_scene *scene);
 int		close_window(t_scene *scene);
 
+// mlx_action_camera.c
+void	camera_control(int keycode, t_scene *scene);
+
 // render_pixel.c
 void	ft_mlx_put_pixel(t_mlx *mlx, int x, int y, int color);
 
