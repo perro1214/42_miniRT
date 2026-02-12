@@ -6,28 +6,37 @@
 /*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/11 19:39:14 by hayato            #+#    #+#             */
-/*   Updated: 2026/02/11 13:31:01 by htsutsum         ###   ########.fr       */
+/*   Updated: 2026/02/11 22:43:49 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "miniRT.h"
-
-
 void object_control(int keycode, t_object *obj);
 void camera_control(int keycode, t_camera *cam);
 void object_rotation(int keycode, t_object *obj);
 void update_object_rotation(t_object *obj);
 
+/**
+ * @brief Selects the target.
+ *
+ * @param keycode
+ * @param scene
+ * @return void *
+ */
+void *selected_target(int keycod, t_scene *scene)
+{
+	return (scene->selected_lig);
+}
+
 int	key_hook(int keycode, t_scene *scene)
 {
-	if (scene->selected_obj)
+	if (scene->selected_obj) // object
 		object_control(keycode, scene->selected_obj);
 	else
-		camera_control(keycode, scene->cam);
+		camera_control(keycode, scene->cam); // cam
 
 	if (keycode == XK_Escape)
 		close_window(scene);
-
 	render_scene(scene);
 	return (0);
 }

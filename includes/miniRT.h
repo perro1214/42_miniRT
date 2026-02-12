@@ -6,7 +6,7 @@
 /*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/11 18:27:40 by hayato            #+#    #+#             */
-/*   Updated: 2026/02/11 13:43:02 by htsutsum         ###   ########.fr       */
+/*   Updated: 2026/02/11 22:40:16 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -146,6 +146,7 @@ typedef struct s_scene
 	t_ambient	*amb;
 	t_light		*ligs;
 	t_object	*objs;
+	t_light		*selected_lig;
 	t_object	*selected_obj;
 } 	t_scene;
 
