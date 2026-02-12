@@ -27,8 +27,10 @@ void    render_test(t_mlx *mlx, int width, int height)
 
     // 円（CIRCLE）の設定
     obj.type = CIRCLE;
-    obj.position = vec3_init(0, 0, 5);              // 中心座標
+    obj.pos = vec3_init(0, 0, 5);              // 中心座標
+    obj.curr.pos = obj.pos;
     obj.data.ci.normal = vec3_normalize(vec3_init(0, 1, 1)); // 斜め45度に向ける
+    obj.curr.normal = obj.data.ci.normal;
     obj.data.ci.radius = 1.5f;
 
     py = 0;

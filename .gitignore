@@ -25,7 +25,7 @@ debug_mlx_cylinder.c
 # docker
 .env
 
-#Static analysis tools (formatter,linter)
+# Static analysis tools (formatter,linker)
 .clang-tidy
 
 # その他

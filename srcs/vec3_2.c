@@ -34,3 +34,14 @@ t_vec3	vec3_normalize(t_vec3 v)
 	}
 	return (vec3_scale(v, 1.0 / norm));
 }
+
+// 2つのベクトルの要素ごとの乗算（成分積）
+t_vec3	vec3_multiply(t_vec3 a, t_vec3 b)
+{
+	t_vec3	result;
+
+	result.x = a.x * b.x;
+	result.y = a.y * b.y;
+	result.z = a.z * b.z;
+	return (result);
+}

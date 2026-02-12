@@ -6,7 +6,7 @@
 /*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/11 18:27:40 by hayato            #+#    #+#             */
-/*   Updated: 2026/02/11 22:40:16 by htsutsum         ###   ########.fr       */
+/*   Updated: 2026/02/12 18:19:20 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,9 +38,6 @@
 // Window size
 # define WIN_WIDTH 800
 # define WIN_HEIGHT 600
-
-// Keycode
-# define KEY_ESCAPE 65307
 
 // Event code
 # define EVENT_CLOSE 17
@@ -131,6 +128,7 @@ typedef struct s_ambient
 
 typedef struct s_light
 {
+	int 			id;
 	t_vec3			pos;
 	double			intensity;
 	t_vec3			color;
@@ -138,10 +136,18 @@ typedef struct s_light
 	struct s_light	*next;
 }	t_light;
 
+typedef enum e_mode
+{
+	CAMERA,
+	LIGHT,
+	OBJECT
+}	t_mode;
+
 // 前から3文字で統一、sで複数
 typedef struct s_scene
 {
 	t_mlx		*mlx;
+	t_mode		mode;
 	t_camera	*cam;
 	t_ambient	*amb;
 	t_light		*ligs;
@@ -150,17 +156,41 @@ typedef struct s_scene
 	t_object	*selected_obj;
 } 	t_scene;
 
-// mlx_action_close.c
+/*
+** 交差情報（ヒットレコード）
+** シェーディング計算に必要な情報をまとめる
+*/
+typedef struct s_hit_record
+{
+	t_vec3			point;
+	t_vec3			normal;
+	t_vec3			color;
+	double			t;
+	int				hit;
+}					t_hit_record;
+
+// mlx_action_key.c
 int		key_hook(int keycode, t_scene *scene);
+t_vec3 get_move_direction(int keycode, t_camera *cam);
+
+// mlx_action_mouse.c
 int		mouse_hook(int button, int x, int y, t_scene *scene);
+
+// mlx_action_other.c
 int		expose_hook(t_scene *scene);
 int		close_window(t_scene *scene);
+
+//mlx_action_util.c
+void	move_control(int keycode, t_scene *scene);
+void	rotate_control(int keycode, t_scene *scene);
+void 	reset_control(int keycode, t_scene *scene);
 
 // render_pixel.c
 void	ft_mlx_put_pixel(t_mlx *mlx, int x, int y, int color);
 
 // error.c
 void	log_error(char *message);
+char	*get_type(t_object *obj);
 
 // arg_parser.c
 int		parse_arguments(int argc, char **argv);
@@ -233,5 +263,22 @@ void	update_camera(t_camera *cam);
 // render_scene.c
 void		render_scene(t_scene *scene);
 t_object	*find_closest_obj(t_scene *scene, t_ray ray, double *out_t);
+
+// calc_ambient.c
+t_vec3				calc_ambient(t_ambient ambient, t_vec3 object_color);
+
+// calc_diffuse.c
+t_vec3				calc_diffuse(t_light light, t_vec3 hit_point, t_vec3 normal,
+						t_vec3 object_color);
+
+// calc_shading.c
+t_vec3				calc_shading(t_hit_record *rec, t_ambient *ambient,
+						t_light *light);
+t_vec3				calc_lighting(t_object *objects, t_ambient *ambient,
+						t_light *light, t_hit_record *rec);
+
+// shadow.c
+int					is_in_shadow(t_object *objects, t_light *light,
+						t_vec3 hit_point, t_vec3 normal);
 
 #endif // MINIRT_H

@@ -30,6 +30,7 @@ double	vec3_dot(t_vec3 a, t_vec3 b);
 t_vec3	vec3_cross(t_vec3 a, t_vec3 b);
 double	vec3_norm(t_vec3 v);
 t_vec3	vec3_normalize(t_vec3 v);
+t_vec3	vec3_multiply(t_vec3 a, t_vec3 b);
 t_vec3	vec3_rotate_x(t_vec3 v, double angle);
 t_vec3	vec3_rotate_y(t_vec3 v, double angle);
 t_vec3	vec3_rotate_z(t_vec3 v, double angle);

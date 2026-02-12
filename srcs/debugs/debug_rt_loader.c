@@ -33,15 +33,15 @@ static void print_scene(t_scene *scene)
     if (scene->cam)
     {
         printf("[Camera]   ");
-        print_vec3("Pos", scene->cam->init_pos);
-        print_vec3("Dir", scene->cam->init_dir);
+        print_vec3("Pos", scene->cam->pos);
+        print_vec3("Dir", scene->cam->dir);
         printf("FOV: %.1f\n", scene->cam->fov);
     }
     t_light *l = scene->ligs;
     while (l)
     {
         printf("[Light]    ");
-        print_vec3("Pos", l->position);
+        print_vec3("Pos", l->pos);
         printf("Ratio: %.2f | ", l->intensity);
         print_color(l->color);
         l = l->next;
@@ -50,7 +50,7 @@ static void print_scene(t_scene *scene)
     while (o)
     {
         printf("[Object]   Type: %-8s | ", (o->type == SPHERE ? "SPHERE" : (o->type == PLANE ? "PLANE" : "CYLINDER")));
-        print_vec3("Pos", o->position);
+        print_vec3("Pos", o->pos);
         if (o->type == SPHERE)
             printf("Radius: %.2f | ", o->data.sp.radius);
         else if (o->type == PLANE)

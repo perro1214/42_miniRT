@@ -10,7 +10,8 @@ void	test_intersection(void)
 
 	// 球のテスト (t_objectを使用)
 	sphere_obj.type = SPHERE;
-	sphere_obj.point = vec3_init(0, 0, 5);
+	sphere_obj.pos = vec3_init(0, 0, 5);
+	sphere_obj.curr.pos = sphere_obj.pos;
 	sphere_obj.data.sp.radius = 1.0;
 	ray = ray_init(vec3_init(0, 0, 0), vec3_init(0, 0, 1));
 	t = hit_sphere(&sphere_obj, ray);
@@ -19,8 +20,10 @@ void	test_intersection(void)
 
 	// 平面のテスト (t_objectを使用)
 	plane_obj.type = PLANE;
-	plane_obj.point = vec3_init(0, -1, 0);
+	plane_obj.pos = vec3_init(0, -1, 0);
+	plane_obj.curr.pos = plane_obj.pos;
 	plane_obj.data.pl.normal = vec3_init(0, 1, 0);
+	plane_obj.curr.normal = plane_obj.data.pl.normal;
 	ray2 = ray_init(vec3_init(0, 0, 0), vec3_init(0, -1, 0));
 	t = hit_plane(&plane_obj, ray2);
 	printf("Plane hit at t=%.2f\n", t);
