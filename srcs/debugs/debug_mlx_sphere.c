@@ -27,7 +27,7 @@ void	render_test(t_mlx *mlx, int width, int height)
 
 	// テスト用の球 (t_objectを使用)
 	obj.type = SPHERE;
-	obj.position = vec3_init(0, 0, 5);
+	obj.pos = vec3_init(0, 0, 5);
 	obj.data.sp.radius = 2.0;
 	py = 0;
 	while (py < height)

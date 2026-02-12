@@ -149,6 +149,19 @@ typedef struct s_scene
 	t_object	*selected_obj;
 } 	t_scene;
 
+/*
+** 交差情報（ヒットレコード）
+** シェーディング計算に必要な情報をまとめる
+*/
+typedef struct s_hit_record
+{
+	t_vec3			point;
+	t_vec3			normal;
+	t_vec3			color;
+	double			t;
+	int				hit;
+}					t_hit_record;
+
 // mlx_action_close.c
 int		key_hook(int keycode, t_scene *scene);
 int		mouse_hook(int button, int x, int y, t_scene *scene);
@@ -232,5 +245,22 @@ void	update_camera(t_camera *cam);
 // render_scene.c
 void		render_scene(t_scene *scene);
 t_object	*find_closest_obj(t_scene *scene, t_ray ray, double *out_t);
+
+// calc_ambient.c
+t_vec3				calc_ambient(t_ambient ambient, t_vec3 object_color);
+
+// calc_diffuse.c
+t_vec3				calc_diffuse(t_light light, t_vec3 hit_point, t_vec3 normal,
+						t_vec3 object_color);
+
+// calc_shading.c
+t_vec3				calc_shading(t_hit_record *rec, t_ambient *ambient,
+						t_light *light);
+t_vec3				calc_lighting(t_object *objects, t_ambient *ambient,
+						t_light *light, t_hit_record *rec);
+
+// shadow.c
+int					is_in_shadow(t_object *objects, t_light *light,
+						t_vec3 hit_point, t_vec3 normal);
 
 #endif // MINIRT_H

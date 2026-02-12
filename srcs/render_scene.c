@@ -3,18 +3,36 @@
 /*                                                        :::      ::::::::   */
 /*   render_scene.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: hayato <hayato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/20 19:50:29 by htsutsum          #+#    #+#             */
-/*   Updated: 2026/02/11 12:25:41 by htsutsum         ###   ########.fr       */
+/*   Updated: 2026/02/11 22:18:29 by hayato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "miniRT.h"
 
-
 t_vec3		raycast(t_scene *scene, t_ray ray);
 t_object	*find_closest_obj(t_scene *scene, t_ray ray, double *out_t);
+
+static t_vec3	get_normal(t_object *obj, t_vec3 hit_point, t_vec3 ray_dir)
+{
+	t_vec3	normal;
+
+	if (obj->type == SPHERE)
+		normal = vec3_normalize(vec3_sub(hit_point, obj->curr.pos));
+	else if (obj->type == PLANE)
+	{
+		normal = obj->curr.normal;
+		if (vec3_dot(normal, ray_dir) > 0)
+			normal = vec3_scale(normal, -1.0);
+	}
+	else if (obj->type == CYLINDER)
+		normal = obj->curr.normal;
+	else
+		normal = vec3_init(0, 1, 0);
+	return (normal);
+}
 
 // レンダリング
 void	render_scene(t_scene *scene)
@@ -23,39 +41,45 @@ void	render_scene(t_scene *scene)
 	int		y;
 	t_ray	ray;
 	t_vec3	pixel_color;
-	t_vec3	color_255;
 
 	update_camera(scene->cam);
 	y = 0;
-	while ( y < WIN_HEIGHT)
+	while (y < WIN_HEIGHT)
 	{
 		x = 0;
-		while ( x < WIN_WIDTH)
+		while (x < WIN_WIDTH)
 		{
 			ray = get_ray(x, y, scene->cam);
 			pixel_color = raycast(scene, ray);
-			color_255 = denormalize_color(clamp_color(pixel_color));
-			ft_mlx_put_pixel(scene->mlx, x, y, vec3_to_color(color_255));
+			ft_mlx_put_pixel(scene->mlx, x, y, vec3_to_color(pixel_color));
 			x++;
 		}
 		y++;
 	}
-	mlx_put_image_to_window(scene->mlx->mlx, scene->mlx->win, scene->mlx->img, 0, 0);
+	mlx_put_image_to_window(scene->mlx->mlx, scene->mlx->win,
+		scene->mlx->img, 0, 0);
 }
 
-// レイが光が当たるかどうか。
+// レイが光が当たるかどうか。環境光、ライティング、影の計算を行う
 t_vec3	raycast(t_scene *scene, t_ray ray)
 {
-	t_object	*closest_obj;
-	double		min_t;
+	t_object		*closest_obj;
+	double			min_t;
+	t_hit_record	rec;
+	t_vec3			color;
 
 	closest_obj = find_closest_obj(scene, ray, &min_t);
 	if (closest_obj)
 	{
-		// この辺に、環境光、ライティング、影の計算を開始 ->計算したカラーをリターン
-		return (closest_obj->color); // 当たった物体の色
+		rec.point = ray_at(ray, min_t);
+		rec.normal = get_normal(closest_obj, rec.point, ray.direction);
+		rec.color = closest_obj->color;
+		rec.t = min_t;
+		rec.hit = 1;
+		color = calc_lighting(scene->objs, scene->amb, scene->ligs, &rec);
+		return (color);
 	}
-	return (vec3_init(0.1, 0.1, 0.1)); // 背景色
+	return (vec3_init(0.1, 0.1, 0.1));
 }
 
 // カメラから近いオブジェクトを判定

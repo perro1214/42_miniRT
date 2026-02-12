@@ -53,7 +53,11 @@ FILES := vec3_1.c\
 		hit_circle.c\
 		hit_util.c\
 		screen_norm.c\
-		render_scene.c
+		render_scene.c\
+		calc_ambient.c\
+		calc_diffuse.c\
+		calc_shading.c\
+		shadow.c
 
 SRCS = $(addprefix $(SRCS_DIR)/,$(FILES))
 
@@ -65,7 +69,9 @@ DEBUG_FILES :=	debug_vec3.c\
 				debug_intersection.c\
 				debug_mlx_sphere.c\
 				debug_mlx_cylinder.c\
-				deebug_mlx_circle.c
+				deebug_mlx_circle.c\
+				debug_shading.c\
+				debug_shadow.c
 
 # ファイル名からターゲット名を生成
 DEBUG_BINS = $(DEBUG_FILES:.c=)
