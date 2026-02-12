@@ -6,7 +6,7 @@
 /*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/11 19:39:14 by hayato            #+#    #+#             */
-/*   Updated: 2026/02/12 18:26:09 by htsutsum         ###   ########.fr       */
+/*   Updated: 2026/02/12 18:59:10 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,22 +26,23 @@ int mouse_hook(int button, int x, int y, t_scene *scene)
 	double	t;
 	t_ray	ray;
 
-	if (button == 1)
+	if(button != 1)
+		return (0);
+
+	ray = get_ray(x, y, scene->cam);
+	scene->selected_obj = find_closest_obj(scene, ray, &t);
+	if (scene->selected_obj)
 	{
-		ray = get_ray(x, y, scene->cam);
-		scene->selected_obj = find_closest_obj(scene, ray, &t);
-		if (scene->selected_obj)
-		{
-			scene->mode = OBJECT;
-			ft_putstr_fd("Selected : ", 1);
-			ft_putendl_fd(get_type(scene->selected_obj), 1);
-		}
-		else
-		{
-			scene->mode = CAMERA;
-			ft_putendl_fd("Selected : CAMERA(Home)", 1);
-		}
-		render_scene(scene);
+		scene->mode = OBJECT;
+		ft_putstr_fd("Selected : ", 1);
+		ft_putendl_fd(get_type(scene->selected_obj), 1);
 	}
+	else
+	{
+		scene->mode = CAMERA;
+		ft_putendl_fd("Selected : CAMERA(Home)", 1);
+	}
+	render_scene(scene);
+
 	return (0);
 }
