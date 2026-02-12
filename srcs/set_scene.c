@@ -6,7 +6,7 @@
 /*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/18 18:42:56 by htsutsum          #+#    #+#             */
-/*   Updated: 2026/02/11 13:51:43 by htsutsum         ###   ########.fr       */
+/*   Updated: 2026/02/12 22:51:53 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ int	set_camera(t_scene *scene, char **rt_data)
 	scene->cam->dir = str_to_vec3(rt_data[2], &status);
 	scene->cam->fov = get_double(rt_data[3], &status);
 	if (status || !is_valid_normal(scene->cam->dir)
-		|| !is_in_range(scene->cam->fov, 0.001, 179.999))
+		|| !is_in_range(scene->cam->fov, 0, 180))
 	{
 		free(scene->cam);
 		scene->cam = NULL;

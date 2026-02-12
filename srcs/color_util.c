@@ -6,7 +6,7 @@
 /*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/24 02:31:03 by htsutsum          #+#    #+#             */
-/*   Updated: 2026/02/10 07:47:19 by htsutsum         ###   ########.fr       */
+/*   Updated: 2026/02/12 22:35:33 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 // colorを [0, 255] から [0, 1] に変換する専用関数
 t_vec3	color_to_unit(t_vec3 color)
 {
-	return ((t_vec3){color.x / 255.0, color.y / 255.0, color.z / 255.0});
+	return (vec3_init(color.x / 255.0, color.y / 255.0, color.z / 255.));
 }
 
 // t_vec3 (x=R, y=G, z=B) を int 色に変換

@@ -6,11 +6,13 @@
 /*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/13 22:29:25 by hayato            #+#    #+#             */
-/*   Updated: 2026/02/11 13:37:25 by htsutsum         ###   ########.fr       */
+/*   Updated: 2026/02/12 23:04:34 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "miniRT.h"
+
+static double	clamp_tan_fov(double fov);
 
 static double	screen_x_corrected(int px, double aspect_ratio)
 {
@@ -51,7 +53,7 @@ t_ray	get_ray_fixed(int px, int py)
 // カメラの基底ベクトル (dir ,right, up)を使って方向合成
 // 方向 = (前方向 * 1.0) + (右方向 * x_n) + (上方向 * y_n);
 // 最後に真っすぐなベクトルに upとrightを足すことで、上下左右の移動が可能になる。
-t_ray get_ray(int px, int py, t_camera *cam)
+t_ray	get_ray(int px, int py, t_camera *cam)
 {
 	double	aspect_ratio; // アスペクト比
 	double	x_n;
@@ -60,9 +62,19 @@ t_ray get_ray(int px, int py, t_camera *cam)
 	t_vec3	ray_dir;
 
 	aspect_ratio = (double)WIN_WIDTH / (double)WIN_HEIGHT;
-	scale = tan((cam->fov * M_PI / 180.0) * 0.5);
+	scale = tan((clamp_tan_fov(cam->fov) * M_PI / 180.0) * 0.5);
 	x_n = (2.0 * (px + 0.5) / (double)WIN_WIDTH - 1.0) * aspect_ratio * scale;
 	y_n = (1.0 - 2.0 * (py + 0.5) / (double)WIN_HEIGHT) * scale;
 	ray_dir = vec3_add(cam->curr.normal, vec3_add(vec3_scale(cam->right, x_n), vec3_scale(cam->up, y_n)));
 	return (ray_init(cam->curr.pos, ray_dir));
+}
+
+static double	clamp_tan_fov(double fov)
+{
+	if ( fov == 0)
+		return (EPSILON);
+	else if ( fov == 180)
+		return (180-EPSILON);
+	else
+		return (fov);
 }

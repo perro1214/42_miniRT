@@ -6,14 +6,13 @@
 /*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/11 18:27:40 by hayato            #+#    #+#             */
-/*   Updated: 2026/02/12 19:14:45 by htsutsum         ###   ########.fr       */
+/*   Updated: 2026/02/12 23:08:15 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINIRT_H
 # define MINIRT_H
 
-# define _USE_MATH_DEFINES
 # include "get_next_line.h"
 # include "libft.h"
 # include "mlx.h"
@@ -32,7 +31,7 @@
 
 // EPSILON
 #ifndef EPSILON
-# define EPSILON 1e-4
+# define EPSILON 1e-5
 #endif
 
 // Window size
