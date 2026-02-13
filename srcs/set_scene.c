@@ -6,7 +6,7 @@
 /*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/18 18:42:56 by htsutsum          #+#    #+#             */
-/*   Updated: 2026/02/12 22:51:53 by htsutsum         ###   ########.fr       */
+/*   Updated: 2026/02/13 20:10:51 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,6 +84,7 @@ int	set_camera(t_scene *scene, char **rt_data)
 	scene->cam->curr.pos = scene->cam->pos;
 	scene->cam->curr.normal = vec3_normalize(scene->cam->dir);
 	scene->cam->curr.angle = vec3_init(0, 0, 0);
+	init_camera_constant(scene->cam);
 	update_camera(scene->cam);
 	return (0);
 }

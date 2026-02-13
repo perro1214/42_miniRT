@@ -6,7 +6,7 @@
 /*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/11 18:27:40 by hayato            #+#    #+#             */
-/*   Updated: 2026/02/13 07:45:57 by htsutsum         ###   ########.fr       */
+/*   Updated: 2026/02/13 20:11:20 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,6 +117,11 @@ typedef struct s_camera
 	t_transform		curr; // 動かす値
 	t_vec3			right; // 計算済みデータ、レイ計算高速化
 	t_vec3			up;
+	double			render_scale; // tan(fov/2)
+	double			aspect_ratio; // 画面アスペクト
+	double			inv_width; // 1.0 / WIN_WIDTH
+	double			inv_height; // 1.0 / WIN_HEIGHT
+
 }	t_camera;
 
 typedef struct s_ambient
@@ -217,6 +222,7 @@ double	hit_disk(t_ray ray, t_vec3 center, t_vec3 normal, double radius);
 // screen_norm.c
 t_ray	get_ray_fixed(int px, int py);
 t_ray	get_ray(int px, int py, t_camera *cam);
+void	init_camera_constant(t_camera *cam);
 
 // rt_loader.c
 int		rt_loader(t_scene *scene, char *file_name);
