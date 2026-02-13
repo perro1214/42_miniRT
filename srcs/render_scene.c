@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   render_scene.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hayato <hayato@student.42.fr>              +#+  +:+       +#+        */
+/*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/20 19:50:29 by htsutsum          #+#    #+#             */
-/*   Updated: 2026/02/13 08:43:32 by htsutsum         ###   ########.fr       */
+/*   Updated: 2026/02/13 18:41:17 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,18 +19,19 @@ static t_vec3	get_normal(t_object *obj, t_vec3 hit_point, t_vec3 ray_dir)
 {
 	t_vec3	normal;
 
+	// オブジェクトの数学的な外向きの法線を算出
 	if (obj->type == SPHERE)
 		normal = vec3_normalize(vec3_sub(hit_point, obj->curr.pos));
 	else if (obj->type == PLANE)
-	{
 		normal = obj->curr.normal;
-		if (vec3_dot(normal, ray_dir) > 0)
-			normal = vec3_scale(normal, -1.0);
-	}
 	else if (obj->type == CYLINDER)
 		normal = obj->curr.normal;
 	else
-		normal = vec3_init(0, 1, 0)
+		normal = vec3_init(0, 1, 0);
+	// 内積が正 = 同じ方向を向いている
+	// レイの方向と反対を向くように調整する
+	if (vec3_dot(ray_dir, normal) > 0)
+		return (vec3_scale(normal, -1.0)); // 方向を判定
 	return (normal);
 }
 
