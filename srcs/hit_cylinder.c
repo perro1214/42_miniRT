@@ -6,7 +6,7 @@
 /*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/28 22:38:44 by htsutsum          #+#    #+#             */
-/*   Updated: 2026/02/11 11:30:38 by htsutsum         ###   ########.fr       */
+/*   Updated: 2026/02/13 07:33:50 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,9 +24,9 @@ double	hit_cylinder(t_object *obj, t_ray ray)
 	t_caps = hit_cylinder_caps(obj, ray);
 
 	// 側面と蓋のうち、より手前にある交点（最小のt）を採用
-	if (t_side > EPSILON && (t_caps < EPSILON || t_side < t_caps))
+	if (t_side >= EPSILON && (t_caps <= EPSILON || t_side < t_caps))
 		return (t_side);
-	if (t_caps > EPSILON)
+	if (t_caps >= EPSILON)
 		return (t_caps);
 	return (-1.0);
 }
@@ -37,11 +37,14 @@ double	hit_cylinder(t_object *obj, t_ray ray)
 // V: 円柱の方向ベクトル(単位ベクトル), W: レイ始点から円柱位置へのベクトル
 static double	hit_cylinder_side(t_object *obj, t_ray ray)
 {
-	t_vec3	w = vec3_sub(ray.origin, obj->curr.pos);
+	t_vec3	w;
 	double	dv; // ray.direction と v の内積
 	double	wv; // w と v の内積
 	double	a, b, c, t1, t2;
+	double	m1;
+	double	m2;
 
+	w = vec3_sub(ray.origin, obj->curr.pos);
 	// 正規化済み前提の最適化
 	dv = vec3_dot(ray.direction, obj->curr.normal);
 	wv = vec3_dot(w, obj->curr.normal);
@@ -56,16 +59,16 @@ static double	hit_cylinder_side(t_object *obj, t_ray ray)
 	if (!solve_quadratic(a, b, c, &t1, &t2))
 		return (-1.0);
 	// 小さい方の解 t1 (手前の壁) の検証
-	if (t1 > EPSILON)
+	if (t1 >= EPSILON)
 	{
-		double m1 = dv * t1 + wv;
+		m1 = dv * t1 + wv;
 		if (m1 >= 0 && m1 <= obj->data.cy.height)
 			return (t1);
 	}
 	// 大きい方の解 t2 (奥の壁) の検証
-	if (t2 > EPSILON)
+	if (t2 >= EPSILON)
 	{
-		double m2 = dv * t2 + wv;
+		m2 = dv * t2 + wv;
 		if (m2 >= 0 && m2 <= obj->data.cy.height)
 			return (t2);
 	}

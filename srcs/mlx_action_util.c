@@ -6,7 +6,7 @@
 /*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/11 19:39:14 by hayato            #+#    #+#             */
-/*   Updated: 2026/02/12 18:18:49 by htsutsum         ###   ########.fr       */
+/*   Updated: 2026/02/13 07:43:57 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ void	rotate_control(int keycode, t_scene *scene)
     double      rot_step;
 	int 		changed;
 
-	rot_step = 0.05;
+	rot_step = 0.1;
 	changed = 0;
 	if (scene->mode == LIGHT)
 		return ;

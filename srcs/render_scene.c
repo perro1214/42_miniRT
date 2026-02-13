@@ -6,7 +6,7 @@
 /*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/20 19:50:29 by htsutsum          #+#    #+#             */
-/*   Updated: 2026/02/12 17:44:12 by htsutsum         ###   ########.fr       */
+/*   Updated: 2026/02/13 08:43:32 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ static t_vec3	get_normal(t_object *obj, t_vec3 hit_point, t_vec3 ray_dir)
 	else if (obj->type == CYLINDER)
 		normal = obj->curr.normal;
 	else
-		normal = vec3_init(0, 1, 0);
+		normal = vec3_init(0, 1, 0)
 	return (normal);
 }
 
