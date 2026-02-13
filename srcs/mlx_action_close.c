@@ -13,7 +13,7 @@
 #include "miniRT.h"
 
 
-void	object_control(int keycode, t_object *obj);
+void	object_control(int keycode, t_scene *scene);
 void	camera_control(int keycode, t_scene *scene);
 void	object_rotation(int keycode, t_object *obj);
 void	update_object_rotation(t_object *obj);
@@ -21,7 +21,7 @@ void	update_object_rotation(t_object *obj);
 int	key_hook(int keycode, t_scene *scene)
 {
 	if (scene->selected_obj)
-		object_control(keycode, scene->selected_obj);
+		object_control(keycode, scene);
 	else
 		camera_control(keycode, scene);
 
@@ -140,23 +140,92 @@ void	camera_control(int keycode, t_scene *scene)
 	update_camera(cam);
 }
 
-void	object_control(int keycode, t_object *obj)
+// カメラがオブジェクト内部に入るか判定（移動後の位置で判定）
+static int	is_cam_inside_sphere(t_vec3 cam_pos, t_object *obj, t_vec3 new_pos)
 {
-	double	move_step;
+	double	dist;
+	double	margin;
 
+	margin = 0.5;
+	dist = vec3_norm(vec3_sub(cam_pos, new_pos));
+	return (dist < obj->data.sp.radius + margin);
+}
+
+static int	is_cam_inside_cylinder(t_vec3 cam_pos, t_object *obj,
+			t_vec3 new_pos)
+{
+	t_vec3	w;
+	double	proj;
+	t_vec3	closest;
+	double	dist;
+	double	margin;
+
+	margin = 0.5;
+	w = vec3_sub(cam_pos, new_pos);
+	proj = vec3_dot(w, obj->curr.normal);
+	if (proj < 0)
+		proj = 0;
+	if (proj > obj->data.cy.height)
+		proj = obj->data.cy.height;
+	closest = vec3_add(new_pos, vec3_scale(obj->curr.normal, proj));
+	dist = vec3_norm(vec3_sub(cam_pos, closest));
+	return (dist < obj->data.cy.radius + margin);
+}
+
+static int	is_cam_inside_plane(t_vec3 cam_pos, t_object *obj,
+			t_vec3 old_pos, t_vec3 new_pos)
+{
+	double	d_before;
+	double	d_after;
+	double	margin;
+
+	margin = 0.5;
+	d_before = vec3_dot(vec3_sub(cam_pos, old_pos), obj->curr.normal);
+	d_after = vec3_dot(vec3_sub(cam_pos, new_pos), obj->curr.normal);
+	if (d_before * d_after < 0)
+		return (1);
+	if (fabs(d_after) < margin)
+		return (1);
+	return (0);
+}
+
+static int	is_cam_inside_obj(t_scene *scene, t_object *obj, t_vec3 new_pos)
+{
+	t_vec3	cam_pos;
+
+	cam_pos = scene->cam->curr.pos;
+	if (obj->type == SPHERE)
+		return (is_cam_inside_sphere(cam_pos, obj, new_pos));
+	if (obj->type == CYLINDER)
+		return (is_cam_inside_cylinder(cam_pos, obj, new_pos));
+	if (obj->type == PLANE)
+		return (is_cam_inside_plane(cam_pos, obj, obj->curr.pos, new_pos));
+	return (0);
+}
+
+void	object_control(int keycode, t_scene *scene)
+{
+	t_object	*obj;
+	double		move_step;
+	t_vec3		new_pos;
+
+	obj = scene->selected_obj;
 	move_step = 1.0;
+	new_pos = obj->curr.pos;
 	if (keycode == XK_w)
-		obj->curr.pos.z += move_step;
+		new_pos.z += move_step;
 	if (keycode == XK_s)
-		obj->curr.pos.z -= move_step;
+		new_pos.z -= move_step;
 	if (keycode == XK_d)
-		obj->curr.pos.x += move_step;
+		new_pos.x += move_step;
 	if (keycode == XK_a)
-		obj->curr.pos.x -= move_step;
+		new_pos.x -= move_step;
 	if (keycode == XK_q)
-		obj->curr.pos.y += move_step;
+		new_pos.y += move_step;
 	if (keycode == XK_z)
-		obj->curr.pos.y -= move_step;
+		new_pos.y -= move_step;
+	if (!is_cam_inside_obj(scene, obj, new_pos))
+		obj->curr.pos = new_pos;
 	object_rotation(keycode, obj);
 }
 
