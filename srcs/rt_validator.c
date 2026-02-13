@@ -6,15 +6,11 @@
 /*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/21 22:32:10 by htsutsum          #+#    #+#             */
-/*   Updated: 2026/01/24 03:09:06 by htsutsum         ###   ########.fr       */
+/*   Updated: 2026/02/12 23:11:09 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "miniRT.h"
-
-#ifndef EPSILON
-# define EPSILON 1e-8
-#endif
 
 // 範囲チェック
 int	is_in_range(double value, double min, double max)

@@ -18,7 +18,7 @@ int	is_in_shadow(t_object *objects, t_light *light, t_vec3 hit_point,
 	t_object	*obj;
 
 	// 光源への方向と距離を計算
-	light_dir = vec3_sub(light->pos, hit_point);
+	light_dir = vec3_sub(light->curr.pos, hit_point);
 	light_distance = vec3_norm(light_dir);
 	light_dir = vec3_normalize(light_dir);
 	// シャドウレイの始点を少しずらす（自己交差防止）
@@ -32,6 +32,8 @@ int	is_in_shadow(t_object *objects, t_light *light, t_vec3 hit_point,
 			t = hit_sphere(obj, shadow_ray);
 		else if (obj->type == PLANE)
 			t = hit_plane(obj, shadow_ray);
+		else if (obj->type == CYLINDER)
+			t = hit_cylinder(obj, shadow_ray);
 		else
 			t = -1;
 		// 光源より近い位置に物体があれば影
