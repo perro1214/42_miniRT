@@ -6,7 +6,7 @@
 /*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/20 19:50:29 by htsutsum          #+#    #+#             */
-/*   Updated: 2026/02/13 19:31:53 by htsutsum         ###   ########.fr       */
+/*   Updated: 2026/02/14 12:29:21 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ void	render_scene(t_scene *scene)
 	t_ray	ray;
 	t_vec3	pixel_color;
 
-	update_camera(scene->cam);
+	//update_camera(scene->cam);
 	y = 0;
 	while (y < WIN_HEIGHT)
 	{
@@ -83,6 +83,7 @@ void	render_scene(t_scene *scene)
 	}
 	mlx_put_image_to_window(scene->mlx->mlx, scene->mlx->win,
 		scene->mlx->img, 0, 0);
+	printf("Rendering...\n");
 }
 
 // レイが光が当たるかどうか。環境光、ライティング、影の計算を行う

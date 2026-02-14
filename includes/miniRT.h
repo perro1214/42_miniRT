@@ -6,7 +6,7 @@
 /*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/11 18:27:40 by hayato            #+#    #+#             */
-/*   Updated: 2026/02/13 20:11:20 by htsutsum         ###   ########.fr       */
+/*   Updated: 2026/02/14 11:11:13 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -188,6 +188,7 @@ int		close_window(t_scene *scene);
 void	move_control(int keycode, t_scene *scene);
 void	rotate_control(int keycode, t_scene *scene);
 void 	reset_control(int keycode, t_scene *scene);
+void	update_camera(t_camera *cam);
 
 // render_pixel.c
 void	ft_mlx_put_pixel(t_mlx *mlx, int x, int y, int color);

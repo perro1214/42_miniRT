@@ -6,7 +6,7 @@
 /*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/11 19:39:14 by hayato            #+#    #+#             */
-/*   Updated: 2026/02/12 18:13:06 by htsutsum         ###   ########.fr       */
+/*   Updated: 2026/02/14 11:51:47 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,12 @@ int	key_hook(int keycode, t_scene *scene)
 {
 	if (keycode == XK_Escape)
 		close_window(scene);
-	selected_target(keycode, scene);
-	move_control(keycode, scene);
-	rotate_control(keycode, scene);
+	if (keycode == XK_space || keycode == XK_Tab)
+		selected_target(keycode, scene);
+	if (keycode == XK_w || keycode == XK_s || keycode == XK_a || keycode == XK_d || keycode == XK_q || keycode == XK_z)
+		move_control(keycode, scene);
+	if (keycode == XK_i || keycode == XK_k || keycode == XK_l || keycode ==XK_j)
+		rotate_control(keycode, scene);
 	if (keycode == XK_r)
 		reset_control(keycode, scene);
 	return (0);
