@@ -6,7 +6,7 @@
 /*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/11 18:27:40 by hayato            #+#    #+#             */
-/*   Updated: 2026/02/14 15:05:59 by htsutsum         ###   ########.fr       */
+/*   Updated: 2026/02/15 02:12:58 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -201,6 +201,7 @@ char	*get_type(t_object *obj);
 
 // arg_parser.c
 int		parse_arguments(int argc, char **argv);
+void	show_manual(void);
 
 // timer.c
 double	current_time_ms(void);

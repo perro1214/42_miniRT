@@ -6,7 +6,7 @@
 /*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/11 19:39:14 by hayato            #+#    #+#             */
-/*   Updated: 2026/02/14 11:51:47 by htsutsum         ###   ########.fr       */
+/*   Updated: 2026/02/15 03:12:39 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,12 @@ static void	switch_light(t_scene *scene)
 		scene->selected_lig = scene->selected_lig->next;
 
 	if(scene->selected_lig)
-		ft_putendl_fd("Selected : Light", 1);
+	{
+		ft_putstr_fd("Selected : Light ", 1);
+		ft_putstr_fd("[",1);
+		ft_putstr_fd(ft_itoa(scene->selected_lig->id), 1);
+		ft_putendl_fd("]", 1);
+	}
 }
 
 /**

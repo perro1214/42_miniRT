@@ -6,7 +6,7 @@
 /*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/12 01:17:26 by htsutsum          #+#    #+#             */
-/*   Updated: 2026/02/12 13:46:18 by htsutsum         ###   ########.fr       */
+/*   Updated: 2026/02/15 02:03:48 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,11 +16,6 @@ void	log_error(char *message)
 {
 	ft_putstr_fd("Error : ", 2);
 	ft_putendl_fd(message, 2);
-}
-
-void	log_usage()
-{
-	ft_putendl_fd("Usage : ./miniRT rtfile.rt",1);
 }
 
 char	*get_type(t_object *obj)

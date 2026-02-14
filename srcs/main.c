@@ -6,7 +6,7 @@
 /*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/11 18:30:11 by hayato            #+#    #+#             */
-/*   Updated: 2026/02/14 15:13:31 by htsutsum         ###   ########.fr       */
+/*   Updated: 2026/02/15 02:12:29 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,8 @@ int	main(int argc, char **argv)
 
 	if (parse_arguments(argc, argv))
 		return (1);
+	show_manual();
 	ft_memset(&scene, 0 ,sizeof(t_scene));
-	printf("Source file: %s\n", argv[1]);
 	if (rt_loader(&scene, argv[1]) != 0 || is_valid_scene(&scene) != 0)
     {
         free_scene(&scene);
