@@ -6,7 +6,7 @@
 /*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/11 19:39:14 by hayato            #+#    #+#             */
-/*   Updated: 2026/02/14 12:54:41 by htsutsum         ###   ########.fr       */
+/*   Updated: 2026/02/14 15:04:18 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,7 +134,8 @@ void	move_control(int keycode, t_scene *scene)
 		target->pos = vec3_add(target->pos, vec3_scale(dir, move_speed));
 		// if (target == &scene->cam->curr)
 		// 	update_camera(scene->cam);
-		render_scene(scene);
+		// render_scene(scene);
+		scene->render_flag = 1;
 	}
 }
 
@@ -143,7 +144,8 @@ void    rotate_control(int keycode, t_scene *scene)
 	if (scene->mode == CAMERA)
 	{
 		rotate_camera_b(keycode, scene);
-		render_scene(scene);
+		//render_scene(scene);
+		scene->render_flag = 1;
 	}
 	else if (scene->mode == OBJECT && scene->selected_obj)
 	{
@@ -151,7 +153,8 @@ void    rotate_control(int keycode, t_scene *scene)
 		scene->selected_obj->type == PLANE)
 		{
 			rotate_object(keycode, scene);
-			render_scene(scene);
+			//render_scene(scene);
+			scene->render_flag = 1;
 		}
 	}
 	// 最後に描画
@@ -276,5 +279,6 @@ void reset_control(int keycode, t_scene *scene)
 		scene->cam->curr.angle = vec3_init(0, 0, 0);
 		update_camera(scene->cam);
 	}
-	render_scene(scene);
+	// render_scene(scene);
+	scene->render_flag = 1;
 }

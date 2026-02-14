@@ -6,7 +6,7 @@
 /*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/11 18:27:40 by hayato            #+#    #+#             */
-/*   Updated: 2026/02/14 11:11:13 by htsutsum         ###   ########.fr       */
+/*   Updated: 2026/02/14 15:05:59 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -158,6 +158,7 @@ typedef struct s_scene
 	t_object	*objs;
 	t_light		*selected_lig;
 	t_object	*selected_obj;
+	int			render_flag;
 } 	t_scene;
 
 /*
@@ -183,6 +184,7 @@ int		mouse_hook(int button, int x, int y, t_scene *scene);
 // mlx_action_other.c
 int		expose_hook(t_scene *scene);
 int		close_window(t_scene *scene);
+int		loop_hook(t_scene *scene);
 
 //mlx_action_util.c
 void	move_control(int keycode, t_scene *scene);
