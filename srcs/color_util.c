@@ -6,7 +6,7 @@
 /*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/24 02:31:03 by htsutsum          #+#    #+#             */
-/*   Updated: 2026/02/12 22:35:33 by htsutsum         ###   ########.fr       */
+/*   Updated: 2026/02/15 05:51:41 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,4 +46,23 @@ t_vec3	clamp_color(t_vec3 color)
 	result.y = fmin(fmax(color.y, 0.0), 1.0);
 	result.z = fmin(fmax(color.z, 0.0), 1.0);
 	return (result);
+}
+
+
+//チェッカーカラー (平面のみ）
+t_vec3 get_checker_color(t_hit_record *rec, t_object *obj)
+{
+	t_vec3	p;
+	double	u;
+	double	v;
+	double 	size;
+
+	size = 2.0;
+	p = vec3_sub(rec->point, obj->curr.pos);
+	u = vec3_dot(p, obj->right);
+	v = vec3_dot(p, obj->up);
+	if (((int)floor( u / size) + (int)floor(v / size)) % 2 == 0)
+		return (obj->color);
+	else
+		return (vec3_init(1, 1, 1));
 }

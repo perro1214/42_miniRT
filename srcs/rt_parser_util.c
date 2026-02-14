@@ -6,7 +6,7 @@
 /*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/18 18:38:56 by htsutsum          #+#    #+#             */
-/*   Updated: 2026/01/24 03:16:59 by htsutsum         ###   ########.fr       */
+/*   Updated: 2026/02/15 06:20:10 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,4 +81,16 @@ static int	is_valid_double_str(char *str)
 		i++;
 	}
 	return (1);
+}
+
+// checker_flag 0か１か判定
+int is_valid_checker_flag(char *str)
+{
+	if (!str)
+		return (0);
+	if (ft_strlen(str) != 1)
+		return (0);
+	if (*str == '0' || *str == '1')
+		return (1);
+	return (0);
 }

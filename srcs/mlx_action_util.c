@@ -6,7 +6,7 @@
 /*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/11 19:39:14 by hayato            #+#    #+#             */
-/*   Updated: 2026/02/14 15:04:18 by htsutsum         ###   ########.fr       */
+/*   Updated: 2026/02/15 05:47:08 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,8 @@ void    rotate_object(int keycode, t_scene *scene)
 		mid = vec3_add(obj->curr.pos, vec3_scale(obj->curr.normal, half_h));
 		obj->curr.normal = vec3_rotate_axis(obj->curr.normal, axis, angle);
 		obj->curr.normal = vec3_normalize(obj->curr.normal);
+		obj->right = vec3_normalize(vec3_rotate_axis(obj->right, axis, angle));
+        obj->up = vec3_normalize(vec3_rotate_axis(obj->up, axis, angle));
 		// 底面位置を逆算
 		obj->curr.pos = vec3_sub(mid, vec3_scale(obj->curr.normal, half_h));
 	}
@@ -68,6 +70,8 @@ void    rotate_object(int keycode, t_scene *scene)
 	{
 		obj->curr.normal = vec3_rotate_axis(obj->curr.normal, axis, angle);
 		obj->curr.normal = vec3_normalize(obj->curr.normal);
+		obj->right = vec3_normalize(vec3_rotate_axis(obj->right, axis, angle));
+        obj->up = vec3_normalize(vec3_rotate_axis(obj->up, axis, angle));
 	}
 }
 
