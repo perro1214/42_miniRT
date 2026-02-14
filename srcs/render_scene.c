@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   render_scene.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hayato <hayato@student.42.fr>              +#+  +:+       +#+        */
+/*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/20 19:50:29 by htsutsum          #+#    #+#             */
-/*   Updated: 2026/02/12 17:44:12 by htsutsum         ###   ########.fr       */
+/*   Updated: 2026/02/14 15:04:43 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,24 +14,49 @@
 
 t_vec3		raycast(t_scene *scene, t_ray ray);
 t_object	*find_closest_obj(t_scene *scene, t_ray ray, double *out_t);
+t_vec3		get_cylinder_normal(t_object *obj, t_vec3 hit_point);
 
 static t_vec3	get_normal(t_object *obj, t_vec3 hit_point, t_vec3 ray_dir)
 {
 	t_vec3	normal;
 
+	// オブジェクトの数学的な外向きの法線を算出
 	if (obj->type == SPHERE)
 		normal = vec3_normalize(vec3_sub(hit_point, obj->curr.pos));
 	else if (obj->type == PLANE)
-	{
 		normal = obj->curr.normal;
-		if (vec3_dot(normal, ray_dir) > 0)
-			normal = vec3_scale(normal, -1.0);
-	}
 	else if (obj->type == CYLINDER)
-		normal = obj->curr.normal;
+		normal = get_cylinder_normal(obj, hit_point);
 	else
 		normal = vec3_init(0, 1, 0);
+	// 内積が正 = 同じ方向を向いている
+	// レイの方向と反対を向くように調整する
+	if (vec3_dot(ray_dir, normal) > 0)
+		return (vec3_scale(normal, -1.0)); // 方向を判定
 	return (normal);
+}
+
+// 円柱の法線を求める
+t_vec3 get_cylinder_normal(t_object *obj, t_vec3 hit_point)
+{
+	t_vec3	cp;
+	double	m;
+	t_vec3	q;
+	// 円柱の底面から中心へ向かって伸びる矢印
+	cp = vec3_sub(hit_point, obj->curr.pos);
+	// 交点が軸のどの高さに対応するか計算
+	m = vec3_dot(cp, obj->curr.normal);
+
+	// 蓋に当たった場合
+	if (m <= EPSILON)
+		return (vec3_scale(obj->curr.normal, -1.0)); // 底面下向きにする
+	if (m >= obj->data.cy.height - EPSILON)
+		return (obj->curr.normal); // 上面は上向き
+
+	// 側面に当たった場合
+	// 法線 = 交点 - 軸上の対応する点
+	q = vec3_scale(obj->curr.normal, m);
+	return (vec3_normalize(vec3_sub(cp, q)));
 }
 
 // レンダリング
@@ -42,7 +67,7 @@ void	render_scene(t_scene *scene)
 	t_ray	ray;
 	t_vec3	pixel_color;
 
-	update_camera(scene->cam);
+	//update_camera(scene->cam);
 	y = 0;
 	while (y < WIN_HEIGHT)
 	{
@@ -58,6 +83,7 @@ void	render_scene(t_scene *scene)
 	}
 	mlx_put_image_to_window(scene->mlx->mlx, scene->mlx->win,
 		scene->mlx->img, 0, 0);
+	printf("Rendering...\n");
 }
 
 // レイが光が当たるかどうか。環境光、ライティング、影の計算を行う
@@ -113,3 +139,4 @@ t_object	*find_closest_obj(t_scene *scene, t_ray ray, double *out_t)
 	*out_t = min_t;
 	return (closest_obj);
 }
+

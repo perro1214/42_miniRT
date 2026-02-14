@@ -6,7 +6,7 @@
 /*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/11 18:30:11 by hayato            #+#    #+#             */
-/*   Updated: 2026/02/11 08:40:19 by htsutsum         ###   ########.fr       */
+/*   Updated: 2026/02/14 15:13:31 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,7 @@ int	main(int argc, char **argv)
 	mlx_mouse_hook(mlx.win, mouse_hook, &scene);
 	mlx_expose_hook(mlx.win, expose_hook, &scene);
 	mlx_hook(mlx.win, EVENT_CLOSE, 0, close_window, &scene);
+	mlx_loop_hook(mlx.mlx, loop_hook, &scene);
 	mlx_loop(mlx.mlx);
 	free_scene(&scene);
 	return (0);

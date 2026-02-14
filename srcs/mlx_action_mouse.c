@@ -6,7 +6,7 @@
 /*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/11 19:39:14 by hayato            #+#    #+#             */
-/*   Updated: 2026/02/12 18:59:10 by htsutsum         ###   ########.fr       */
+/*   Updated: 2026/02/14 15:02:05 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ int mouse_hook(int button, int x, int y, t_scene *scene)
 		scene->mode = CAMERA;
 		ft_putendl_fd("Selected : CAMERA(Home)", 1);
 	}
-	render_scene(scene);
-
+	//render_scene(scene);
+	scene->render_flag = 1;
 	return (0);
 }
