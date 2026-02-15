@@ -6,7 +6,7 @@
 /*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/11 18:27:40 by hayato            #+#    #+#             */
-/*   Updated: 2026/02/16 03:23:43 by htsutsum         ###   ########.fr       */
+/*   Updated: 2026/02/16 03:29:14 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,8 +94,7 @@ typedef struct s_corn
 	double	radius;
 	double	height;
 	double	half_h;
-	double	k; // radius/height
-	double	k_sq; // k^2
+	double	k_sq; //  (radius/height)^2
 }	t_corn;
 
 typedef struct s_circle

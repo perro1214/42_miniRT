@@ -6,7 +6,7 @@
 /*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/12 04:36:41 by htsutsum          #+#    #+#             */
-/*   Updated: 2026/02/10 04:32:12 by htsutsum         ###   ########.fr       */
+/*   Updated: 2026/02/16 03:39:07 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,8 +74,10 @@ static int	parse_line(t_scene *scene, char *line)
 		status = set_camera(scene, rt_data);
 	else if (ft_strcmp(rt_data[0], "L") == 0)
 		status = set_light(scene, rt_data);
-	else if (ft_strcmp(rt_data[0], "sp") == 0 || ft_strcmp(rt_data[0],
-			"pl") == 0 || ft_strcmp(rt_data[0], "cy") == 0)
+	else if (ft_strcmp(rt_data[0], "sp") == 0
+			|| ft_strcmp(rt_data[0], "pl") == 0
+			|| ft_strcmp(rt_data[0], "cy") == 0
+			|| ft_strcmp(rt_data[0], "co") == 0)
 		status = add_new_object(scene, rt_data);
 	else
 		log_error("Unknown identifier found in .rt file");
