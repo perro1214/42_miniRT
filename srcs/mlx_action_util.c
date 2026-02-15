@@ -6,7 +6,7 @@
 /*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/11 19:39:14 by hayato            #+#    #+#             */
-/*   Updated: 2026/02/15 07:04:19 by htsutsum         ###   ########.fr       */
+/*   Updated: 2026/02/16 06:50:33 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -270,7 +270,6 @@ void reset_control(int keycode, t_scene *scene)
 			scene->selected_obj->curr.normal = scene->selected_obj->data.cy.normal;
 		else
 			scene->selected_obj->curr.normal = vec3_init(0, 0, 0);
-		//update_object_rotation(scene->selected_obj);
 	}
 	else if (scene->mode == LIGHT && scene->selected_lig)
 		scene->selected_lig->curr.pos = scene->selected_lig->pos;
@@ -281,6 +280,5 @@ void reset_control(int keycode, t_scene *scene)
 		scene->cam->curr.angle = vec3_init(0, 0, 0);
 		update_camera(scene->cam);
 	}
-	// render_scene(scene);
 	scene->render_flag = 1;
 }

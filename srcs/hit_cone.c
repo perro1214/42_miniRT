@@ -6,7 +6,7 @@
 /*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/28 22:38:44 by htsutsum          #+#    #+#             */
-/*   Updated: 2026/02/16 04:44:33 by htsutsum         ###   ########.fr       */
+/*   Updated: 2026/02/16 06:37:30 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,7 @@ static double	hit_cone_cap(t_object *obj, t_ray ray)
 	r = obj->data.co.radius;
 	// 底面の判定
 	bottom = hit_disk(ray, obj->curr.pos, n, r);
-	if (bottom > EPSILON)
+	if (bottom >= EPSILON)
 		return (bottom);
 	return (-1.0);
 }

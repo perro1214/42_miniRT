@@ -6,7 +6,7 @@
 /*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/20 19:50:29 by htsutsum          #+#    #+#             */
-/*   Updated: 2026/02/16 05:35:54 by htsutsum         ###   ########.fr       */
+/*   Updated: 2026/02/16 06:40:18 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,7 +100,6 @@ void	render_scene(t_scene *scene)
 	t_ray	ray;
 	t_vec3	pixel_color;
 
-	//update_camera(scene->cam);
 	y = 0;
 	while (y < WIN_HEIGHT)
 	{
