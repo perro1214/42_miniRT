@@ -6,7 +6,7 @@
 /*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/11 18:27:40 by hayato            #+#    #+#             */
-/*   Updated: 2026/02/15 06:20:33 by htsutsum         ###   ########.fr       */
+/*   Updated: 2026/02/15 15:27:37 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,7 @@ typedef enum e_type
     PLANE,
     CYLINDER,
 	CIRCLE,
+	CONE,
 	TYPE_MAX
 }	t_type;
 
@@ -77,14 +78,25 @@ typedef struct s_plane
 {
 	t_vec3	normal; // 法線ベクトル
 	int		checker_flag;
-}					t_plane;
+}	t_plane;
 
 typedef struct s_cylinder
 {
 	t_vec3 normal; // 法線ベクトル
 	double radius; // 半径
 	double height; // 高さ
-} t_cylinder;
+	double half_h; // height * 0.5
+}	t_cylinder;
+
+typedef struct s_core
+{
+	t_vec3	normal;
+	double	radius;
+	double	height;
+	double	half_h;
+	double	k; // radius/height
+	double	k_sq; // k^2
+}	t_core;
 
 typedef struct s_circle
 {

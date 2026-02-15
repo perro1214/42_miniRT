@@ -6,7 +6,7 @@
 /*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/19 17:24:08 by htsutsum          #+#    #+#             */
-/*   Updated: 2026/02/15 06:20:00 by htsutsum         ###   ########.fr       */
+/*   Updated: 2026/02/15 07:01:53 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,6 +111,7 @@ int	set_cylinder(t_object *obj, char **rt_data)
 		|| !is_valid_normal(obj->data.cy.normal) || obj->data.cy.radius <= 0
 		|| obj->data.cy.height <= 0)
 		return (log_error("Cylinder: Invalid data or normal data"), 1);
+	obj->data.cy.half_h = obj->data.cy.height * 0.5;
 	obj->color = color_to_unit(obj->color);
 	obj->data.cy.normal = vec3_normalize(obj->data.cy.normal);
 	init_object_transforms(obj);

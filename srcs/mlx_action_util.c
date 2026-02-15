@@ -6,7 +6,7 @@
 /*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/11 19:39:14 by hayato            #+#    #+#             */
-/*   Updated: 2026/02/15 05:47:08 by htsutsum         ###   ########.fr       */
+/*   Updated: 2026/02/15 07:04:19 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,6 @@ void    rotate_object(int keycode, t_scene *scene)
 	double      angle;
 	double      rot_step;
 	t_vec3      mid;
-	double		half_h;
 
 	obj = scene->selected_obj;
 	rot_step = 0.1; // ステップを小さくして微調整を可能に
@@ -57,14 +56,13 @@ void    rotate_object(int keycode, t_scene *scene)
 	if (obj->type == CYLINDER)
 	{
 		// 中心点（重心）を中心に回転
-		half_h = obj->data.cy.height * 0.5;
-		mid = vec3_add(obj->curr.pos, vec3_scale(obj->curr.normal, half_h));
+		mid = vec3_add(obj->curr.pos, vec3_scale(obj->curr.normal, obj->data.cy.half_h));
 		obj->curr.normal = vec3_rotate_axis(obj->curr.normal, axis, angle);
 		obj->curr.normal = vec3_normalize(obj->curr.normal);
 		obj->right = vec3_normalize(vec3_rotate_axis(obj->right, axis, angle));
         obj->up = vec3_normalize(vec3_rotate_axis(obj->up, axis, angle));
 		// 底面位置を逆算
-		obj->curr.pos = vec3_sub(mid, vec3_scale(obj->curr.normal, half_h));
+		obj->curr.pos = vec3_sub(mid, vec3_scale(obj->curr.normal, obj->data.cy.half_h));
 	}
 	else
 	{
