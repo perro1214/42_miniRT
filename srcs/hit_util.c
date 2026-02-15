@@ -6,7 +6,7 @@
 /*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/27 12:31:35 by htsutsum          #+#    #+#             */
-/*   Updated: 2026/02/10 07:06:38 by htsutsum         ###   ########.fr       */
+/*   Updated: 2026/02/16 07:25:04 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ double	hit_disk(t_ray ray, t_vec3 center, t_vec3 normal, double radius)
 	t_vec3	v;
 
 	d = vec3_dot(normal, ray.direction);
-	if (fabs(d) < EPSILON)
+	if (fabs(d) <= EPSILON)
 		return (-1.0);
 	oc = vec3_sub(center, ray.origin);
 	t = vec3_dot(oc, normal) / d;

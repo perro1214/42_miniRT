@@ -6,7 +6,7 @@
 /*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/11 18:27:40 by hayato            #+#    #+#             */
-/*   Updated: 2026/02/16 06:05:30 by htsutsum         ###   ########.fr       */
+/*   Updated: 2026/02/16 07:27:40 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@
 
 // EPSILON
 #ifndef EPSILON
-# define EPSILON 1e-5
+# define EPSILON 1e-4
 #endif
 
 // Window size
