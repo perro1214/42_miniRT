@@ -6,7 +6,7 @@
 /*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/12 04:36:41 by htsutsum          #+#    #+#             */
-/*   Updated: 2026/02/16 03:39:07 by htsutsum         ###   ########.fr       */
+/*   Updated: 2026/02/16 06:03:05 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,6 +81,8 @@ static int	parse_line(t_scene *scene, char *line)
 		status = add_new_object(scene, rt_data);
 	else
 		log_error("Unknown identifier found in .rt file");
+	if (status == 1)
+		printf("Error: Failed to parse identifier [%s]\n", rt_data[0]); // デバッグ用
 	ft_free_tab(rt_data);
 	return (status);
 }

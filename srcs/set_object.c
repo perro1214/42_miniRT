@@ -6,7 +6,7 @@
 /*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/19 17:24:08 by htsutsum          #+#    #+#             */
-/*   Updated: 2026/02/16 04:27:47 by htsutsum         ###   ########.fr       */
+/*   Updated: 2026/02/16 06:05:54 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,7 +121,7 @@ int	set_cylinder(t_object *obj, char **rt_data)
 /**
  * ex.
  * co 0.0,0.0,20.6 0.0,0.0,1.0 14.2 21.42 10,0,255
- * type : c0
+ * type : co
  * position : 0.0,0.0.20.6
  * direction : [ -1, 1] :0.0,0.0,1.0
  * diameter : 14.2
@@ -132,7 +132,7 @@ int	set_cylinder(t_object *obj, char **rt_data)
  * @brief loads cone data.
  *
  */
-int	set_corn(t_object *obj, char **rt_data)
+int	set_cone(t_object *obj, char **rt_data)
 {
 	int		status;
 	double	k;

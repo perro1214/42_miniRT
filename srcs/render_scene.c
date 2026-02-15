@@ -6,7 +6,7 @@
 /*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/20 19:50:29 by htsutsum          #+#    #+#             */
-/*   Updated: 2026/02/16 05:25:14 by htsutsum         ###   ########.fr       */
+/*   Updated: 2026/02/16 05:35:54 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,9 +78,9 @@ t_vec3 get_cone_normal(t_object *obj, t_vec3 hit_point)
 	cp = vec3_sub(hit_point, obj->curr.pos);
 	m = vec3_dot(cp, obj->curr.normal);
 	// 蓋（底面）に当たった場合
-    // 高さがほぼ0なら底面。法線は軸の逆向き。
-    if (m <= EPSILON)
-        return (vec3_scale(obj->curr.normal, -1.0));
+	// 高さがほぼ0なら底面。法線は軸の逆向き。
+	if (m <= EPSILON)
+		return (vec3_scale(obj->curr.normal, -1.0));
 	// 側面に当たった場合
 	tip = vec3_add(obj->curr.pos, vec3_scale(obj->curr.normal, obj->data.co.height));
 	// 頂点から交点へのベクトル
