@@ -6,7 +6,7 @@
 /*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/28 22:38:44 by htsutsum          #+#    #+#             */
-/*   Updated: 2026/02/16 06:37:30 by htsutsum         ###   ########.fr       */
+/*   Updated: 2026/02/16 08:51:59 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,12 +39,13 @@ double	hit_cone(t_object *obj, t_ray ray)
 // V: 円錐の方向ベクトル(単位ベクトル), W: レイ始点から頂点へのベクトル
 static double	hit_cone_side(t_object *obj, t_ray ray)
 {
-	t_vec3  tip;
-	t_vec3	w;
-	double	dv; // ray.direction と v の内積
-	double	wv; // w と v の内積
-	double	a, b, c, t1, t2, h1, h2;
-	double	m;
+	t_vec3 		tip;
+	t_vec3		w;
+	double		dv; // ray.direction と v の内積
+	double		wv; // w と v の内積
+	t_quadratic q;
+	double		m;
+	double		h1, h2;
 
 	tip = vec3_add(obj->curr.pos, vec3_scale(obj->curr.normal, obj->data.co.height));
 	w = vec3_sub(ray.origin, tip);
@@ -53,16 +54,16 @@ static double	hit_cone_side(t_object *obj, t_ray ray)
 	wv = vec3_dot(w, obj->curr.normal);
 	m = 1.0 + obj->data.co.k_sq;
 	// a = 1.0 - (1 + k^2)(D・V)^2  (ray.directionが正規されているため、 D・D は 1.0)
-	a = 1.0 - m * (dv * dv);
+	q.a = 1.0 - m * (dv * dv);
 	// a = 0 は、レイが円錐の斜面（母線）と平行
 	//	ゼロ除算を避けるため、および平行なレイは側面を貫通しないため除外
-	if (fabs(a) < EPSILON)
+	if (fabs(q.a) < EPSILON)
 		return (-1.0);
 	// b = 2 * (D・W - (1 + k^2)(D・V)(W・V))
-	b = 2.0 * (vec3_dot(ray.direction, w) - m * (dv * wv));
+	q.b = 2.0 * (vec3_dot(ray.direction, w) - m * (dv * wv));
 	// c = W・W - (1 + k^2)(W・V)^2
-	c = vec3_dot(w, w) - m * (wv * wv);
-	if (!solve_quadratic(a, b, c, &t1, &t2))
+	q.c = vec3_dot(w, w) - m * (wv * wv);
+	if (!solve_quadratic(&q))
 		return (-1.0);
 
 	// 交点の検証
@@ -70,18 +71,18 @@ static double	hit_cone_side(t_object *obj, t_ray ray)
 	// 頂点(tip)が 0、底面(base)が -height
 	// 小さい方の解 t1 (手前の壁) の検証
 	// 高さの範囲で制限しないと砂時計のようになる。
-	if (t1 >= EPSILON)
+	if (q.t1 >= EPSILON)
 	{
-		h1 = dv * t1 + wv;
+		h1 = dv * q.t1 + wv;
 		if (h1 >= -obj->data.co.height && h1 <= 0)
-			return (t1);
+			return (q.t1);
 	}
 	// 大きい方の解 t2 (奥の壁) の検証
-	if (t2 >= EPSILON)
+	if (q.t2 >= EPSILON)
 	{
-		h2 = dv * t2 + wv;
+		h2 = dv * q.t2 + wv;
 		if (h2 >= -obj->data.co.height && h2 <= 0)
-			return (t2);
+			return (q.t2);
 	}
 	return (-1.0);
 }

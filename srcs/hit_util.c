@@ -6,7 +6,7 @@
 /*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/27 12:31:35 by htsutsum          #+#    #+#             */
-/*   Updated: 2026/02/16 07:25:04 by htsutsum         ###   ########.fr       */
+/*   Updated: 2026/02/16 08:45:15 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,17 +16,17 @@
 // 2次方程式 at^2 + bt + c = 0 を解く。
 // t1 (レイが最初に円柱の表面に接触する場所、t2はレイが円柱の中に入り、反対側に接触する場所
 // 負の解しかない場合は 0,
-int	solve_quadratic(double a, double b, double c, double *t1, double *t2)
+int	solve_quadratic(t_quadratic *q)
 {
 	double	d;
 	double	inv_2a;
 
-	d = b * b - 4.0 * a * c;
+	d = q->b * q->b - 4.0 * q->a * q->c;
 	if (d < 0)
 		return (0);
-	inv_2a = 0.5 / a;
-	*t1 = (-b - sqrt(d)) * inv_2a;
-	*t2 = (-b + sqrt(d)) * inv_2a;
+	inv_2a = 0.5 / q->a;
+	q->t1 = (-q->b - sqrt(d)) * inv_2a;
+	q->t2 = (-q->b + sqrt(d)) * inv_2a;
 	return (1);
 }
 
