@@ -6,7 +6,7 @@
 /*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/11 18:27:40 by hayato            #+#    #+#             */
-/*   Updated: 2026/02/15 15:27:37 by htsutsum         ###   ########.fr       */
+/*   Updated: 2026/02/16 03:23:43 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,7 @@ typedef struct s_cylinder
 	double half_h; // height * 0.5
 }	t_cylinder;
 
-typedef struct s_core
+typedef struct s_corn
 {
 	t_vec3	normal;
 	double	radius;
@@ -96,7 +96,7 @@ typedef struct s_core
 	double	half_h;
 	double	k; // radius/height
 	double	k_sq; // k^2
-}	t_core;
+}	t_corn;
 
 typedef struct s_circle
 {
@@ -110,7 +110,8 @@ typedef union u_obj_data
 	t_plane		pl;
 	t_cylinder	cy;
 	t_circle	ci;
-} t_obj_data;
+	t_corn		co;
+}	t_obj_data;
 
 typedef struct s_object
 {
