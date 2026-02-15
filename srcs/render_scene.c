@@ -6,7 +6,7 @@
 /*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/20 19:50:29 by htsutsum          #+#    #+#             */
-/*   Updated: 2026/02/15 05:40:06 by htsutsum         ###   ########.fr       */
+/*   Updated: 2026/02/16 05:25:14 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 t_vec3		raycast(t_scene *scene, t_ray ray);
 t_object	*find_closest_obj(t_scene *scene, t_ray ray, double *out_t);
 t_vec3		get_cylinder_normal(t_object *obj, t_vec3 hit_point);
+t_vec3		get_cone_normal(t_object *obj, t_vec3 hit_point);
 
 static t_vec3	get_normal(t_object *obj, t_vec3 hit_point, t_vec3 ray_dir)
 {
@@ -27,6 +28,8 @@ static t_vec3	get_normal(t_object *obj, t_vec3 hit_point, t_vec3 ray_dir)
 		normal = obj->curr.normal;
 	else if (obj->type == CYLINDER)
 		normal = get_cylinder_normal(obj, hit_point);
+	else if (obj->type == CONE)
+		normal = get_cone_normal(obj, hit_point);
 	else
 		normal = vec3_init(0, 1, 0);
 	// 内積が正 = 同じ方向を向いている
@@ -42,7 +45,7 @@ t_vec3 get_cylinder_normal(t_object *obj, t_vec3 hit_point)
 	t_vec3	cp;
 	double	m;
 	t_vec3	q;
-	// 円柱の底面から中心へ向かって伸びる矢印
+	// 円柱の底面から交点へのベクトル
 	cp = vec3_sub(hit_point, obj->curr.pos);
 	// 交点が軸のどの高さに対応するか計算
 	m = vec3_dot(cp, obj->curr.normal);
@@ -58,6 +61,36 @@ t_vec3 get_cylinder_normal(t_object *obj, t_vec3 hit_point)
 	q = vec3_scale(obj->curr.normal, m);
 	return (vec3_normalize(vec3_sub(cp, q)));
 }
+
+// 円錐の法線を求める
+// 頂点から交点へのベクトル V​= P - tip
+// 軸方向のベクトル N = V​−(1+k^2)・m・normal
+t_vec3 get_cone_normal(t_object *obj, t_vec3 hit_point)
+{
+	t_vec3	cp;
+	t_vec3	tip;
+	t_vec3	v;
+	double 	h;
+	double	m;
+	t_vec3	n;
+
+	// 円柱の底面から交点へのベクトル
+	cp = vec3_sub(hit_point, obj->curr.pos);
+	m = vec3_dot(cp, obj->curr.normal);
+	// 蓋（底面）に当たった場合
+    // 高さがほぼ0なら底面。法線は軸の逆向き。
+    if (m <= EPSILON)
+        return (vec3_scale(obj->curr.normal, -1.0));
+	// 側面に当たった場合
+	tip = vec3_add(obj->curr.pos, vec3_scale(obj->curr.normal, obj->data.co.height));
+	// 頂点から交点へのベクトル
+	v = vec3_sub(hit_point, tip);
+	// 軸方向の距離
+	h = vec3_dot(v, obj->curr.normal);
+	n = vec3_sub(v, vec3_scale(obj->curr.normal, (1.0 + obj->data.co.k_sq) * h));
+	return (vec3_normalize(n));
+}
+
 
 // レンダリング
 void	render_scene(t_scene *scene)
@@ -98,7 +131,6 @@ t_vec3	raycast(t_scene *scene, t_ray ray)
 	{
 		rec.point = ray_at(ray, min_t);
 		rec.normal = get_normal(closest_obj, rec.point, ray.direction);
-		//rec.color = closest_obj->color;
 		rec.t = min_t;
 		rec.hit = 1;
 		if (closest_obj->type == PLANE && closest_obj->data.pl.checker_flag)
@@ -131,6 +163,8 @@ t_object	*find_closest_obj(t_scene *scene, t_ray ray, double *out_t)
 			t = hit_cylinder(curr, ray);
 		else if (curr->type == PLANE)
 			t = hit_plane(curr, ray);
+		else if (curr->type == CONE)
+			t = hit_cone(curr, ray);
 		// 0より大きく、かつこれまでの最小距離より近い場合のみ更新
 		if (t > EPSILON && t < min_t)
 		{

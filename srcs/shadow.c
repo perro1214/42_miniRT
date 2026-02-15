@@ -34,6 +34,8 @@ int	is_in_shadow(t_object *objects, t_light *light, t_vec3 hit_point,
 			t = hit_plane(obj, shadow_ray);
 		else if (obj->type == CYLINDER)
 			t = hit_cylinder(obj, shadow_ray);
+		else if (obj->type == CONE)
+			t = hit_cone(obj, shadow_ray);
 		else
 			t = -1;
 		// 光源より近い位置に物体があれば影

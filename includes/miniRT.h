@@ -6,7 +6,7 @@
 /*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/11 18:27:40 by hayato            #+#    #+#             */
-/*   Updated: 2026/02/16 03:29:14 by htsutsum         ###   ########.fr       */
+/*   Updated: 2026/02/16 04:50:12 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -234,6 +234,8 @@ double hit_cylinder(t_object *obj, t_ray ray);
 // hit_circle
 double	hit_circle(t_object *obj, t_ray ray);
 
+// hit_cone
+double	hit_cone(t_object *obj, t_ray ray);
 // hit_util
 int		solve_quadratic(double a, double b, double c, double *t1, double *t2);
 double	hit_disk(t_ray ray, t_vec3 center, t_vec3 normal, double radius);
