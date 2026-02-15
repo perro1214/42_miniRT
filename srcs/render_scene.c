@@ -6,7 +6,7 @@
 /*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/20 19:50:29 by htsutsum          #+#    #+#             */
-/*   Updated: 2026/02/16 06:40:18 by htsutsum         ###   ########.fr       */
+/*   Updated: 2026/02/16 07:12:34 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -165,7 +165,7 @@ t_object	*find_closest_obj(t_scene *scene, t_ray ray, double *out_t)
 		else if (curr->type == CONE)
 			t = hit_cone(curr, ray);
 		// 0より大きく、かつこれまでの最小距離より近い場合のみ更新
-		if (t > EPSILON && t < min_t)
+		if (t >= EPSILON && t < min_t)
 		{
 			min_t = t;
 			closest_obj = curr;
