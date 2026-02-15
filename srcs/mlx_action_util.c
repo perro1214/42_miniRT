@@ -6,7 +6,7 @@
 /*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/11 19:39:14 by hayato            #+#    #+#             */
-/*   Updated: 2026/02/16 06:54:25 by htsutsum         ###   ########.fr       */
+/*   Updated: 2026/02/16 07:10:25 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@ void    rotate_object(int keycode, t_scene *scene)
 	t_vec3      axis;
 	double      angle;
 	double      rot_step;
+	double		half_h;
 	t_vec3      mid;
 
 	obj = scene->selected_obj;
@@ -51,16 +52,21 @@ void    rotate_object(int keycode, t_scene *scene)
 		return ;
 
 	// --- 回転実行部 ---
-	if (obj->type == CYLINDER)
+	if (obj->type == CYLINDER || obj->type == CONE)
 	{
 		// 中心点（重心）を中心に回転
-		mid = vec3_add(obj->curr.pos, vec3_scale(obj->curr.normal, obj->data.cy.half_h));
+		if (obj->type == CYLINDER)
+			half_h = obj->data.cy.half_h;
+		else if (obj->type == CONE)
+			half_h = obj->data.co.half_h;
+
+		mid = vec3_add(obj->curr.pos, vec3_scale(obj->curr.normal, half_h));
 		obj->curr.normal = vec3_rotate_axis(obj->curr.normal, axis, angle);
 		obj->curr.normal = vec3_normalize(obj->curr.normal);
 		obj->right = vec3_normalize(vec3_rotate_axis(obj->right, axis, angle));
         obj->up = vec3_normalize(vec3_rotate_axis(obj->up, axis, angle));
 		// 底面位置を逆算
-		obj->curr.pos = vec3_sub(mid, vec3_scale(obj->curr.normal, obj->data.cy.half_h));
+		obj->curr.pos = vec3_sub(mid, vec3_scale(obj->curr.normal, half_h));
 	}
 	else
 	{
@@ -145,8 +151,9 @@ void    rotate_control(int keycode, t_scene *scene)
 	}
 	else if (scene->mode == OBJECT && scene->selected_obj)
 	{
-		if (scene->selected_obj->type == CYLINDER || \
-		scene->selected_obj->type == PLANE)
+		if (scene->selected_obj->type == CYLINDER
+			 || scene->selected_obj->type == PLANE
+			 || scene->selected_obj->type == CONE)
 		{
 			rotate_object(keycode, scene);
 			scene->render_flag = 1;
@@ -197,6 +204,8 @@ void reset_control(int keycode, t_scene *scene)
 			scene->selected_obj->curr.normal = scene->selected_obj->data.pl.normal;
 		else if (scene->selected_obj->type == CYLINDER)
 			scene->selected_obj->curr.normal = scene->selected_obj->data.cy.normal;
+		else if (scene->selected_obj->type == CONE)
+			scene->selected_obj->curr.normal = scene->selected_obj->data.co.normal;
 		else
 			scene->selected_obj->curr.normal = vec3_init(0, 0, 0);
 	}
