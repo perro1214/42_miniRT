@@ -6,7 +6,7 @@
 /*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/18 18:42:56 by htsutsum          #+#    #+#             */
-/*   Updated: 2026/02/14 11:53:55 by htsutsum         ###   ########.fr       */
+/*   Updated: 2026/02/15 05:40:05 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -143,6 +143,10 @@ static void	add_light_to_list(t_light **head, t_light *new_light)
 {
 	if (!new_light)
 		return ;
+	if (*head == NULL)
+		new_light->id = 1;
+	else
+		new_light->id = (*head)->id + 1;
 	new_light->next = *head;
 	*head = new_light;
 }

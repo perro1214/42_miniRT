@@ -6,7 +6,7 @@
 /*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/12 00:43:22 by htsutsum          #+#    #+#             */
-/*   Updated: 2026/01/14 02:43:09 by htsutsum         ###   ########.fr       */
+/*   Updated: 2026/02/15 02:18:16 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,4 +56,27 @@ static void	usage(char *prog_name)
 	ft_putstr_fd("Usage : ", 2);
 	ft_putstr_fd(prog_name, 2);
 	ft_putendl_fd(" [filename.rt]", 2);
+
+}
+
+void	show_manual(void)
+{
+	ft_putendl_fd("------------------------------------------------------", 1);
+	ft_putendl_fd(" miniRT Control Manual", 1);
+	ft_putendl_fd("------------------------------------------------------", 1);
+	ft_putendl_fd(" [Mode / Selection]", 1);
+	ft_putendl_fd("  Space  : CAMERA Mode (Reset focus)", 1);
+	ft_putendl_fd("  Tab    : LIGHT Mode (Switch light source)", 1);
+	ft_putendl_fd("  Mouse-L: Select OBJECT (Click empty area for Camera)", 1);
+	ft_putendl_fd(" [Movement]", 1);
+	ft_putendl_fd("  W: Forward   S: Backward", 1);
+	ft_putendl_fd("  A: Left      D: Right", 1);
+	ft_putendl_fd("  Q: Up        Z: Down", 1);
+	ft_putendl_fd(" [Rotation]", 1);
+	ft_putendl_fd("  I: Pitch-Up  K: Pitch-Down", 1);
+	ft_putendl_fd("  J: Roll-L    L: Roll-R (Camera Axis)", 1);
+	ft_putendl_fd(" [Other]", 1);
+	ft_putendl_fd("  R  : RESET (Return current target to initial state)", 1);
+	ft_putendl_fd("  ESC: Exit Program", 1);
+	ft_putendl_fd("------------------------------------------------------", 1);
 }

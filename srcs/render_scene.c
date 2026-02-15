@@ -6,7 +6,7 @@
 /*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/20 19:50:29 by htsutsum          #+#    #+#             */
-/*   Updated: 2026/02/14 15:04:43 by htsutsum         ###   ########.fr       */
+/*   Updated: 2026/02/15 05:40:06 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,6 @@ void	render_scene(t_scene *scene)
 	}
 	mlx_put_image_to_window(scene->mlx->mlx, scene->mlx->win,
 		scene->mlx->img, 0, 0);
-	printf("Rendering...\n");
 }
 
 // レイが光が当たるかどうか。環境光、ライティング、影の計算を行う
@@ -99,9 +98,13 @@ t_vec3	raycast(t_scene *scene, t_ray ray)
 	{
 		rec.point = ray_at(ray, min_t);
 		rec.normal = get_normal(closest_obj, rec.point, ray.direction);
-		rec.color = closest_obj->color;
+		//rec.color = closest_obj->color;
 		rec.t = min_t;
 		rec.hit = 1;
+		if (closest_obj->type == PLANE && closest_obj->data.pl.checker_flag)
+			rec.color = get_checker_color(&rec, closest_obj);
+		else
+			rec.color = closest_obj->color;
 		color = calc_lighting(scene->objs, scene->amb, scene->ligs, &rec);
 		return (color);
 	}

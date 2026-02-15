@@ -6,7 +6,7 @@
 /*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/11 18:27:40 by hayato            #+#    #+#             */
-/*   Updated: 2026/02/14 15:05:59 by htsutsum         ###   ########.fr       */
+/*   Updated: 2026/02/15 06:20:33 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,8 @@ typedef struct s_sphere
 
 typedef struct s_plane
 {
-	t_vec3 normal; // 法線ベクトル
+	t_vec3	normal; // 法線ベクトル
+	int		checker_flag;
 }					t_plane;
 
 typedef struct s_cylinder
@@ -106,6 +107,8 @@ typedef struct s_object
 	t_vec3			color;
 	t_obj_data		data;
 	t_transform		curr;
+	t_vec3			right;
+	t_vec3			up;
 	struct s_object	*next;
 }	t_object;
 
@@ -201,6 +204,7 @@ char	*get_type(t_object *obj);
 
 // arg_parser.c
 int		parse_arguments(int argc, char **argv);
+void	show_manual(void);
 
 // timer.c
 double	current_time_ms(void);
@@ -251,12 +255,14 @@ void	free_objects(t_object *objs);
 // rt_parse_util.c
 t_vec3	str_to_vec3(char *str, int *status);
 double	get_double(char *str, int *status);
+int		is_valid_checker_flag(char *str);
 
 //color_util.c
 t_vec3	color_to_unit(t_vec3 color);
 int		vec3_to_color(t_vec3 color);
 t_vec3	denormalize_color(t_vec3 color);
 t_vec3	clamp_color(t_vec3 color);
+t_vec3 get_checker_color(t_hit_record *rec, t_object *obj);
 
 //rt_validator.c
 int		is_in_range(double value, double min, double max);
