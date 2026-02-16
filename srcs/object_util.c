@@ -6,7 +6,7 @@
 /*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/14 17:36:17 by htsutsum          #+#    #+#             */
-/*   Updated: 2026/02/10 17:36:40 by htsutsum         ###   ########.fr       */
+/*   Updated: 2026/02/16 06:06:10 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,8 @@ int	add_new_object(t_scene *scene, char **rt_data)
 		status = set_plane(new, rt_data);
     else if (ft_strcmp(rt_data[0], "cy") == 0)
 		status = set_cylinder(new, rt_data);
+	else if (ft_strcmp(rt_data[0], "co") == 0)
+		status = set_cone(new, rt_data);
     if (status != 0)
         return (free(new), 1);
     add_object_to_list(&(scene->objs), new);

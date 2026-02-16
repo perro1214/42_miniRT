@@ -6,7 +6,7 @@
 /*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/19 17:24:08 by htsutsum          #+#    #+#             */
-/*   Updated: 2026/02/15 06:20:00 by htsutsum         ###   ########.fr       */
+/*   Updated: 2026/02/16 06:05:54 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,15 +104,57 @@ int	set_cylinder(t_object *obj, char **rt_data)
 	obj->type = CYLINDER;
 	obj->pos = str_to_vec3(rt_data[1], &status);
 	obj->data.cy.normal = str_to_vec3(rt_data[2], &status);
-	obj->data.cy.radius = get_double(rt_data[3], &status) / 2.0;
+	obj->data.cy.radius = get_double(rt_data[3], &status) * 0.5;
 	obj->data.cy.height = get_double(rt_data[4], &status);
 	obj->color = str_to_vec3(rt_data[5], &status);
 	if (status || !is_valid_color(obj->color)
 		|| !is_valid_normal(obj->data.cy.normal) || obj->data.cy.radius <= 0
 		|| obj->data.cy.height <= 0)
 		return (log_error("Cylinder: Invalid data or normal data"), 1);
+	obj->data.cy.half_h = obj->data.cy.height * 0.5;
 	obj->color = color_to_unit(obj->color);
 	obj->data.cy.normal = vec3_normalize(obj->data.cy.normal);
+	init_object_transforms(obj);
+	return (0);
+}
+
+/**
+ * ex.
+ * co 0.0,0.0,20.6 0.0,0.0,1.0 14.2 21.42 10,0,255
+ * type : co
+ * position : 0.0,0.0.20.6
+ * direction : [ -1, 1] :0.0,0.0,1.0
+ * diameter : 14.2
+ * height : 21
+ * color [0, 255] : 10,0,255
+ * rt_data size : 6
+ *
+ * @brief loads cone data.
+ *
+ */
+int	set_cone(t_object *obj, char **rt_data)
+{
+	int		status;
+	double	k;
+
+	status = 0;
+	if (ft_count_tab(rt_data) != 6)
+		return (log_error("Cylinder: Invalid number of arguments"), 1);
+	obj->type = CONE;
+	obj->pos = str_to_vec3(rt_data[1], &status);
+	obj->data.co.normal = str_to_vec3(rt_data[2], &status);
+	obj->data.co.radius = get_double(rt_data[3], &status) * 0.5;
+	obj->data.co.height = get_double(rt_data[4], &status);
+	obj->color = str_to_vec3(rt_data[5], &status);
+	if (status || !is_valid_color(obj->color)
+		|| !is_valid_normal(obj->data.co.normal) || obj->data.co.radius <= 0
+		|| obj->data.co.height <= 0)
+		return (log_error("CONE: Invalid data or normal data"), 1);
+	obj->data.co.half_h = obj->data.co.height * 0.5;
+	k = obj->data.co.radius / obj->data.co.height;
+	obj->data.co.k_sq = k * k;
+	obj->color = color_to_unit(obj->color);
+	obj->data.co.normal = vec3_normalize(obj->data.co.normal);
 	init_object_transforms(obj);
 	return (0);
 }
@@ -130,10 +172,12 @@ static void	init_object_transforms(t_object *obj)
 		obj->curr.normal = obj->data.pl.normal;
 	else if (obj->type == CYLINDER)
 		obj->curr.normal = obj->data.cy.normal;
+	else if (obj->type == CONE)
+		obj->curr.normal = obj->data.co.normal;
 	else if (obj->type == SPHERE)
 		obj->curr.normal = vec3_init(0, 1, 0);
 	world_up = vec3_init(0, 1, 0);
-	if (fabs(obj->curr.normal.y) > 0.9999)
+	if (fabs(obj->curr.normal.y) >= 0.9999)
 		world_up = vec3_init(0, 0, 1);
 	obj->right = vec3_normalize(vec3_cross(world_up, obj->curr.normal));
     obj->up = vec3_normalize(vec3_cross(obj->curr.normal, obj->right));

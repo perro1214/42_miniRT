@@ -6,7 +6,7 @@
 /*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/13 22:10:21 by hayato            #+#    #+#             */
-/*   Updated: 2026/02/11 11:32:46 by htsutsum         ###   ########.fr       */
+/*   Updated: 2026/02/16 07:24:55 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ double	hit_plane(t_object *obj, t_ray ray)
 
 	// 分母を計算 (D · N)
 	denominator = vec3_dot(ray.direction, obj->curr.normal);
-	if (fabs(denominator) < 1e-6)
+	if (fabs(denominator) <= EPSILON)
 	{
 		// レイが平面に平行の場合、交差しない
 		return (-1.0);

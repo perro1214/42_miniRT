@@ -6,7 +6,7 @@
 /*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/11 18:27:40 by hayato            #+#    #+#             */
-/*   Updated: 2026/02/15 06:20:33 by htsutsum         ###   ########.fr       */
+/*   Updated: 2026/02/16 08:42:38 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,9 +30,9 @@
 # endif
 
 // EPSILON
-#ifndef EPSILON
-# define EPSILON 1e-5
-#endif
+# ifndef EPSILON
+#  define EPSILON 1e-4
+# endif
 
 // Window size
 # define WIN_WIDTH 880
@@ -54,42 +54,53 @@ typedef struct s_mlx
 
 typedef enum e_type
 {
-    SPHERE,
-    PLANE,
-    CYLINDER,
+	SPHERE,
+	PLANE,
+	CYLINDER,
 	CIRCLE,
+	CONE,
 	TYPE_MAX
 }	t_type;
 
 typedef struct s_transform
 {
-	t_vec3 pos;  // 移動後の位置
-	t_vec3 normal; // 正規化されたベクトル
-	t_vec3 angle;// 現在の回転各（ラジアン）
+	t_vec3	pos;// 移動後の位置
+	t_vec3	normal;// 正規化されたベクトル
+	t_vec3	angle;// 現在の回転各（ラジアン）
 }	t_transform;
 
 typedef struct s_sphere
 {
-	double radius; // 球の半径 （直径から半径に変換）
+	double	radius; // 球の半径 （直径から半径に変換）
 }	t_sphere;
 
 typedef struct s_plane
 {
 	t_vec3	normal; // 法線ベクトル
 	int		checker_flag;
-}					t_plane;
+}	t_plane;
 
 typedef struct s_cylinder
 {
-	t_vec3 normal; // 法線ベクトル
-	double radius; // 半径
-	double height; // 高さ
-} t_cylinder;
+	t_vec3	normal; // 法線ベクトル
+	double	radius; // 半径
+	double	height; // 高さ
+	double	half_h; // height * 0.5
+}	t_cylinder;
+
+typedef struct s_corn
+{
+	t_vec3	normal;
+	double	radius;
+	double	height;
+	double	half_h;
+	double	k_sq; //  (radius/height)^2
+}	t_corn;
 
 typedef struct s_circle
 {
-	t_vec3 normal; //法線ベクトル
-	double radius;
+	t_vec3	normal; //法線ベクトル
+	double	radius;
 }	t_circle;
 
 typedef union u_obj_data
@@ -98,7 +109,8 @@ typedef union u_obj_data
 	t_plane		pl;
 	t_cylinder	cy;
 	t_circle	ci;
-} t_obj_data;
+	t_corn		co;
+}	t_obj_data;
 
 typedef struct s_object
 {
@@ -114,17 +126,16 @@ typedef struct s_object
 
 typedef struct s_camera
 {
-	t_vec3			pos; // 初期値
-	t_vec3			dir;
-	double			fov;
-	t_transform		curr; // 動かす値
-	t_vec3			right; // 計算済みデータ、レイ計算高速化
-	t_vec3			up;
-	double			render_scale; // tan(fov/2)
-	double			aspect_ratio; // 画面アスペクト
-	double			inv_width; // 1.0 / WIN_WIDTH
-	double			inv_height; // 1.0 / WIN_HEIGHT
-
+	t_vec3		pos; // 初期値
+	t_vec3		dir;
+	double		fov;
+	t_transform	curr; // 動かす値
+	t_vec3		right; // 計算済みデータ、レイ計算高速化
+	t_vec3		up;
+	double		render_scale; // tan(fov/2)
+	double		aspect_ratio; // 画面アスペクト
+	double		inv_width; // 1.0 / WIN_WIDTH
+	double		inv_height; // 1.0 / WIN_HEIGHT
 }	t_camera;
 
 typedef struct s_ambient
@@ -135,7 +146,7 @@ typedef struct s_ambient
 
 typedef struct s_light
 {
-	int 			id;
+	int				id;
 	t_vec3			pos;
 	double			intensity;
 	t_vec3			color;
@@ -162,7 +173,7 @@ typedef struct s_scene
 	t_light		*selected_lig;
 	t_object	*selected_obj;
 	int			render_flag;
-} 	t_scene;
+}	t_scene;
 
 /*
 ** 交差情報（ヒットレコード）
@@ -170,129 +181,143 @@ typedef struct s_scene
 */
 typedef struct s_hit_record
 {
-	t_vec3			point;
-	t_vec3			normal;
-	t_vec3			color;
-	double			t;
-	int				hit;
-}					t_hit_record;
+	t_vec3	point;
+	t_vec3	normal;
+	t_vec3	color;
+	double	t;
+	int		hit;
+}	t_hit_record;
+
+// 二次方程式
+typedef struct s_quadratic
+{
+	double	a;
+	double	b;
+	double	c;
+	double	t1;
+	double	t2;
+}	t_quadratic;
 
 // mlx_action_key.c
-int		key_hook(int keycode, t_scene *scene);
-t_vec3 get_move_direction(int keycode, t_camera *cam);
+int			key_hook(int keycode, t_scene *scene);
+t_vec3		get_move_direction(int keycode, t_camera *cam);
 
 // mlx_action_mouse.c
-int		mouse_hook(int button, int x, int y, t_scene *scene);
+int			mouse_hook(int button, int x, int y, t_scene *scene);
 
 // mlx_action_other.c
-int		expose_hook(t_scene *scene);
-int		close_window(t_scene *scene);
-int		loop_hook(t_scene *scene);
+int			expose_hook(t_scene *scene);
+int			close_window(t_scene *scene);
+int			loop_hook(t_scene *scene);
 
 //mlx_action_util.c
-void	move_control(int keycode, t_scene *scene);
-void	rotate_control(int keycode, t_scene *scene);
-void 	reset_control(int keycode, t_scene *scene);
-void	update_camera(t_camera *cam);
+void		move_control(int keycode, t_scene *scene);
+void		rotate_control(int keycode, t_scene *scene);
+void		reset_control(int keycode, t_scene *scene);
+void		update_camera(t_camera *cam);
 
 // render_pixel.c
-void	ft_mlx_put_pixel(t_mlx *mlx, int x, int y, int color);
+void		ft_mlx_put_pixel(t_mlx *mlx, int x, int y, int color);
 
 // error.c
-void	log_error(char *message);
-char	*get_type(t_object *obj);
+void		log_error(char *message);
+char		*get_type(t_object *obj);
 
 // arg_parser.c
-int		parse_arguments(int argc, char **argv);
-void	show_manual(void);
+int			parse_arguments(int argc, char **argv);
+void		show_manual(void);
 
 // timer.c
-double	current_time_ms(void);
-void	log_elapsed_time(char *prefix_str, double start_time);
+double		current_time_ms(void);
+void		log_elapsed_time(char *prefix_str, double start_time);
 
 // hit_sphere.c
-double	hit_sphere(t_object *obj, t_ray ray);
+double		hit_sphere(t_object *obj, t_ray ray);
 
 // hit_plane.c
-double	hit_plane(t_object *obj, t_ray ray);
+double		hit_plane(t_object *obj, t_ray ray);
 
 // hit_cylinder
-double hit_cylinder(t_object *obj, t_ray ray);
+double		hit_cylinder(t_object *obj, t_ray ray);
 
 // hit_circle
-double	hit_circle(t_object *obj, t_ray ray);
+double		hit_circle(t_object *obj, t_ray ray);
+
+// hit_cone
+double		hit_cone(t_object *obj, t_ray ray);
 
 // hit_util
-int		solve_quadratic(double a, double b, double c, double *t1, double *t2);
-double	hit_disk(t_ray ray, t_vec3 center, t_vec3 normal, double radius);
+int			solve_quadratic(t_quadratic *q);
+double		hit_disk(t_ray ray, t_vec3 center, t_vec3 normal, double radius);
 
 // screen_norm.c
-t_ray	get_ray_fixed(int px, int py);
-t_ray	get_ray(int px, int py, t_camera *cam);
-void	init_camera_constant(t_camera *cam);
+t_ray		get_ray_fixed(int px, int py);
+t_ray		get_ray(int px, int py, t_camera *cam);
+void		init_camera_constant(t_camera *cam);
 
 // rt_loader.c
-int		rt_loader(t_scene *scene, char *file_name);
-int		is_valid_scene(t_scene *scene);
-void	free_scene(t_scene *scene);
+int			rt_loader(t_scene *scene, char *file_name);
+int			is_valid_scene(t_scene *scene);
+void		free_scene(t_scene *scene);
 
 // set_object.c
-int		set_sphere(t_object *obj, char **rt_data);
-int		set_plane(t_object *obj, char **rt_data);
-int		set_cylinder(t_object *obj, char **rt_data);
+int			set_sphere(t_object *obj, char **rt_data);
+int			set_plane(t_object *obj, char **rt_data);
+int			set_cylinder(t_object *obj, char **rt_data);
+int			set_cone(t_object *obj, char **rt_data);
 
 // set_scene.c
-int		set_ambient(t_scene *scene, char **rt_data);
-int		set_camera(t_scene *scene, char **rt_data);
-int		set_light(t_scene *scene, char **rt_data);
-void	free_lights(t_light *lights);
+int			set_ambient(t_scene *scene, char **rt_data);
+int			set_camera(t_scene *scene, char **rt_data);
+int			set_light(t_scene *scene, char **rt_data);
+void		free_lights(t_light *lights);
 
 // object_util.c
-int		add_new_object(t_scene *scene, char **rt_data);
-void	add_object_to_list(t_object **head, t_object *new_obj);
-void	free_objects(t_object *objs);
+int			add_new_object(t_scene *scene, char **rt_data);
+void		add_object_to_list(t_object **head, t_object *new_obj);
+void		free_objects(t_object *objs);
 
 // rt_parse_util.c
-t_vec3	str_to_vec3(char *str, int *status);
-double	get_double(char *str, int *status);
-int		is_valid_checker_flag(char *str);
+t_vec3		str_to_vec3(char *str, int *status);
+double		get_double(char *str, int *status);
+int			is_valid_checker_flag(char *str);
 
 //color_util.c
-t_vec3	color_to_unit(t_vec3 color);
-int		vec3_to_color(t_vec3 color);
-t_vec3	denormalize_color(t_vec3 color);
-t_vec3	clamp_color(t_vec3 color);
-t_vec3 get_checker_color(t_hit_record *rec, t_object *obj);
+t_vec3		color_to_unit(t_vec3 color);
+int			vec3_to_color(t_vec3 color);
+t_vec3		denormalize_color(t_vec3 color);
+t_vec3		clamp_color(t_vec3 color);
+t_vec3		get_checker_color(t_hit_record *rec, t_object *obj);
 
 //rt_validator.c
-int		is_in_range(double value, double min, double max);
-int 	is_valid_normal(t_vec3 normal);
-int 	is_valid_normal_vec(t_vec3 normal);
-int		is_normalized(t_vec3 vec);
-int 	is_valid_color(t_vec3 color);
+int			is_in_range(double value, double min, double max);
+int			is_valid_normal(t_vec3 normal);
+int			is_valid_normal_vec(t_vec3 normal);
+int			is_normalized(t_vec3 vec);
+int			is_valid_color(t_vec3 color);
 
 // camera_util.c
-void	update_camera(t_camera *cam);
+void		update_camera(t_camera *cam);
 
 // render_scene.c
 void		render_scene(t_scene *scene);
 t_object	*find_closest_obj(t_scene *scene, t_ray ray, double *out_t);
 
 // calc_ambient.c
-t_vec3				calc_ambient(t_ambient ambient, t_vec3 object_color);
+t_vec3		calc_ambient(t_ambient ambient, t_vec3 object_color);
 
 // calc_diffuse.c
-t_vec3				calc_diffuse(t_light light, t_vec3 hit_point, t_vec3 normal,
-						t_vec3 object_color);
+t_vec3		calc_diffuse(t_light light, t_vec3 hit_point,
+				t_vec3 normal, t_vec3 object_color);
 
 // calc_shading.c
-t_vec3				calc_shading(t_hit_record *rec, t_ambient *ambient,
-						t_light *light);
-t_vec3				calc_lighting(t_object *objects, t_ambient *ambient,
-						t_light *light, t_hit_record *rec);
+t_vec3		calc_shading(t_hit_record *rec, t_ambient *ambient,
+				t_light *light);
+t_vec3		calc_lighting(t_object *objects, t_ambient *ambient,
+				t_light *light, t_hit_record *rec);
 
 // shadow.c
-int					is_in_shadow(t_object *objects, t_light *light,
-						t_vec3 hit_point, t_vec3 normal);
+int			is_in_shadow(t_object *objects, t_light *light,
+				t_vec3 hit_point, t_vec3 normal);
 
 #endif // MINIRT_H

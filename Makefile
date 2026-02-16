@@ -52,6 +52,7 @@ FILES := vec3_1.c\
 		hit_sphere.c\
 		hit_plane.c\
 		hit_cylinder.c\
+		hit_cone.c\
 		hit_circle.c\
 		hit_util.c\
 		screen_norm.c\
