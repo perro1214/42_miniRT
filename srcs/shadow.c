@@ -6,7 +6,7 @@
 /*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/17 00:04:33 by htsutsum          #+#    #+#             */
-/*   Updated: 2026/02/17 00:45:05 by htsutsum         ###   ########.fr       */
+/*   Updated: 2026/02/17 01:22:09 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,4 +33,3 @@ int	is_in_shadow(t_object *objs, t_light *light, t_vec3 hit_point,
 	}
 	return (0);
 }
-
