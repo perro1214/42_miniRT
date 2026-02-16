@@ -6,21 +6,15 @@
 /*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/12 04:36:41 by htsutsum          #+#    #+#             */
-/*   Updated: 2026/02/16 06:03:05 by htsutsum         ###   ########.fr       */
+/*   Updated: 2026/02/16 23:53:29 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "miniRT.h"
 
-// 本当に強制的に正規化していいのか？ ドキュメントとの整合性
-// tab、スペース複数、対策するか？ split
-// 改行問題 -> get_next_lineはリターンコード含む、リターンコード削除で一応対応済み。
-// FOVを0.001 179.99にしているが、度ky面とは0-180の範囲になっているので、調整必要かも?
-
 static int	parse_line(t_scene *scene, char *line);
 static void trim_newline(char *line);
 
-// ファイルをリードオンリーで開いて１行づつ読み込み。
 int	rt_loader(t_scene *scene, char *file_name)
 {
 	int		fd;
@@ -57,7 +51,6 @@ int	rt_loader(t_scene *scene, char *file_name)
 	return (status);
 }
 
-// typeによってデータを読み込み、sceneにデータを追加
 static int	parse_line(t_scene *scene, char *line)
 {
 	char	**rt_data;
@@ -81,13 +74,10 @@ static int	parse_line(t_scene *scene, char *line)
 		status = add_new_object(scene, rt_data);
 	else
 		log_error("Unknown identifier found in .rt file");
-	if (status == 1)
-		printf("Error: Failed to parse identifier [%s]\n", rt_data[0]); // デバッグ用
 	ft_free_tab(rt_data);
 	return (status);
 }
 
-//少なくともデータがひとつづつあるか?
 int	is_valid_scene(t_scene *scene)
 {
 	if (!scene->cam)
@@ -101,7 +91,6 @@ int	is_valid_scene(t_scene *scene)
 	return (0);
 }
 
-// free t_scene
 void	free_scene(t_scene *scene)
 {
 	if (!scene)
@@ -112,7 +101,6 @@ void	free_scene(t_scene *scene)
 	free_objects(scene->objs);
 }
 
-// get_next_lineの改行を切り取り
 static void trim_newline(char *line)
 {
     size_t len = ft_strlen(line);

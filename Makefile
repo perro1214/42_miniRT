@@ -70,7 +70,7 @@ DEBUG_OBJS	= $(addprefix $(OBJS_DIR)/$(DEBUGS_DIR)/, $(DEBUG_FILES:.c=.o))
 # all object files
 ALL_OBJS	= $(OBJS) $(MAIN_OBJ)
 
-# defautl target
+# default target
 all: $(NAME)
 
 # build main

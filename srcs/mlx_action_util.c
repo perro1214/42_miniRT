@@ -6,66 +6,54 @@
 /*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/11 19:39:14 by hayato            #+#    #+#             */
-/*   Updated: 2026/02/16 17:27:06 by htsutsum         ###   ########.fr       */
+/*   Updated: 2026/02/16 23:48:36 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "miniRT.h"
 
-void    rotate_object(int keycode, t_scene *scene)
+void	rotate_object(int keycode, t_scene *scene)
 {
-	t_object    *obj;
-	t_vec3      axis;
-	double      angle;
-	double      rot_step;
+	t_object	*obj;
+	t_vec3		axis;
+	double		angle;
+	double		rot_step;
 	double		half_h;
-	t_vec3      mid;
+	t_vec3		mid;
 
 	obj = scene->selected_obj;
-	rot_step = 0.1; // ステップを小さくして微調整を可能に
+	rot_step = 0.1;
 	if (keycode == XK_i)
 	{
 		axis = scene->cam->right;
 		angle = rot_step;
 	}
-	 else if (keycode == XK_k)
+	else if (keycode == XK_k)
 	{
 		axis = scene->cam->right;
 		angle = -rot_step;
 	}
 	else if (keycode == XK_l || keycode == XK_j)
 	{
-		// --- 水平・垂直時の対策ロジック ---
-		// 平面、または垂直な円柱の場合は、カメラの視線(normal)を軸にする
-		// if (obj->type == PLANE || (obj->type == CYLINDER &&
-		// 	fabs(vec3_dot(obj->curr.normal, scene->cam->up)) > 0.9999))
-		// 	axis = scene->cam->curr.normal;
-		// else
-		// 	axis = scene->cam->up;
 		axis = scene->cam->curr.normal;
-
 		if (keycode == XK_l)
 			angle = -rot_step;
 		else
 			angle = rot_step;
-	} else
+	}
+	else
 		return ;
-
-	// --- 回転実行部 ---
 	if (obj->type == CYLINDER || obj->type == CONE)
 	{
-		// 中心点（重心）を中心に回転
 		if (obj->type == CYLINDER)
 			half_h = obj->data.cy.half_h;
 		else if (obj->type == CONE)
 			half_h = obj->data.co.half_h;
-
 		mid = vec3_add(obj->curr.pos, vec3_scale(obj->curr.normal, half_h));
 		obj->curr.normal = vec3_rotate_axis(obj->curr.normal, axis, angle);
 		obj->curr.normal = vec3_normalize(obj->curr.normal);
 		obj->right = vec3_normalize(vec3_rotate_axis(obj->right, axis, angle));
-        obj->up = vec3_normalize(vec3_rotate_axis(obj->up, axis, angle));
-		// 底面位置を逆算
+		obj->up = vec3_normalize(vec3_rotate_axis(obj->up, axis, angle));
 		obj->curr.pos = vec3_sub(mid, vec3_scale(obj->curr.normal, half_h));
 	}
 	else
@@ -73,7 +61,7 @@ void    rotate_object(int keycode, t_scene *scene)
 		obj->curr.normal = vec3_rotate_axis(obj->curr.normal, axis, angle);
 		obj->curr.normal = vec3_normalize(obj->curr.normal);
 		obj->right = vec3_normalize(vec3_rotate_axis(obj->right, axis, angle));
-        obj->up = vec3_normalize(vec3_rotate_axis(obj->up, axis, angle));
+		obj->up = vec3_normalize(vec3_rotate_axis(obj->up, axis, angle));
 	}
 }
 
@@ -86,7 +74,8 @@ void	rotate_camera_b(int keycode, t_scene *scene)
 
 	cam = scene->cam;
 	step = 0.1;
-	if (keycode == XK_i || keycode == XK_k) {
+	if (keycode == XK_i || keycode == XK_k)
+	{
 		axis = cam->right;
 		if (keycode == XK_i)
 			angle = -step;
@@ -94,8 +83,10 @@ void	rotate_camera_b(int keycode, t_scene *scene)
 			angle = step;
 		cam->curr.normal = vec3_rotate_axis(cam->curr.normal, axis, angle);
 		cam->up = vec3_rotate_axis(cam->up, axis, angle);
-	} else if (keycode == XK_l || keycode == XK_j) {
-		axis = vec3_init(0, 1, 0); // 左右は常に「世界の上」を軸にする
+	}
+	else if (keycode == XK_l || keycode == XK_j)
+	{
+		axis = vec3_init(0, 1, 0);
 		if (keycode == XK_l)
 			angle = step;
 		else
@@ -103,9 +94,9 @@ void	rotate_camera_b(int keycode, t_scene *scene)
 		cam->curr.normal = vec3_rotate_axis(cam->curr.normal, axis, angle);
 		cam->right = vec3_rotate_axis(cam->right, axis, angle);
 		cam->up = vec3_rotate_axis(cam->up, axis, angle);
-	} else
+	}
+	else
 		return ;
-	// 最後に軸を直交化して歪みを防ぐ
 	cam->curr.normal = vec3_normalize(cam->curr.normal);
 	cam->right = vec3_normalize(vec3_cross(cam->up, cam->curr.normal));
 	cam->up = vec3_normalize(vec3_cross(cam->curr.normal, cam->right));
@@ -119,7 +110,7 @@ void	rotate_camera_b(int keycode, t_scene *scene)
  */
 void	move_control(int keycode, t_scene *scene)
 {
-	t_transform *target;
+	t_transform	*target;
 	t_vec3		dir;
 	double		move_speed;
 
@@ -142,7 +133,7 @@ void	move_control(int keycode, t_scene *scene)
 	}
 }
 
-void    rotate_control(int keycode, t_scene *scene)
+void	rotate_control(int keycode, t_scene *scene)
 {
 	if (scene->mode == CAMERA)
 	{
@@ -152,8 +143,8 @@ void    rotate_control(int keycode, t_scene *scene)
 	else if (scene->mode == OBJECT && scene->selected_obj)
 	{
 		if (scene->selected_obj->type == CYLINDER
-			 || scene->selected_obj->type == PLANE
-			 || scene->selected_obj->type == CONE)
+			|| scene->selected_obj->type == PLANE
+			|| scene->selected_obj->type == CONE)
 		{
 			rotate_object(keycode, scene);
 			scene->render_flag = 1;
@@ -161,28 +152,18 @@ void    rotate_control(int keycode, t_scene *scene)
 	}
 }
 
-// カメラを移動したときにレイを飛ばすための基底ベクトルを計算、更新する。
-// 1.現在の角度からdirを計算
-// 2.init_dir(正規化済みに対して、回転を適用
-// ->球座標にする方法もある。
-// 3.ワールド座標の上を定義する
-// 4.right(右方向の計算） 真上とカメラの上の向きの外積
-// 5.カメラが真上を向くと外積が0になるので対策必要
-// 6.カメラのup上の計算：向きと方向向の外積
 void	update_camera(t_camera *cam)
 {
 	t_vec3	world_up;
 	t_vec3	rot_dir;
 
-	rot_dir = vec3_rotate_x(cam->dir,cam->curr.angle.x);
-	rot_dir = vec3_rotate_y(rot_dir,cam->curr.angle.y);
+	rot_dir = vec3_rotate_x(cam->dir, cam->curr.angle.x);
+	rot_dir = vec3_rotate_y(rot_dir, cam->curr.angle.y);
 	cam->curr.normal = vec3_normalize(rot_dir);
 	world_up = vec3_init(0, 1, 0);
 	if (fabs(vec3_dot(cam->curr.normal, world_up)) > 0.9999)
 		world_up = vec3_init(0, 0, 1);
-	// 右ベクトル = world_up × 視線方向
 	cam->right = vec3_normalize(vec3_cross(world_up, cam->curr.normal));
-	// 上ベクトル = 視線方向 × 右ベクトル
 	cam->up = vec3_normalize(vec3_cross(cam->curr.normal, cam->right));
 }
 
@@ -192,10 +173,10 @@ void	update_camera(t_camera *cam)
  * @param keycode
  * @param scene
  */
-void reset_control(int keycode, t_scene *scene)
+void	reset_control(int keycode, t_scene *scene)
 {
-	if(keycode != XK_r)
-		return;
+	if (keycode != XK_r)
+		return ;
 	if (scene->mode == OBJECT && scene->selected_obj)
 	{
 		scene->selected_obj->curr.pos = scene->selected_obj->pos;

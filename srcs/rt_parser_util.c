@@ -6,7 +6,7 @@
 /*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/18 18:38:56 by htsutsum          #+#    #+#             */
-/*   Updated: 2026/02/15 06:20:10 by htsutsum         ###   ########.fr       */
+/*   Updated: 2026/02/16 23:54:19 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 
 static int	is_valid_double_str(char *str);
 
-// ヘルパー関数(文字列を、vec3に変換とエラーチェック）
 t_vec3	str_to_vec3(char *str, int *status)
 {
 	char	**tab;
@@ -43,7 +42,6 @@ t_vec3	str_to_vec3(char *str, int *status)
 	return (vec);
 }
 
-//ヘルパー関数(文字のチェックした後に値を返す）
 double	get_double(char *str, int *status)
 {
 	if (!str || !is_valid_double_str(str))
@@ -54,10 +52,6 @@ double	get_double(char *str, int *status)
 	return (atof(str));
 }
 
-/*
- * 文字列が [0-9], '.', '+', '-' だけで構成されているか
- * かつ、ドットが2つ以上ないかをチェック
- */
 static int	is_valid_double_str(char *str)
 {
 	int	i;
@@ -83,8 +77,7 @@ static int	is_valid_double_str(char *str)
 	return (1);
 }
 
-// checker_flag 0か１か判定
-int is_valid_checker_flag(char *str)
+int	is_valid_checker_flag(char *str)
 {
 	if (!str)
 		return (0);

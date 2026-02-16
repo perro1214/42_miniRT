@@ -6,7 +6,7 @@
 /*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/11 19:39:14 by hayato            #+#    #+#             */
-/*   Updated: 2026/02/14 15:12:59 by htsutsum         ###   ########.fr       */
+/*   Updated: 2026/02/16 23:47:44 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,6 @@
  */
 int	expose_hook(t_scene *scene)
 {
-	//render_scene(scene);
 	scene->render_flag = 1;
 	return (0);
 }
