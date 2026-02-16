@@ -6,7 +6,7 @@
 /*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/20 19:50:29 by htsutsum          #+#    #+#             */
-/*   Updated: 2026/02/17 01:19:57 by htsutsum         ###   ########.fr       */
+/*   Updated: 2026/02/17 04:24:39 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,14 +43,7 @@ static void	ft_mlx_put_pixel(t_mlx *mlx, int x, int y, int color)
 {
 	char	*dst;
 
-	if (x < 0 || x >= WIN_WIDTH || y < 0 || y >= WIN_HEIGHT)
-		return ;
-	dst = mlx->addr + (y * mlx->line_length + x * (mlx->bits_per_pixel / 8));
-	if (!(0 <= color && color <= 0xFFFFFF))
-	{
-		log_error("ft_mlx_put_pixel: color value out of range");
-		return ;
-	}
+	dst = mlx->addr + (y * mlx->line_length + x * (mlx->bits_per_pixel >> 3));
 	*(unsigned int *)dst = color;
 }
 
