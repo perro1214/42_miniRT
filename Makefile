@@ -58,6 +58,7 @@ FILES := vec3_1.c\
 		render_scene.c\
 		calc_ambient.c\
 		calc_diffuse.c\
+		calc_specular.c\
 		calc_shading.c\
 		shadow.c
 

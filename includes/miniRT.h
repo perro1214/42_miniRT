@@ -34,6 +34,10 @@
 # define EPSILON 1e-5
 #endif
 
+// 鏡面反射パラメータ
+# define SPECULAR_COEFF 0.5
+# define SHININESS 32
+
 // Window size
 # define WIN_WIDTH 880
 # define WIN_HEIGHT 495
@@ -173,6 +177,7 @@ typedef struct s_hit_record
 	t_vec3			point;
 	t_vec3			normal;
 	t_vec3			color;
+	t_vec3			view_dir;
 	double			t;
 	int				hit;
 }					t_hit_record;
@@ -284,6 +289,10 @@ t_vec3				calc_ambient(t_ambient ambient, t_vec3 object_color);
 // calc_diffuse.c
 t_vec3				calc_diffuse(t_light light, t_vec3 hit_point, t_vec3 normal,
 						t_vec3 object_color);
+
+// calc_specular.c
+t_vec3				calc_specular(t_light light, t_vec3 hit_point,
+						t_vec3 normal, t_vec3 view_dir);
 
 // calc_shading.c
 t_vec3				calc_shading(t_hit_record *rec, t_ambient *ambient,

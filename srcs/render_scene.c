@@ -99,6 +99,7 @@ t_vec3	raycast(t_scene *scene, t_ray ray)
 		rec.point = ray_at(ray, min_t);
 		rec.normal = get_normal(closest_obj, rec.point, ray.direction);
 		//rec.color = closest_obj->color;
+		rec.view_dir = vec3_normalize(vec3_scale(ray.direction, -1.0));
 		rec.t = min_t;
 		rec.hit = 1;
 		if (closest_obj->type == PLANE && closest_obj->data.pl.checker_flag)

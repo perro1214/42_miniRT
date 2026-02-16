@@ -47,8 +47,8 @@ t_vec3	calc_shading(t_hit_record *rec, t_ambient *ambient, t_light *light)
 t_vec3	calc_lighting(t_object *objects, t_ambient *ambient,
 		t_light *light, t_hit_record *rec)
 {
-	// t_vec3	ambient_color;;
 	t_vec3	diffuse_color;
+	t_vec3	specular_color;
 	t_vec3	result;
 	t_light	*curr_light;
 
@@ -62,12 +62,13 @@ t_vec3	calc_lighting(t_object *objects, t_ambient *ambient,
 		if (!is_in_shadow(objects, curr_light, rec->point, rec->normal))
 		{
 			/* 拡散反射光を計算 */
-			diffuse_color = calc_diffuse(*curr_light, rec->point, rec->normal, rec->color);
-			/* 環境光 + 拡散反射光 */
-			result = vec3_add(result, diffuse_color);
-			// /* 影の中は環境光のみ */
-			// result = clamp_color(ambient_color);
-			// return (denormalize_color(result));
+			diffuse_color = calc_diffuse(*curr_light, rec->point,
+					rec->normal, rec->color);
+			/* 鏡面反射光を計算 */
+			specular_color = calc_specular(*curr_light, rec->point,
+					rec->normal, rec->view_dir);
+			/* 環境光 + 拡散反射光 + 鏡面反射光 */
+			result = vec3_add(result, vec3_add(diffuse_color, specular_color));
 		}
 		// 影の場合はなにもしない。
 		curr_light = curr_light->next;
