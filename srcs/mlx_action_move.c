@@ -6,11 +6,14 @@
 /*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/11 19:39:14 by hayato            #+#    #+#             */
-/*   Updated: 2026/02/17 02:05:35 by htsutsum         ###   ########.fr       */
+/*   Updated: 2026/02/17 04:03:36 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "miniRT.h"
+
+
+static t_vec3	get_move_direction(int keycode, t_camera *cam);
 
 /**
  * @brief Move the target.
@@ -50,7 +53,7 @@ void	move_control(int keycode, t_scene *scene)
  * @param cam
  * @return t_vec3
  */
-t_vec3	get_move_direction(int keycode, t_camera *cam)
+static t_vec3	get_move_direction(int keycode, t_camera *cam)
 {
 	if (keycode == XK_w)
 		return (cam->curr.normal);

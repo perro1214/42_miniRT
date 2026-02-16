@@ -6,7 +6,7 @@
 /*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/11 18:27:40 by hayato            #+#    #+#             */
-/*   Updated: 2026/02/17 02:25:17 by htsutsum         ###   ########.fr       */
+/*   Updated: 2026/02/17 04:03:21 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -220,7 +220,6 @@ void		update_camera(t_camera *cam);
 
 //mlx_actin_move.c
 void		move_control(int keycode, t_scene *scene);
-t_vec3		get_move_direction(int keycode, t_camera *cam);
 
 //mlx_action_rotate.c
 void		rotate_object(int keycode, t_scene *scene);
