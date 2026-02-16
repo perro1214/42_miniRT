@@ -6,12 +6,11 @@
 /*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/11 19:39:14 by hayato            #+#    #+#             */
-/*   Updated: 2026/02/17 04:03:36 by htsutsum         ###   ########.fr       */
+/*   Updated: 2026/02/17 04:08:53 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "miniRT.h"
-
 
 static t_vec3	get_move_direction(int keycode, t_camera *cam);
 
