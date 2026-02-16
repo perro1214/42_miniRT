@@ -31,7 +31,6 @@ FILES := vec3_1.c\
 		mlx_action_key.c\
 		mlx_action_mouse.c\
 		mlx_action_util.c\
-		render_pixel.c\
 		arg_parser.c\
 		error.c\
 		rt_loader.c\
@@ -50,6 +49,7 @@ FILES := vec3_1.c\
 		hit_util.c\
 		screen_norm.c\
 		render_scene.c\
+		render_util.c\
 		calc_ambient.c\
 		calc_diffuse.c\
 		calc_specular.c\

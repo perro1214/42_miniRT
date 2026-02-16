@@ -6,7 +6,7 @@
 /*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/11 18:27:40 by hayato            #+#    #+#             */
-/*   Updated: 2026/02/17 00:50:10 by htsutsum         ###   ########.fr       */
+/*   Updated: 2026/02/17 01:19:18 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -221,8 +221,9 @@ void		rotate_control(int keycode, t_scene *scene);
 void		reset_control(int keycode, t_scene *scene);
 void		update_camera(t_camera *cam);
 
-// render_pixel.c
-void		ft_mlx_put_pixel(t_mlx *mlx, int x, int y, int color);
+// render_util.c
+t_object	*find_closest_obj(t_scene *scene, t_ray ray, double *out_t);
+t_vec3		get_normal(t_object *obj, t_vec3 hit_point, t_vec3 ray_dir);
 
 // error.c
 void		log_error(char *message);
