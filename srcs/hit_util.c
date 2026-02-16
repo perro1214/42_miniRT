@@ -6,16 +6,12 @@
 /*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/27 12:31:35 by htsutsum          #+#    #+#             */
-/*   Updated: 2026/02/17 00:44:56 by htsutsum         ###   ########.fr       */
+/*   Updated: 2026/02/17 02:11:12 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "miniRT.h"
 
-// 2次方程式を解く戦勝のヘルパー関数
-// 2次方程式 at^2 + bt + c = 0 を解く。
-// t1 (レイが最初に円柱の表面に接触する場所、t2はレイが円柱の中に入り、反対側に接触する場所
-// 負の解しかない場合は 0,
 int	solve_quadratic(t_quadratic *q)
 {
 	double	d;
@@ -30,7 +26,6 @@ int	solve_quadratic(t_quadratic *q)
 	return (1);
 }
 
-// 円柱の蓋の部分の交差判定をするヘルパー関数
 double	hit_disk(t_ray ray, t_vec3 center, t_vec3 normal, double radius)
 {
 	double	d;

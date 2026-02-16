@@ -6,7 +6,7 @@
 /*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/11 19:39:14 by hayato            #+#    #+#             */
-/*   Updated: 2026/02/16 23:42:23 by htsutsum         ###   ########.fr       */
+/*   Updated: 2026/02/17 02:23:22 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 
 static void	selected_target(int keycode, t_scene *scene);
 static void	switch_light(t_scene *scene);
+static void	rotate_control(int keycode, t_scene *scene);
 
 int	key_hook(int keycode, t_scene *scene)
 {
@@ -28,7 +29,7 @@ int	key_hook(int keycode, t_scene *scene)
 		|| keycode == XK_j)
 		rotate_control(keycode, scene);
 	if (keycode == XK_r)
-		reset_control(keycode, scene);
+		reset_control(scene);
 	return (0);
 }
 
@@ -74,25 +75,26 @@ static void	switch_light(t_scene *scene)
 }
 
 /**
- * @brief Get the move direction.
+ * @brief Rotate the target
  *
  * @param keycode
- * @param cam
- * @return t_vec3
+ * @param scene
  */
-t_vec3	get_move_direction(int keycode, t_camera *cam)
+void	rotate_control(int keycode, t_scene *scene)
 {
-	if (keycode == XK_w)
-		return (cam->curr.normal);
-	if (keycode == XK_s)
-		return (vec3_scale(cam->curr.normal, -1.0));
-	if (keycode == XK_d)
-		return (cam->right);
-	if (keycode == XK_a)
-		return (vec3_scale(cam->right, -1.0));
-	if (keycode == XK_q)
-		return (vec3_init(0, 1.0, 0));
-	if (keycode == XK_z)
-		return (vec3_init(0, -1.0, 0));
-	return (vec3_init(0, 0, 0));
+	if (scene->mode == CAMERA)
+	{
+		rotate_camera(keycode, scene);
+		scene->render_flag = 1;
+	}
+	else if (scene->mode == OBJECT && scene->selected_obj)
+	{
+		if (scene->selected_obj->type == CYLINDER
+			|| scene->selected_obj->type == PLANE
+			|| scene->selected_obj->type == CONE)
+		{
+			rotate_object(keycode, scene);
+			scene->render_flag = 1;
+		}
+	}
 }

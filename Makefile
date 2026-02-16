@@ -30,7 +30,9 @@ FILES := vec3_1.c\
 		mlx_action_other.c\
 		mlx_action_key.c\
 		mlx_action_mouse.c\
-		mlx_action_util.c\
+		mlx_action_move.c\
+		mlx_action_reset.c\
+		mlx_action_rotate.c\
 		arg_parser.c\
 		error.c\
 		rt_loader.c\

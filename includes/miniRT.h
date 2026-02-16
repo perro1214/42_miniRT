@@ -6,7 +6,7 @@
 /*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/11 18:27:40 by hayato            #+#    #+#             */
-/*   Updated: 2026/02/17 01:19:18 by htsutsum         ###   ########.fr       */
+/*   Updated: 2026/02/17 02:25:17 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -205,7 +205,6 @@ typedef struct s_quadratic
 
 // mlx_action_key.c
 int			key_hook(int keycode, t_scene *scene);
-t_vec3		get_move_direction(int keycode, t_camera *cam);
 
 // mlx_action_mouse.c
 int			mouse_hook(int button, int x, int y, t_scene *scene);
@@ -215,11 +214,17 @@ int			expose_hook(t_scene *scene);
 int			close_window(t_scene *scene);
 int			loop_hook(t_scene *scene);
 
-//mlx_action_util.c
-void		move_control(int keycode, t_scene *scene);
-void		rotate_control(int keycode, t_scene *scene);
-void		reset_control(int keycode, t_scene *scene);
+//mlx_action_reset.c
+void		reset_control(t_scene *scene);
 void		update_camera(t_camera *cam);
+
+//mlx_actin_move.c
+void		move_control(int keycode, t_scene *scene);
+t_vec3		get_move_direction(int keycode, t_camera *cam);
+
+//mlx_action_rotate.c
+void		rotate_object(int keycode, t_scene *scene);
+void		rotate_camera(int keycode, t_scene *scene);
 
 // render_util.c
 t_object	*find_closest_obj(t_scene *scene, t_ray ray, double *out_t);
