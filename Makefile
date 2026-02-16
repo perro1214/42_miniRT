@@ -41,7 +41,6 @@ FILES := vec3_1.c\
 		rt_parser_util.c\
 		set_object.c\
 		set_scene.c\
-		timer.c\
 		ray_utils.c\
 		hit_sphere.c\
 		hit_plane.c\

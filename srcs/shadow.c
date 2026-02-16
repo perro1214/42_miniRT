@@ -1,20 +1,27 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   shadow.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/02/17 00:04:33 by htsutsum          #+#    #+#             */
+/*   Updated: 2026/02/17 00:22:13 by htsutsum         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "miniRT.h"
 
-int	is_in_shadow(t_object *objects, t_light *light, t_vec3 hit_point,
+int	is_in_shadow(t_object *obj, t_light *light, t_vec3 hit_point,
 		t_vec3 normal)
 {
 	t_ray		shadow_ray;
-	t_vec3		light_dir;
 	double		light_distance;
 	double		t;
-	t_object	*obj;
 
-	light_dir = vec3_sub(light->curr.pos, hit_point);
-	light_distance = vec3_norm(light_dir);
-	light_dir = vec3_normalize(light_dir);
+	light_distance = vec3_norm(vec3_sub(light->curr.pos, hit_point));
 	shadow_ray.origin = vec3_add(hit_point, vec3_scale(normal, EPSILON));
-	shadow_ray.direction = light_dir;
-	obj = objects;
+	shadow_ray.direction = vec3_normalize(vec3_sub(light->curr.pos, hit_point));
 	while (obj)
 	{
 		if (obj->type == SPHERE)
