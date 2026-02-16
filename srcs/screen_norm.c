@@ -6,7 +6,7 @@
 /*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/13 22:29:25 by hayato            #+#    #+#             */
-/*   Updated: 2026/02/16 23:56:39 by htsutsum         ###   ########.fr       */
+/*   Updated: 2026/02/17 00:30:44 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,11 @@ t_ray	get_ray(int px, int py, t_camera *cam)
 	return (ray_init(cam->curr.pos, ray_dir));
 }
 
-void	init_camera_constant(t_camera *cam)
+void	init_camera(t_camera *cam, t_scene *scene)
 {
+	scene->cam->curr.pos = scene->cam->pos;
+	scene->cam->curr.normal = vec3_normalize(scene->cam->dir);
+	scene->cam->curr.angle = vec3_init(0, 0, 0);
 	cam->aspect_ratio = (double)WIN_WIDTH / (double)WIN_HEIGHT;
 	cam->render_scale = tan((clamp_tan_fov(cam->fov) * M_PI / 180.0) * 0.5);
 	cam->inv_width = 1.0 / (double)WIN_WIDTH;

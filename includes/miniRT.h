@@ -6,7 +6,7 @@
 /*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/11 18:27:40 by hayato            #+#    #+#             */
-/*   Updated: 2026/02/16 08:42:38 by htsutsum         ###   ########.fr       */
+/*   Updated: 2026/02/17 00:50:10 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -254,15 +254,15 @@ double		hit_cone(t_object *obj, t_ray ray);
 // hit_util
 int			solve_quadratic(t_quadratic *q);
 double		hit_disk(t_ray ray, t_vec3 center, t_vec3 normal, double radius);
+double		get_hit_distance(t_object *obj, t_ray ray);
 
 // screen_norm.c
 t_ray		get_ray_fixed(int px, int py);
 t_ray		get_ray(int px, int py, t_camera *cam);
-void		init_camera_constant(t_camera *cam);
+void		init_camera(t_camera *cam, t_scene *scene);
 
 // rt_loader.c
 int			rt_loader(t_scene *scene, char *file_name);
-int			is_valid_scene(t_scene *scene);
 void		free_scene(t_scene *scene);
 
 // set_object.c
@@ -297,9 +297,9 @@ t_vec3		get_checker_color(t_hit_record *rec, t_object *obj);
 //rt_validator.c
 int			is_in_range(double value, double min, double max);
 int			is_valid_normal(t_vec3 normal);
-int			is_valid_normal_vec(t_vec3 normal);
 int			is_normalized(t_vec3 vec);
 int			is_valid_color(t_vec3 color);
+int			is_valid_scene(t_scene *scene);
 
 // camera_util.c
 void		update_camera(t_camera *cam);

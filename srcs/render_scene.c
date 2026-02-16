@@ -6,16 +6,16 @@
 /*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/20 19:50:29 by htsutsum          #+#    #+#             */
-/*   Updated: 2026/02/16 23:52:49 by htsutsum         ###   ########.fr       */
+/*   Updated: 2026/02/17 00:37:24 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "miniRT.h"
 
-t_vec3		raycast(t_scene *scene, t_ray ray);
-t_object	*find_closest_obj(t_scene *scene, t_ray ray, double *out_t);
-t_vec3		get_cylinder_normal(t_object *obj, t_vec3 hit_point);
-t_vec3		get_cone_normal(t_object *obj, t_vec3 hit_point);
+t_vec3			raycast(t_scene *scene, t_ray ray);
+t_object		*find_closest_obj(t_scene *scene, t_ray ray, double *out_t);
+t_vec3			get_cylinder_normal(t_object *obj, t_vec3 hit_point);
+t_vec3			get_cone_normal(t_object *obj, t_vec3 hit_point);
 
 static t_vec3	get_normal(t_object *obj, t_vec3 hit_point, t_vec3 ray_dir)
 {
@@ -36,7 +36,7 @@ static t_vec3	get_normal(t_object *obj, t_vec3 hit_point, t_vec3 ray_dir)
 	return (normal);
 }
 
-t_vec3 get_cylinder_normal(t_object *obj, t_vec3 hit_point)
+t_vec3	get_cylinder_normal(t_object *obj, t_vec3 hit_point)
 {
 	t_vec3	cp;
 	double	m;
@@ -52,12 +52,12 @@ t_vec3 get_cylinder_normal(t_object *obj, t_vec3 hit_point)
 	return (vec3_normalize(vec3_sub(cp, q)));
 }
 
-t_vec3 get_cone_normal(t_object *obj, t_vec3 hit_point)
+t_vec3	get_cone_normal(t_object *obj, t_vec3 hit_point)
 {
 	t_vec3	cp;
 	t_vec3	tip;
 	t_vec3	v;
-	double 	h;
+	double	h;
 	double	m;
 	t_vec3	n;
 
@@ -65,10 +65,12 @@ t_vec3 get_cone_normal(t_object *obj, t_vec3 hit_point)
 	m = vec3_dot(cp, obj->curr.normal);
 	if (m <= EPSILON)
 		return (vec3_scale(obj->curr.normal, -1.0));
-	tip = vec3_add(obj->curr.pos, vec3_scale(obj->curr.normal, obj->data.co.height));
+	tip = vec3_add(obj->curr.pos, vec3_scale(obj->curr.normal,
+				obj->data.co.height));
 	v = vec3_sub(hit_point, tip);
 	h = vec3_dot(v, obj->curr.normal);
-	n = vec3_sub(v, vec3_scale(obj->curr.normal, (1.0 + obj->data.co.k_sq) * h));
+	n = vec3_sub(v, vec3_scale(obj->curr.normal, (1.0 + obj->data.co.k_sq)
+				* h));
 	return (vec3_normalize(n));
 }
 
@@ -92,8 +94,8 @@ void	render_scene(t_scene *scene)
 		}
 		y++;
 	}
-	mlx_put_image_to_window(scene->mlx->mlx, scene->mlx->win,
-		scene->mlx->img, 0, 0);
+	mlx_put_image_to_window(scene->mlx->mlx, scene->mlx->win, scene->mlx->img,
+		0, 0);
 }
 
 t_vec3	raycast(t_scene *scene, t_ray ray)
@@ -152,4 +154,3 @@ t_object	*find_closest_obj(t_scene *scene, t_ray ray, double *out_t)
 	*out_t = min_t;
 	return (closest_obj);
 }
-

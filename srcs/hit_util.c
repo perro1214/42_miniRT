@@ -6,7 +6,7 @@
 /*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/27 12:31:35 by htsutsum          #+#    #+#             */
-/*   Updated: 2026/02/16 08:45:15 by htsutsum         ###   ########.fr       */
+/*   Updated: 2026/02/17 00:44:56 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,4 +49,17 @@ double	hit_disk(t_ray ray, t_vec3 center, t_vec3 normal, double radius)
 	if (vec3_dot(v, v) > radius * radius)
 		return (-1.0);
 	return (t);
+}
+
+double	get_hit_distance(t_object *obj, t_ray ray)
+{
+	if (obj->type == SPHERE)
+		return (hit_sphere(obj, ray));
+	if (obj->type == PLANE)
+		return (hit_plane(obj, ray));
+	if (obj->type == CYLINDER)
+		return (hit_cylinder(obj, ray));
+	if (obj->type == CONE)
+		return (hit_cone(obj, ray));
+	return (-1.0);
 }

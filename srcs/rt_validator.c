@@ -6,7 +6,7 @@
 /*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/21 22:32:10 by htsutsum          #+#    #+#             */
-/*   Updated: 2026/02/16 23:54:41 by htsutsum         ###   ########.fr       */
+/*   Updated: 2026/02/17 00:49:34 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,11 +53,15 @@ int	is_normalized(t_vec3 vec)
 	return (1);
 }
 
-int	is_valid_normal_vec(t_vec3 normal)
+int	is_valid_scene(t_scene *scene)
 {
-	if (!is_valid_normal(normal))
-		return (0);
-	if (!is_normalized(normal))
-		return (0);
-	return (1);
+	if (!scene->cam)
+		return (log_error("No camera defined"), 1);
+	if (!scene->amb)
+		return (log_error("No ambient light defined"), 1);
+	if (!scene->ligs)
+		return (log_error("No light source defined"), 1);
+	if (!scene->objs)
+		return (log_error("No objects to render"), 1);
+	return (0);
 }
