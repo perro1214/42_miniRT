@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strtrim.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: htsutsum <htsutsum@student.42.fr>          +#+  +:+       +#+        */
+/*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 10:34:22 by htsutsum          #+#    #+#             */
-/*   Updated: 2025/05/06 11:13:09 by htsutsum         ###   ########.fr       */
+/*   Updated: 2026/02/18 03:22:00 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,23 +29,3 @@ char	*ft_strtrim(char const *s1, char const *set)
 		return (ft_strdup(""));
 	return (ft_substr(s1, head, tail - head + 1));
 }
-// int main(void)
-// {
-// 	char const s[] = "<<<<<ab>cdef>>>>>>";
-// 	char const a[] = "<<<>>>>>";
-// 	char const b[] = "";
-
-// 	char const set[] = "<>";
-// 	char *t,*at,*ab;
-
-// 	t = ft_strtrim(s,set);
-// 	printf("s %s\nset %s\ntrim %s\n",s,set,t);
-// 	free(t);
-// 	t = ft_strtrim(a,set);
-// 	printf("s %s\nset %s\ntrim %s\n",a,set,t);
-// 	free(t);
-// 	t = ft_strtrim(a,set);
-// 	printf("s %s\nset %s\ntrim %s\n",b,set,t);
-// 	free(t);
-// 	return (0);
-// }
