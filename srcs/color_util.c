@@ -3,22 +3,20 @@
 /*                                                        :::      ::::::::   */
 /*   color_util.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: hayato <hayato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/24 02:31:03 by htsutsum          #+#    #+#             */
-/*   Updated: 2026/02/15 14:57:59 by htsutsum         ###   ########.fr       */
+/*   Updated: 2026/02/17 16:30:28 by hayato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "miniRT.h"
 
-// colorを [0, 255] から [0, 1] に変換する専用関数
 t_vec3	color_to_unit(t_vec3 color)
 {
 	return (vec3_init(color.x / 255.0, color.y / 255.0, color.z / 255.));
 }
 
-// t_vec3 (x=R, y=G, z=B) を int 色に変換
 int	vec3_to_color(t_vec3 color)
 {
 	int	r;
@@ -31,13 +29,11 @@ int	vec3_to_color(t_vec3 color)
 	return ((r << 16) | (g << 8) | b);
 }
 
-// 色を0-255の範囲に変換
 t_vec3	denormalize_color(t_vec3 color)
 {
 	return (vec3_scale(color, 255.0));
 }
 
-// 色のクランプ（0-1の範囲に）
 t_vec3	clamp_color(t_vec3 color)
 {
 	t_vec3	result;
@@ -48,14 +44,12 @@ t_vec3	clamp_color(t_vec3 color)
 	return (result);
 }
 
-
-//チェッカーカラー (平面のみ）
-t_vec3 get_checker_color(t_hit_record *rec, t_object *obj)
+t_vec3	get_checker_color(t_hit_record *rec, t_object *obj)
 {
 	t_vec3	p;
 	double	u;
 	double	v;
-	double 	inv_size;
+	double	inv_size;
 
 	inv_size = 0.5;
 	p = vec3_sub(rec->point, obj->curr.pos);

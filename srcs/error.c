@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   error.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: hayato <hayato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/12 01:17:26 by htsutsum          #+#    #+#             */
-/*   Updated: 2026/02/16 07:13:37 by htsutsum         ###   ########.fr       */
+/*   Updated: 2026/02/17 16:30:32 by hayato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,12 +20,12 @@ void	log_error(char *message)
 
 char	*get_type(t_object *obj)
 {
-	static char *type_names[] = {
-        [SPHERE] = "SPHERE",
-        [CYLINDER] = "CYLINDER",
-        [PLANE] = "PLANE",
-		[CONE] = "CONE"
-    };
+	static char	*type_names[] = {
+	[SPHERE] = "SPHERE",
+	[CYLINDER] = "CYLINDER",
+	[PLANE] = "PLANE",
+	[CONE] = "CONE"
+	};
 
 	if (!obj || obj->type < 0 || obj->type >= TYPE_MAX)
 		return ("UNKNOWN");
