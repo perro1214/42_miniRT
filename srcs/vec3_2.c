@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   vec3_2.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hayato <hayato@student.42.fr>              +#+  +:+       +#+        */
+/*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/11 18:18:58 by hayato            #+#    #+#             */
-/*   Updated: 2026/01/13 17:34:52 by hayato           ###   ########.fr       */
+/*   Updated: 2026/02/16 23:58:31 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,12 +30,11 @@ t_vec3	vec3_normalize(t_vec3 v)
 	norm = vec3_norm(v);
 	if (norm < 1e-8)
 	{
-		return (vec3_init(0, 0, 0)); // 正規化できない場合はゼロベクトルを返す
+		return (vec3_init(0, 0, 0));
 	}
 	return (vec3_scale(v, 1.0 / norm));
 }
 
-// 2つのベクトルの要素ごとの乗算（成分積）
 t_vec3	vec3_multiply(t_vec3 a, t_vec3 b)
 {
 	t_vec3	result;

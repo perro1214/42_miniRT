@@ -3,19 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   hit_util.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: hayato <hayato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/27 12:31:35 by htsutsum          #+#    #+#             */
-/*   Updated: 2026/02/16 08:45:15 by htsutsum         ###   ########.fr       */
+/*   Updated: 2026/02/17 16:30:59 by hayato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "miniRT.h"
 
-// 2次方程式を解く戦勝のヘルパー関数
-// 2次方程式 at^2 + bt + c = 0 を解く。
-// t1 (レイが最初に円柱の表面に接触する場所、t2はレイが円柱の中に入り、反対側に接触する場所
-// 負の解しかない場合は 0,
 int	solve_quadratic(t_quadratic *q)
 {
 	double	d;
@@ -30,7 +26,6 @@ int	solve_quadratic(t_quadratic *q)
 	return (1);
 }
 
-// 円柱の蓋の部分の交差判定をするヘルパー関数
 double	hit_disk(t_ray ray, t_vec3 center, t_vec3 normal, double radius)
 {
 	double	d;
@@ -49,4 +44,17 @@ double	hit_disk(t_ray ray, t_vec3 center, t_vec3 normal, double radius)
 	if (vec3_dot(v, v) > radius * radius)
 		return (-1.0);
 	return (t);
+}
+
+double	get_hit_distance(t_object *obj, t_ray ray)
+{
+	if (obj->type == SPHERE)
+		return (hit_sphere(obj, ray));
+	if (obj->type == PLANE)
+		return (hit_plane(obj, ray));
+	if (obj->type == CYLINDER)
+		return (hit_cylinder(obj, ray));
+	if (obj->type == CONE)
+		return (hit_cone(obj, ray));
+	return (-1.0);
 }

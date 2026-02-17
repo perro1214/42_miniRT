@@ -6,7 +6,7 @@
 /*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/11 19:39:14 by hayato            #+#    #+#             */
-/*   Updated: 2026/02/14 15:02:05 by htsutsum         ###   ########.fr       */
+/*   Updated: 2026/02/16 23:47:11 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,14 +21,13 @@
  * @param scene
  * @return int
  */
-int mouse_hook(int button, int x, int y, t_scene *scene)
+int	mouse_hook(int button, int x, int y, t_scene *scene)
 {
 	double	t;
 	t_ray	ray;
 
-	if(button != 1)
+	if (button != 1)
 		return (0);
-
 	ray = get_ray(x, y, scene->cam);
 	scene->selected_obj = find_closest_obj(scene, ray, &t);
 	if (scene->selected_obj)
@@ -42,7 +41,6 @@ int mouse_hook(int button, int x, int y, t_scene *scene)
 		scene->mode = CAMERA;
 		ft_putendl_fd("Selected : CAMERA(Home)", 1);
 	}
-	//render_scene(scene);
 	scene->render_flag = 1;
 	return (0);
 }

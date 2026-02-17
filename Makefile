@@ -1,16 +1,10 @@
 NAME		= miniRT
 
-# コンパイラとフラグ
 CC			:= cc
-CFLAGS	:= -Wall -Wextra -Werror -g -O0
+# CFLAGS	:= -Wall -Wextra -Werror -g -O0
+CFLAGS		:= -Wall -Wextra -Werror -O3 -march=native -ffast-math -flto
 
-# 本番用最適化フラグ全部乗せ
-# -march=native CPUに最適化
-# -flto リンク時最適化（サイズや速度に効果）
-# -ffast-math 不動小数点の計算精度や順序が変わる可能性あり、精度が重要な場合は要注意
-#CFLAGS		= -Wall -Wextra -Werror -O3 -march=native -ffast-math -flto
-
-# ディレクトリ
+# dirctory
 SRCS_DIR	 := srcs
 OBJS_DIR	 := objs
 INCS_DIR	 := includes
@@ -19,15 +13,15 @@ DEBUGS_DIR := debugs
 MLX_DIR 	 := minilibx-linux
 MLX_REPO 	 := https://github.com/42Paris/minilibx-linux.git
 
-# ライブラリ
+# library
 LIBFT		= $(LIBFT_DIR)/libft.a
 MLX			= $(MLX_DIR)/libmlx.a
 LIBS		= -L $(LIBFT_DIR) -lft -L $(MLX_DIR) -lmlx -lXext -lX11 -lm
 
-# インクルードパス
+# include path
 INCLUDES	= -I $(INCS_DIR) -I $(LIBFT_DIR)/includes -I $(MLX_DIR)
 
-# ソースファイル
+# source file
 MAIN_SRCS	= $(SRCS_DIR)/main.c
 
 FILES := vec3_1.c\
@@ -36,8 +30,9 @@ FILES := vec3_1.c\
 		mlx_action_other.c\
 		mlx_action_key.c\
 		mlx_action_mouse.c\
-		mlx_action_util.c\
-		render_pixel.c\
+		mlx_action_move.c\
+		mlx_action_reset.c\
+		mlx_action_rotate.c\
 		arg_parser.c\
 		error.c\
 		rt_loader.c\
@@ -47,7 +42,6 @@ FILES := vec3_1.c\
 		rt_parser_util.c\
 		set_object.c\
 		set_scene.c\
-		timer.c\
 		ray_utils.c\
 		hit_sphere.c\
 		hit_plane.c\
@@ -57,6 +51,7 @@ FILES := vec3_1.c\
 		hit_util.c\
 		screen_norm.c\
 		render_scene.c\
+		render_util.c\
 		calc_ambient.c\
 		calc_diffuse.c\
 		calc_specular.c\
@@ -65,44 +60,25 @@ FILES := vec3_1.c\
 
 SRCS = $(addprefix $(SRCS_DIR)/,$(FILES))
 
-# デバッグ用ソースファイル (srcs/debugs/ に配置)
-DEBUG_FILES :=	debug_vec3.c\
-				debug_mlx_red_square.c\
-				debug_rt_loader.c\
-				debug_ray.c\
-				debug_intersection.c\
-				debug_mlx_sphere.c\
-				debug_mlx_cylinder.c\
-				debug_mlx_circle.c\
-				debug_shading.c\
-				debug_shadow.c
-
-# ファイル名からターゲット名を生成
-DEBUG_BINS = $(DEBUG_FILES:.c=)
-
-# ヘッダー
+# header
 HEADERS := $(INCS_DIR)/miniRT.h $(INCS_DIR)/vec3.h
 
-# オブジェクトファイル
+# object file
 OBJS		= $(SRCS:$(SRCS_DIR)/%.c=$(OBJS_DIR)/%.o)
 MAIN_OBJ	= $(MAIN_SRCS:$(SRCS_DIR)/%.c=$(OBJS_DIR)/%.o)
 DEBUG_OBJS	= $(addprefix $(OBJS_DIR)/$(DEBUGS_DIR)/, $(DEBUG_FILES:.c=.o))
 
-# 全オブジェクトファイル
+# all object files
 ALL_OBJS	= $(OBJS) $(MAIN_OBJ)
 
-# デフォルトターゲット
+# default target
 all: $(NAME)
 
-# メインプログラムのビルド
+# build main
 $(NAME): $(ALL_OBJS) $(LIBFT) $(MLX)
 	$(CC) $(CFLAGS) $(ALL_OBJS) $(LIBS) -o $@
 
-# デバッグ用ターゲット (全て srcs/debugs/ から統一的にビルド)
-$(DEBUG_BINS): %: $(OBJS) $(LIBFT) $(MLX) $(OBJS_DIR)/$(DEBUGS_DIR)/%.o
-	$(CC) $(CFLAGS) $(OBJS) $(OBJS_DIR)/$(DEBUGS_DIR)/$@.o $(LIBS) -o $@
-
-# libftのビルド
+# build main
 $(LIBFT):
 	$(MAKE) -C $(LIBFT_DIR)
 
@@ -114,12 +90,7 @@ norm:
 val:
 	valgrind -s --track-fds=yes --trace-children=yes --leak-check=full --track-origins=yes --show-leak-kinds=all ./$(NAME) $(ARGS)
 
-# clang-tidyが分析するためのファイルcompile_commands.jsonを.vscodeフォルダに作成
-# 新しい.c,.hファイルをMakefileに追加した時に実行する。
-bear: clean
-	bear --output .vscode/compile_commands.json -- make
-
-# mlxのビルド (フォルダがない場合は、git clone)
+# build mlx
 $(MLX):
 	@if [ ! -d "$(MLX_DIR)" ]; then \
 		echo "Cloning MinilibX..."; \
@@ -127,12 +98,12 @@ $(MLX):
 	fi
 	@$(MAKE) -C $(MLX_DIR)
 
-# オブジェクトファイルのコンパイルルール
+# compile object files
 $(OBJS_DIR)/%.o: $(SRCS_DIR)/%.c $(HEADERS)
 	@mkdir -p $(dir $@)
 	$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
 
-# クリーンアップ
+# clean up
 clean:
 	@rm -rf $(OBJS_DIR)
 	$(MAKE) -C $(LIBFT_DIR) clean
@@ -142,9 +113,8 @@ clean:
 
 fclean: clean
 	@rm -f $(NAME)
-	@rm -f debug_*
 	$(MAKE) -C $(LIBFT_DIR) fclean
 
 re: fclean all
 
-.PHONY: all clean fclean re $(DEBUG_BINS) norm bear val
+.PHONY: all clean fclean re  norm val

@@ -6,7 +6,7 @@
 /*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/18 18:42:56 by htsutsum          #+#    #+#             */
-/*   Updated: 2026/02/15 05:40:05 by htsutsum         ###   ########.fr       */
+/*   Updated: 2026/02/17 00:31:00 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,10 +81,7 @@ int	set_camera(t_scene *scene, char **rt_data)
 		scene->cam = NULL;
 		return (log_error("Camera: Invalid data values"), 1);
 	}
-	scene->cam->curr.pos = scene->cam->pos;
-	scene->cam->curr.normal = vec3_normalize(scene->cam->dir);
-	scene->cam->curr.angle = vec3_init(0, 0, 0);
-	init_camera_constant(scene->cam);
+	init_camera(scene->cam, scene);
 	update_camera(scene->cam);
 	return (0);
 }
@@ -120,7 +117,7 @@ int	set_light(t_scene *scene, char **rt_data)
 		return (log_error("Light: Invalid data values"), 1);
 	}
 	new->color = color_to_unit(new->color);
-	new->curr.pos =  new->pos;
+	new->curr.pos = new->pos;
 	new->curr.normal = vec3_init(0, 0, 0);
 	new->curr.angle = vec3_init(0, 0, 0);
 	add_light_to_list(&(scene->ligs), new);

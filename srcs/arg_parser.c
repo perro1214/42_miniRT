@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   arg_parser.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: hayato <hayato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/12 00:43:22 by htsutsum          #+#    #+#             */
-/*   Updated: 2026/02/15 02:18:16 by htsutsum         ###   ########.fr       */
+/*   Updated: 2026/02/17 16:29:27 by hayato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,6 @@ static void	usage(char *prog_name)
 	ft_putstr_fd("Usage : ", 2);
 	ft_putstr_fd(prog_name, 2);
 	ft_putendl_fd(" [filename.rt]", 2);
-
 }
 
 void	show_manual(void)

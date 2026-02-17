@@ -6,7 +6,7 @@
 /*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/19 17:24:08 by htsutsum          #+#    #+#             */
-/*   Updated: 2026/02/16 06:05:54 by htsutsum         ###   ########.fr       */
+/*   Updated: 2026/02/17 01:22:27 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,6 @@ int	set_plane(t_object *obj, char **rt_data)
 	obj->pos = str_to_vec3(rt_data[1], &status);
 	obj->data.pl.normal = str_to_vec3(rt_data[2], &status);
 	obj->color = str_to_vec3(rt_data[3], &status);
-
 	if (status || !is_valid_color(obj->color)
 		|| !is_valid_normal(obj->data.pl.normal)
 		|| !is_valid_checker_flag(rt_data[4]))
@@ -164,7 +163,7 @@ int	set_cone(t_object *obj, char **rt_data)
  */
 static void	init_object_transforms(t_object *obj)
 {
-	t_vec3 world_up;
+	t_vec3	world_up;
 
 	obj->curr.pos = obj->pos;
 	obj->curr.angle = vec3_init(0, 0, 0);
@@ -180,5 +179,5 @@ static void	init_object_transforms(t_object *obj)
 	if (fabs(obj->curr.normal.y) >= 0.9999)
 		world_up = vec3_init(0, 0, 1);
 	obj->right = vec3_normalize(vec3_cross(world_up, obj->curr.normal));
-    obj->up = vec3_normalize(vec3_cross(obj->curr.normal, obj->right));
+	obj->up = vec3_normalize(vec3_cross(obj->curr.normal, obj->right));
 }

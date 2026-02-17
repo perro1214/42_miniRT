@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   miniRT.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: hayato <hayato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/11 18:27:40 by hayato            #+#    #+#             */
-/*   Updated: 2026/02/16 08:42:38 by htsutsum         ###   ########.fr       */
+/*   Updated: 2026/02/17 16:41:52 by hayato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,6 @@
 #  define EPSILON 1e-4
 # endif
 
-// 鏡面反射パラメータ
 # define SPECULAR_COEFF 0.5
 # define SHININESS 32
 
@@ -68,27 +67,27 @@ typedef enum e_type
 
 typedef struct s_transform
 {
-	t_vec3	pos;// 移動後の位置
-	t_vec3	normal;// 正規化されたベクトル
-	t_vec3	angle;// 現在の回転各（ラジアン）
+	t_vec3	pos;
+	t_vec3	normal;
+	t_vec3	angle;
 }	t_transform;
 
 typedef struct s_sphere
 {
-	double	radius; // 球の半径 （直径から半径に変換）
+	double	radius;
 }	t_sphere;
 
 typedef struct s_plane
 {
-	t_vec3	normal; // 法線ベクトル
+	t_vec3	normal;
 	int		checker_flag;
 }	t_plane;
 
 typedef struct s_cylinder
 {
-	t_vec3	normal; // 法線ベクトル
-	double	radius; // 半径
-	double	height; // 高さ
+	t_vec3	normal;
+	double	radius;
+	double	height;
 	double	half_h; // height * 0.5
 }	t_cylinder;
 
@@ -103,7 +102,7 @@ typedef struct s_corn
 
 typedef struct s_circle
 {
-	t_vec3	normal; //法線ベクトル
+	t_vec3	normal;
 	double	radius;
 }	t_circle;
 
@@ -130,14 +129,14 @@ typedef struct s_object
 
 typedef struct s_camera
 {
-	t_vec3		pos; // 初期値
+	t_vec3		pos;
 	t_vec3		dir;
 	double		fov;
-	t_transform	curr; // 動かす値
-	t_vec3		right; // 計算済みデータ、レイ計算高速化
+	t_transform	curr;
+	t_vec3		right;
 	t_vec3		up;
 	double		render_scale; // tan(fov/2)
-	double		aspect_ratio; // 画面アスペクト
+	double		aspect_ratio;
 	double		inv_width; // 1.0 / WIN_WIDTH
 	double		inv_height; // 1.0 / WIN_HEIGHT
 }	t_camera;
@@ -165,7 +164,6 @@ typedef enum e_mode
 	OBJECT
 }	t_mode;
 
-// 前から3文字で統一、sで複数
 typedef struct s_scene
 {
 	t_mlx		*mlx;
@@ -179,10 +177,6 @@ typedef struct s_scene
 	int			render_flag;
 }	t_scene;
 
-/*
-** 交差情報（ヒットレコード）
-** シェーディング計算に必要な情報をまとめる
-*/
 typedef struct s_hit_record
 {
 	t_vec3	point;
@@ -193,7 +187,6 @@ typedef struct s_hit_record
 	int		hit;
 }	t_hit_record;
 
-// 二次方程式
 typedef struct s_quadratic
 {
 	double	a;
@@ -205,7 +198,6 @@ typedef struct s_quadratic
 
 // mlx_action_key.c
 int			key_hook(int keycode, t_scene *scene);
-t_vec3		get_move_direction(int keycode, t_camera *cam);
 
 // mlx_action_mouse.c
 int			mouse_hook(int button, int x, int y, t_scene *scene);
@@ -215,14 +207,20 @@ int			expose_hook(t_scene *scene);
 int			close_window(t_scene *scene);
 int			loop_hook(t_scene *scene);
 
-//mlx_action_util.c
-void		move_control(int keycode, t_scene *scene);
-void		rotate_control(int keycode, t_scene *scene);
-void		reset_control(int keycode, t_scene *scene);
+//mlx_action_reset.c
+void		reset_control(t_scene *scene);
 void		update_camera(t_camera *cam);
 
-// render_pixel.c
-void		ft_mlx_put_pixel(t_mlx *mlx, int x, int y, int color);
+//mlx_actin_move.c
+void		move_control(int keycode, t_scene *scene);
+
+//mlx_action_rotate.c
+void		rotate_object(int keycode, t_scene *scene);
+void		rotate_camera(int keycode, t_scene *scene);
+
+// render_util.c
+t_object	*find_closest_obj(t_scene *scene, t_ray ray, double *out_t);
+t_vec3		get_normal(t_object *obj, t_vec3 hit_point, t_vec3 ray_dir);
 
 // error.c
 void		log_error(char *message);
@@ -254,15 +252,15 @@ double		hit_cone(t_object *obj, t_ray ray);
 // hit_util
 int			solve_quadratic(t_quadratic *q);
 double		hit_disk(t_ray ray, t_vec3 center, t_vec3 normal, double radius);
+double		get_hit_distance(t_object *obj, t_ray ray);
 
 // screen_norm.c
 t_ray		get_ray_fixed(int px, int py);
 t_ray		get_ray(int px, int py, t_camera *cam);
-void		init_camera_constant(t_camera *cam);
+void		init_camera(t_camera *cam, t_scene *scene);
 
 // rt_loader.c
 int			rt_loader(t_scene *scene, char *file_name);
-int			is_valid_scene(t_scene *scene);
 void		free_scene(t_scene *scene);
 
 // set_object.c
@@ -297,9 +295,9 @@ t_vec3		get_checker_color(t_hit_record *rec, t_object *obj);
 //rt_validator.c
 int			is_in_range(double value, double min, double max);
 int			is_valid_normal(t_vec3 normal);
-int			is_valid_normal_vec(t_vec3 normal);
 int			is_normalized(t_vec3 vec);
 int			is_valid_color(t_vec3 color);
+int			is_valid_scene(t_scene *scene);
 
 // camera_util.c
 void		update_camera(t_camera *cam);
