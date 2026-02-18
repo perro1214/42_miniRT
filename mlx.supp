@@ -1,0 +1,45 @@
+{
+   libX11_all_reachable
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   ...
+   obj:/usr/lib/x86_64-linux-gnu/libX11.so.6.4.0
+}
+{
+   mlx_Xkb_reachable
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   ...
+   fun:XkbKeycodeToKeysym
+   fun:mlx_int_param_KeyRelease
+}
+{
+   mlx_new_image_shm
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   ...
+   fun:mlx_int_new_xshm_image
+   fun:mlx_new_image
+}
+{
+   syscall_writev_uninit
+   Memcheck:Param
+   writev(vector[0])
+   ...
+   fun:mlx_int_wait_first_expose
+}
+{
+   libXext_reachable
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   ...
+   obj:/usr/lib/x86_64-linux-gnu/libXext.so.6.4.0
+}
+{
+   mlx_shm_init_reachable
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   ...
+   fun:mlx_int_deal_shm
+   fun:mlx_init
+}

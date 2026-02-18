@@ -75,7 +75,7 @@ ALL_OBJS	= $(OBJS) $(MAIN_OBJ)
 all: $(NAME)
 
 # build main
-$(NAME): $(ALL_OBJS) $(LIBFT) $(MLX)
+$(NAME): $(MLX) $(ALL_OBJS) $(LIBFT) 
 	$(CC) $(CFLAGS) $(ALL_OBJS) $(LIBS) -o $@
 
 # build main
@@ -88,7 +88,7 @@ norm:
 
 # valgrind
 val:
-	valgrind -s --track-fds=yes --trace-children=yes --leak-check=full --track-origins=yes --show-leak-kinds=all ./$(NAME) $(ARGS)
+	valgrind -s --track-fds=yes --trace-children=yes --leak-check=full --suppressions="mlx.supp" --track-origins=yes --show-leak-kinds=all ./$(NAME) $(ARGS)
 
 # build mlx
 $(MLX):
